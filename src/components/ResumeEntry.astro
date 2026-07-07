@@ -1,0 +1,78 @@
+---
+interface Props {
+  date: string;
+  role: string;
+  org: string;
+  location: string;
+}
+
+const { date, role, org, location } = Astro.props;
+---
+
+<div class="resume-entry">
+  <div class="resume-entry__meta">
+    <p class="resume-entry__date">{date}</p>
+    <p class="resume-entry__role">{role}</p>
+    <p class="resume-entry__org">{org}</p>
+    <p class="resume-entry__location">{location}</p>
+  </div>
+  <div class="resume-entry__description">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .resume-entry {
+    display: grid;
+    grid-template-columns: minmax(180px, 1fr) 2fr;
+    gap: var(--space-5);
+  }
+
+  .resume-entry__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .resume-entry__date {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--font-size-h3);
+    color: var(--color-accent);
+    margin-bottom: var(--space-1);
+  }
+
+  .resume-entry__role {
+    font-family: var(--font-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-uppercase);
+    color: var(--color-text);
+  }
+
+  .resume-entry__org {
+    font-family: var(--font-body);
+    font-weight: 400;
+    color: var(--color-text-muted);
+  }
+
+  .resume-entry__location {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    margin-top: var(--space-2);
+  }
+
+  .resume-entry__description {
+    font-family: var(--font-body);
+    color: var(--color-text);
+  }
+
+  @media (max-width: 640px) {
+    .resume-entry {
+      grid-template-columns: 1fr;
+      gap: var(--space-3);
+    }
+  }
+</style>

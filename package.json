@@ -12,6 +12,8 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@fontsource/mulish": "^5.2.8",
+    "@fontsource/poppins": "^5.2.7",
     "astro": "^7.0.6"
   },
   "devDependencies": {

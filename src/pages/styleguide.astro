@@ -1,0 +1,189 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Card from "../components/Card.astro";
+import CardTitle from "../components/CardTitle.astro";
+import ResumeEntry from "../components/ResumeEntry.astro";
+
+const colors = [
+  { name: "--color-bg", value: "#e7e1d6", label: "Background" },
+  { name: "--color-surface", value: "#ffffff", label: "Surface" },
+  { name: "--color-accent", value: "#3f6b45", label: "Accent" },
+  { name: "--color-text", value: "#1f1f1f", label: "Text" },
+  { name: "--color-text-muted", value: "#6b6b6b", label: "Text muted" },
+];
+---
+
+<BaseLayout
+  title="Styleguide | Christopher Pombo"
+  description="Internal styleguide for design tokens and components. Not for production."
+>
+  <p class="note">Temporary QA page — delete before launch.</p>
+
+  <section class="block">
+    <h1>Styleguide</h1>
+    <p>Design tokens and components, side by side for comparison against design-reference/ screenshots.</p>
+  </section>
+
+  <section class="block">
+    <SectionHeading text="Colors" />
+    <div class="swatches">
+      {
+        colors.map((color) => (
+          <div class="swatch">
+            <div class="swatch__preview" style={`background:${color.value}`} />
+            <p class="swatch__label">{color.label}</p>
+            <p class="swatch__value">{color.name} — {color.value}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="block">
+    <SectionHeading text="Type" />
+    <div class="type-samples">
+      <h1>H1 Heading — Poppins 700</h1>
+      <h2>H2 Heading — Poppins 700</h2>
+      <h3>H3 Heading — Poppins 700</h3>
+      <p>
+        Body text — Mulish 400. A personal philosophy I adopted in the past year is to bite off more
+        than I can chew, taking on challenges that scare me and embracing discomfort.
+      </p>
+      <p class="text-muted">Muted meta text — Mulish 400, --color-text-muted.</p>
+      <p class="uppercase-label">Uppercase letter-spaced label — Mulish 500</p>
+    </div>
+  </section>
+
+  <section class="block">
+    <SectionHeading text="Section Heading" />
+    <p class="text-muted">Green square + bold heading, used for resume categories.</p>
+  </section>
+
+  <section class="block">
+    <SectionHeading text="Card + Card Title" />
+    <div class="card-grid">
+      <Card>
+        <CardTitle title="USAFA Graduation" subtitle="May 2026" />
+        <p>Commissioning from the United States Air Force Academy as a 2d Lt in the world's greatest Air Force.</p>
+      </Card>
+      <Card>
+        <CardTitle title="Medical Service Corps" subtitle="September 2026" />
+        <p>After graduation, heading to Travis AFB, CA to serve as an MSC officer, starting a career in healthcare administration.</p>
+      </Card>
+    </div>
+  </section>
+
+  <section class="block">
+    <SectionHeading text="Resume Entry" />
+    <Card>
+      <ResumeEntry date="Fall 2025" role="Cadet Squadron Commander" org="Cadet Squadron 30" location="U.S. Air Force Academy, CO">
+        <p>Served as the senior leader for Cadet Squadron 30, overseeing daily operations, ensuring mission readiness, and creating a positive culture for growth and development.</p>
+      </ResumeEntry>
+    </Card>
+  </section>
+
+  <section class="block">
+    <SectionHeading text="Buttons" />
+    <div class="button-row">
+      <a class="btn" href="#">Resume</a>
+      <a class="btn" href="#">Goals</a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .note {
+    display: inline-block;
+    background: #fff3cd;
+    color: #664d03;
+    border: 1px solid #ffe69c;
+    border-radius: var(--radius-card);
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--font-size-small);
+    margin-bottom: var(--space-5);
+  }
+
+  .block {
+    margin-bottom: var(--space-7);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .swatches {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+  }
+
+  .swatch {
+    width: 200px;
+  }
+
+  .swatch__preview {
+    height: 80px;
+    border-radius: var(--radius-card);
+    border: 1px solid var(--color-border);
+    margin-bottom: var(--space-2);
+  }
+
+  .swatch__label {
+    font-weight: 700;
+    margin: 0;
+  }
+
+  .swatch__value {
+    font-size: var(--font-size-meta);
+    color: var(--color-text-muted);
+    margin: 0;
+  }
+
+  .type-samples {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .text-muted {
+    color: var(--color-text-muted);
+  }
+
+  .uppercase-label {
+    font-family: var(--font-body);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: var(--letter-spacing-uppercase);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .button-row {
+    display: flex;
+    gap: var(--space-3);
+  }
+
+  .btn {
+    display: inline-block;
+    padding: var(--space-2) var(--space-5);
+    border: 1px solid var(--color-text);
+    border-radius: 999px;
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 700;
+    letter-spacing: var(--letter-spacing-uppercase);
+    text-transform: uppercase;
+    font-size: var(--font-size-small);
+    color: var(--color-text);
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .btn:hover {
+    background: var(--color-text);
+    color: var(--color-surface);
+  }
+</style>

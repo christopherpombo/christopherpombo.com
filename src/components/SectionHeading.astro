@@ -1,0 +1,35 @@
+---
+interface Props {
+  text: string;
+  level?: "h2" | "h3";
+}
+
+const { text, level = "h2" } = Astro.props;
+const Tag = level;
+---
+
+<div class="section-heading">
+  <span class="section-heading__square" aria-hidden="true"></span>
+  <Tag>{text}</Tag>
+</div>
+
+<style>
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .section-heading__square {
+    display: inline-block;
+    width: var(--section-square-size);
+    height: var(--section-square-size);
+    background: var(--color-accent);
+    flex-shrink: 0;
+  }
+
+  .section-heading :global(h2),
+  .section-heading :global(h3) {
+    margin: 0;
+  }
+</style>

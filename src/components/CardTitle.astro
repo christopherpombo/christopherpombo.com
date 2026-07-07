@@ -1,0 +1,48 @@
+---
+interface Props {
+  title: string;
+  subtitle: string;
+}
+
+const { title, subtitle } = Astro.props;
+---
+
+<div class="card-title">
+  <span class="card-title__bar" aria-hidden="true"></span>
+  <div class="card-title__text">
+    <h3 class="card-title__title">{title}</h3>
+    <p class="card-title__subtitle">{subtitle}</p>
+  </div>
+</div>
+
+<style>
+  .card-title {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .card-title__bar {
+    display: inline-block;
+    width: var(--card-title-bar-width);
+    flex-shrink: 0;
+    background: var(--color-accent);
+    border-radius: 2px;
+  }
+
+  .card-title__title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--font-size-h3);
+    color: var(--color-accent);
+    margin: 0;
+  }
+
+  .card-title__subtitle {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-small);
+    color: var(--color-text);
+    margin: 0;
+  }
+</style>
