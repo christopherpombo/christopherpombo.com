@@ -1,0 +1,24 @@
+:root {
+  /* Colors */
+  --color-bg: #e7e1d6;
+  --color-surface: #ffffff;
+  --color-accent: #3f6b45;
+  --color-text: #1f1f1f;
+  --color-text-muted: #6b6b6b;
+
+  /* Shadow */
+  --shadow-card: 0 6px 18px rgba(0, 0, 0, 0.08);
+
+  /* Type */
+  --font-heading: "Poppins", sans-serif;
+  --font-body: "Mulish", sans-serif;
+  --font-size-body: 17px;
+  --line-height-body: 1.6;
+
+  /* Layout */
+  --max-width: 1100px;
+
+  /* Motifs */
+  --section-square-size: 14px;
+  --card-title-bar-width: 6px;
+}
