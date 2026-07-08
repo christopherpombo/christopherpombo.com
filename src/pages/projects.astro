@@ -1,7 +1,91 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../components/Card.astro";
+import CardTitle from "../components/CardTitle.astro";
+
+const projects = (await getCollection("projects")).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+);
+
+function formatYear(date: Date) {
+  return date.toLocaleDateString("en-US", { year: "numeric", timeZone: "UTC" });
+}
 ---
 
-<BaseLayout title="Projects | Christopher Pombo" description="Christopher Pombo's projects.">
-  <h1>Projects</h1>
+<BaseLayout
+  title="Projects | Christopher Pombo"
+  description="Software projects built by Christopher Pombo, including Simply Spend, a native iOS expense tracker."
+>
+  <header class="page-header">
+    <h1>What I'm Building</h1>
+    <p class="page-header__lede">A page dedicated to my projects.</p>
+  </header>
+
+  <div class="card-grid">
+    {
+      projects.map((entry) => (
+        <a class="card-link" href={`/projects/${entry.id}`}>
+          <Card>
+            <CardTitle title={entry.data.title} subtitle={formatYear(entry.data.date)} />
+            <p>{entry.data.summary}</p>
+            <ul class="stack-tags">
+              {entry.data.stack.map((tech) => (
+                <li>{tech}</li>
+              ))}
+            </ul>
+          </Card>
+        </a>
+      ))
+    }
+  </div>
 </BaseLayout>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .page-header__lede {
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast);
+  }
+
+  .card-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .stack-tags {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+  }
+
+  .stack-tags li {
+    font-size: var(--font-size-meta);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-uppercase);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: var(--space-1) var(--space-2);
+    border-radius: 2px;
+  }
+</style>

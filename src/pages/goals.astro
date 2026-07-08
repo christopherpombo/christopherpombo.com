@@ -1,7 +1,161 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../components/Card.astro";
+import CardTitle from "../components/CardTitle.astro";
+
+const allGoals = await getCollection("goals");
+
+function formatDate(entry: (typeof allGoals)[number]) {
+  if (entry.data.dateLabel) return entry.data.dateLabel;
+  return entry.data.date.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
+}
+
+function byCategory(category: "near" | "far" | "stacked") {
+  return allGoals
+    .filter((entry) => entry.data.category === category)
+    .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+}
+
+const nearRocks = byCategory("near");
+const farRocks = byCategory("far");
+const stackedRocks = byCategory("stacked");
+
+const otherInvolvements = [
+  {
+    title: "Physical Activities",
+    subtitle: "Strengthen Body",
+    items: ["Running, Biking, & Swimming", "Skiing & Snowboarding", "Rock Climbing & Hiking", "Combative Club (Jujitsu)", "Scuba Diving"],
+  },
+  {
+    title: "Community Focused",
+    subtitle: "Strengthen Mind",
+    items: ["Community Volunteering", "Academic Tutoring"],
+  },
+];
 ---
 
-<BaseLayout title="Goals | Christopher Pombo" description="Christopher Pombo's near, far, and stacked rocks.">
-  <h1>Goals</h1>
+<BaseLayout
+  title="Goals | Christopher Pombo"
+  description="Christopher Pombo's near, far, and stacked rocks — the goals shaping his career and life."
+>
+  <header class="page-header">
+    <h1>What I'm Doing</h1>
+    <p class="page-header__lede">A page dedicated to my interests & ambitions.</p>
+  </header>
+
+  <section class="rocks-section">
+    <h2>Near Rocks</h2>
+    <p class="rocks-section__lede">Now through Next Year</p>
+    <div class="card-grid">
+      {
+        nearRocks.map((entry) => (
+          <a class="card-link" href={`/goals/${entry.id}`}>
+            <Card>
+              <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
+              <p>{entry.data.summary}</p>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="rocks-section">
+    <h2>Far Rocks</h2>
+    <p class="rocks-section__lede">Next Year and Beyond</p>
+    <div class="card-grid">
+      {
+        farRocks.map((entry) => (
+          <a class="card-link" href={`/goals/${entry.id}`}>
+            <Card>
+              <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
+              <p>{entry.data.summary}</p>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="rocks-section">
+    <h2>Stacked Rocks</h2>
+    <p class="rocks-section__lede">What I've done so far</p>
+    <div class="card-grid">
+      {
+        stackedRocks.map((entry) => (
+          <a class="card-link" href={`/goals/${entry.id}`}>
+            <Card>
+              <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
+              <p>{entry.data.summary}</p>
+            </Card>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="rocks-section">
+    <h2>Other Involvements</h2>
+    <div class="card-grid">
+      {
+        otherInvolvements.map((block) => (
+          <Card>
+            <CardTitle title={block.title} subtitle={block.subtitle} />
+            <ul class="plain-list">
+              {block.items.map((item) => (
+                <li>{item}</li>
+              ))}
+            </ul>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
 </BaseLayout>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .page-header__lede {
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+  }
+
+  .rocks-section {
+    margin-bottom: var(--space-7);
+  }
+
+  .rocks-section__lede {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-4);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: var(--space-4);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast);
+  }
+
+  .card-link:hover {
+    transform: translateY(-2px);
+  }
+
+  .plain-list {
+    list-style: disc;
+    padding-left: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+</style>

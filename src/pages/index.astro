@@ -1,7 +1,151 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SocialIcons from "../components/SocialIcons.astro";
 ---
 
-<BaseLayout title="Christopher Pombo" description="Christopher Pombo — 2d Lt, USAF Medical Service Corps officer and iOS developer.">
-  <h1>Home</h1>
+<BaseLayout
+  title="Christopher Pombo"
+  description="Christopher Pombo — 2d Lt, USAF Medical Service Corps officer and iOS developer."
+>
+  <div class="home-hero">
+    <div class="profile-card">
+      <div class="profile-card__photo" role="img" aria-label="Christopher Pombo headshot placeholder">
+        <svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true">
+          <path
+            d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"
+          ></path>
+        </svg>
+      </div>
+      <h2 class="profile-card__name">Christopher Pombo</h2>
+      <hr class="profile-card__divider" />
+      <p class="profile-card__subtitle">2D LT, U.S. AIR FORCE</p>
+      <div class="profile-card__social">
+        <SocialIcons />
+      </div>
+    </div>
+
+    <div class="hero-content">
+      <h1>Welcome</h1>
+      <p class="hero-content__lede">Who I am & What I'm doing</p>
+
+      <div class="hero-content__buttons">
+        <a class="btn" href="/resume">Resume</a>
+        <a class="btn" href="/goals">Goals</a>
+      </div>
+
+      <div class="hero-content__copy">
+        <p>
+          I'm a Medical Service Corps officer at Travis Air Force Base, where I work in healthcare
+          administration for the Air Force's largest air mobility wing. I commissioned from the U.S. Air
+          Force Academy in 2026 with a degree in Operations Research.
+        </p>
+        <p>
+          A personal philosophy I adopted a few years ago is to "bite off more than you can chew".
+          Although this phrase is often used as a cautionary warning, and is usually preceded by the
+          words "Don't", "Never", or "It's Unwise to... ", I redefined it as a commitment to personal
+          growth — to take on challenges that scare me, to embrace discomfort, and to step up to
+          responsibility, even when the path is uncertain.
+        </p>
+        <p>
+          I see the value in taking calculated risks, embracing failure as a teacher, and having the
+          courage to start.
+        </p>
+        <p>
+          As a deeply motivated, and hardworking individual with a calling to help others, I am
+          confident in my ability to lead, follow, and contribute meaningfully to any organization.
+        </p>
+      </div>
+    </div>
+  </div>
 </BaseLayout>
+
+<style>
+  .home-hero {
+    display: grid;
+    grid-template-columns: minmax(240px, 300px) 1fr;
+    gap: var(--space-7);
+    align-items: start;
+  }
+
+  .profile-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
+    padding: var(--space-5);
+    text-align: center;
+  }
+
+  .profile-card__photo {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    margin: 0 auto var(--space-4);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .profile-card__name {
+    margin-bottom: var(--space-3);
+  }
+
+  .profile-card__divider {
+    width: 48px;
+    border: none;
+    border-top: 2px solid var(--color-accent);
+    margin: 0 auto var(--space-3);
+  }
+
+  .profile-card__subtitle {
+    font-family: var(--font-body);
+    font-weight: 500;
+    font-size: var(--font-size-meta);
+    letter-spacing: var(--letter-spacing-uppercase);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-5);
+  }
+
+  .profile-card__social {
+    display: flex;
+    justify-content: center;
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .hero-content h1 {
+    margin-bottom: var(--space-3);
+  }
+
+  .hero-content__lede {
+    font-size: var(--font-size-h3);
+    color: var(--color-text);
+    margin-bottom: var(--space-4);
+  }
+
+  .hero-content__buttons {
+    display: flex;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+  }
+
+  .hero-content__copy {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+    max-width: 65ch;
+  }
+
+  @media (max-width: 720px) {
+    .home-hero {
+      grid-template-columns: 1fr;
+    }
+
+    .profile-card {
+      max-width: 320px;
+      margin-inline: auto;
+    }
+  }
+</style>

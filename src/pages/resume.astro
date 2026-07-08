@@ -1,7 +1,212 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SectionHeading from "../components/SectionHeading.astro";
+import Card from "../components/Card.astro";
+import ResumeEntry from "../components/ResumeEntry.astro";
+
+const leadership = [
+  {
+    date: "Fall 2025",
+    role: "Cadet Squadron Commander",
+    org: "Cadet Squadron 30",
+    location: "U.S. Air Force Academy, CO",
+    description:
+      "Served as the senior leader for Cadet Squadron 30, overseeing daily operations, ensuring mission readiness, and creating a positive culture for growth and development.",
+  },
+  {
+    date: "Summer 2025",
+    role: "BCT Assistant Flight Commander",
+    org: "Executioners Alpha Flight",
+    location: "U.S. Air Force Academy, CO",
+    description:
+      "Trained and mentored 28 incoming freshmen in military readiness, self-discipline, and teamwork during Basic Cadet Training.",
+  },
+  {
+    date: "Spring 2025",
+    role: "Recondo CIC",
+    org: "Cadet Squadron 30",
+    location: "U.S. Air Force Academy, CO",
+    description:
+      "Worked with cadets on athletic probation through structured workouts and training sessions to improve their overall fitness and wellbeing.",
+  },
+  {
+    date: "Summer 2024",
+    role: "Philmont Scout Ranger",
+    org: "Philmont Scout Ranch",
+    location: "Cimarron, NM",
+    description:
+      "Led crews on backcountry treks, teaching outdoor survival skills and promoting the values of teamwork, resilience, and love for the outdoors.",
+  },
+];
+
+const research = [
+  {
+    date: "Summer 2024",
+    role: "413th Flight Test Squadron",
+    org: "Hurlburt Field Air Force Base",
+    location: "Fort Walton Beach, FL",
+    description:
+      "Analyzed rotary-wing test data and built recurrent neural networks to model performance and predict in-flight outcomes.",
+  },
+];
+
+const education = [
+  {
+    date: "2022 – 2026",
+    role: "U.S. Air Force Academy",
+    org: "Bachelor of Science in Ops. Research, Spanish Language Minor",
+    location: "Colorado Springs, CO",
+    description:
+      "Earned a Bachelor's of Science in Operations Research with a minor in Spanish, combining data-driven problem solving with cross-cultural communication.",
+  },
+  {
+    date: "2021 – 2022",
+    role: "Georgia Military College",
+    org: "Associate of Science in General Studies",
+    location: "Milledgeville, GA",
+    description:
+      "Attended Georgia Military College as a Falcon Scholar, earning an Associate's in General Sciences and an appointment to the U.S. Air Force Academy.",
+  },
+  {
+    date: "2017 – 2021",
+    role: "Nauset Regional High School",
+    org: "High School Diploma",
+    location: "Eastham, MA",
+    description:
+      "Competed in Varsity Soccer and Varsity Track & Field. Took interest in mathematics, computer science, and the sciences, establishing a foundation for future studies.",
+  },
+];
+
+const awards = [
+  "Academic Year 2026 Medical Service Corps Officer Select",
+  "2024 Best Overall Project - Second Class Cadet (CSRP Management Department)",
+  "2024 Philmont Scout Ranger Select",
+];
+
+const languages = ["English (native)", "Spanish (proficient)"];
 ---
 
-<BaseLayout title="Resume | Christopher Pombo" description="Christopher Pombo's resume.">
-  <h1>Resume</h1>
+<BaseLayout
+  title="Resume | Christopher Pombo"
+  description="Christopher Pombo's leadership, research, and education experience as a USAF Medical Service Corps officer."
+>
+  <header class="page-header">
+    <h1>Who I Am</h1>
+    <p class="page-header__lede">A page dedicated to my experiences & skills.</p>
+  </header>
+
+  <section class="resume-section">
+    <SectionHeading text="Leadership" />
+    <div class="entry-stack">
+      {
+        leadership.map((entry) => (
+          <Card>
+            <ResumeEntry date={entry.date} role={entry.role} org={entry.org} location={entry.location}>
+              <p>{entry.description}</p>
+            </ResumeEntry>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <SectionHeading text="Research Involvement" />
+    <div class="entry-stack">
+      {
+        research.map((entry) => (
+          <Card>
+            <ResumeEntry date={entry.date} role={entry.role} org={entry.org} location={entry.location}>
+              <p>{entry.description}</p>
+            </ResumeEntry>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <SectionHeading text="Education" />
+    <div class="entry-stack">
+      {
+        education.map((entry) => (
+          <Card>
+            <ResumeEntry date={entry.date} role={entry.role} org={entry.org} location={entry.location}>
+              <p>{entry.description}</p>
+            </ResumeEntry>
+          </Card>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="resume-section">
+    <Card>
+      <div class="list-block">
+        <h3>Awards & Honors</h3>
+        <ul class="square-list">
+          {awards.map((award) => <li>{award}</li>)}
+        </ul>
+      </div>
+      <div class="list-block">
+        <h3>Languages</h3>
+        <ul class="square-list">
+          {languages.map((language) => <li>{language}</li>)}
+        </ul>
+      </div>
+    </Card>
+  </section>
 </BaseLayout>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .page-header__lede {
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+  }
+
+  .resume-section {
+    margin-bottom: var(--space-6);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .entry-stack {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+  }
+
+  .list-block + .list-block {
+    margin-top: var(--space-5);
+  }
+
+  .square-list {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-3);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .square-list li {
+    position: relative;
+    padding-left: var(--space-4);
+  }
+
+  .square-list li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.4em;
+    width: 10px;
+    height: 10px;
+    background: var(--color-accent);
+  }
+</style>

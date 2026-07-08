@@ -1,9 +1,9 @@
 ---
-import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+import { getCollection, render } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
 
 export async function getStaticPaths() {
-  const entries = await getCollection('goals');
+  const entries = await getCollection("goals");
   return entries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
@@ -12,9 +12,49 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content } = await render(entry);
+
+const dateLabel =
+  entry.data.dateLabel ??
+  entry.data.date.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 ---
 
 <BaseLayout title={`${entry.data.title} | Christopher Pombo`} description={entry.data.summary}>
-  <h1>{entry.data.title}</h1>
-  <Content />
+  <article class="goal-detail">
+    <a class="back-link" href="/goals">&larr; Back to Goals</a>
+    <h1>{entry.data.title}</h1>
+    <p class="goal-detail__date">{dateLabel}</p>
+    <div class="goal-detail__body">
+      <Content />
+    </div>
+  </article>
 </BaseLayout>
+
+<style>
+  .goal-detail {
+    max-width: 70ch;
+  }
+
+  .back-link {
+    display: inline-block;
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+    text-decoration: none;
+    margin-bottom: var(--space-4);
+  }
+
+  .back-link:hover {
+    color: var(--color-accent);
+  }
+
+  .goal-detail__date {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    color: var(--color-accent);
+    margin-top: var(--space-2);
+    margin-bottom: var(--space-4);
+  }
+
+  .goal-detail__body {
+    color: var(--color-text);
+  }
+</style>

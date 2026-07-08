@@ -7,6 +7,8 @@ const goals = defineCollection({
   schema: z.object({
     title: z.string(),
     date: z.coerce.date(),
+    dateLabel: z.string().optional(),
+    order: z.number().optional(),
     category: z.enum(['near', 'far', 'stacked']),
     summary: z.string(),
   }),

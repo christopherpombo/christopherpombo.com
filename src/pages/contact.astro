@@ -1,7 +1,93 @@
 ---
-import BaseLayout from '../layouts/BaseLayout.astro';
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Card from "../components/Card.astro";
+import CardTitle from "../components/CardTitle.astro";
+
+const socialCards = [
+  {
+    title: "LinkedIn",
+    subtitle: "Since August 2025",
+    description:
+      "A professional space to share my career journey, leadership experiences, and future goals.",
+    href: "https://www.linkedin.com/in/christopher-pombo-2b324a271/",
+  },
+  {
+    title: "YouTube",
+    subtitle: "Since September 2025",
+    description: "A creative space where I post videos about my interests, projects, and personal journey.",
+    href: "https://www.youtube.com/@christopherpomboo",
+  },
+  {
+    title: "Instagram",
+    subtitle: "Since July 2017",
+    description: "A glimpse into my everyday life, and interests outside of the Academic and Air Force career.",
+    href: "https://www.instagram.com/christopherpomboo/",
+  },
+  {
+    title: "Strava",
+    subtitle: "Since 2024",
+    description: "Where I log my runs and training.",
+    href: "https://www.strava.com/athletes/122442696",
+  },
+];
 ---
 
-<BaseLayout title="Contact | Christopher Pombo" description="Get in touch with Christopher Pombo.">
-  <h1>Contact</h1>
+<BaseLayout
+  title="Contact | Christopher Pombo"
+  description="Get in touch with Christopher Pombo via email, LinkedIn, YouTube, Instagram, or Strava."
+>
+  <header class="page-header">
+    <h1>Contact</h1>
+    <p class="page-header__lede">A page dedicated to my contacts & other media platforms.</p>
+  </header>
+
+  <div class="card-grid">
+    {
+      socialCards.map((card) => (
+        <a class="card-link" href={card.href} target="_blank" rel="noopener noreferrer">
+          <Card>
+            <CardTitle title={card.title} subtitle={card.subtitle} />
+            <p>{card.description}</p>
+          </Card>
+        </a>
+      ))
+    }
+  </div>
+
+  <a class="card-link" href="mailto:christopherpombo4@gmail.com">
+    <Card>
+      <CardTitle title="Direct Contact" subtitle="Business Email" />
+      <p>For direct inquiries please write to christopherpombo4@gmail.com.</p>
+    </Card>
+  </a>
 </BaseLayout>
+
+<style>
+  .page-header {
+    text-align: center;
+    margin-bottom: var(--space-6);
+  }
+
+  .page-header__lede {
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: var(--space-4);
+    margin-bottom: var(--space-4);
+  }
+
+  .card-link {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    transition: transform var(--transition-fast);
+  }
+
+  .card-link:hover {
+    transform: translateY(-2px);
+  }
+</style>
