@@ -53,7 +53,7 @@ const socialCards = [
     }
   </div>
 
-  <a class="card-link" href="mailto:christopherpombo4@gmail.com">
+  <a class="card-link direct-contact" href="mailto:christopherpombo4@gmail.com">
     <Card>
       <CardTitle title="Direct Contact" subtitle="Business Email" />
       <p>For direct inquiries please write to christopherpombo4@gmail.com.</p>
@@ -62,21 +62,7 @@ const socialCards = [
 </BaseLayout>
 
 <style>
-  .card-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-    gap: var(--space-4);
-    margin-bottom: var(--space-4);
-  }
-
-  .card-link {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    transition: transform var(--transition-fast);
-  }
-
-  .card-link:hover {
-    transform: translateY(-2px);
+  .direct-contact {
+    margin-top: var(--space-4);
   }
 </style>
