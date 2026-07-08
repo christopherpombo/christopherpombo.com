@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import Card from "../components/Card.astro";
 import CardTitle from "../components/CardTitle.astro";
 
@@ -39,10 +40,7 @@ const otherInvolvements = [
   title="Goals — Christopher Pombo"
   description="Christopher Pombo's near, far, and stacked rocks — the goals shaping his career and life."
 >
-  <header class="page-header">
-    <h1>What I'm Doing</h1>
-    <p class="page-header__lede">A page dedicated to my interests & ambitions.</p>
-  </header>
+  <PageHeader title="What I'm Doing" subtitle="A page dedicated to my interests & ambitions." />
 
   <section class="rocks-section">
     <h2>Near Rocks</h2>
@@ -115,16 +113,6 @@ const otherInvolvements = [
 </BaseLayout>
 
 <style>
-  .page-header {
-    text-align: center;
-    margin-bottom: var(--space-6);
-  }
-
-  .page-header__lede {
-    color: var(--color-text-muted);
-    margin-top: var(--space-3);
-  }
-
   .rocks-section {
     margin-bottom: var(--space-7);
   }

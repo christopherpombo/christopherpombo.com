@@ -10,6 +10,9 @@
 
 html {
   -webkit-text-size-adjust: 100%;
+  /* White, matching the header/footer, so rubber-band overscroll past the
+     top or bottom reveals white instead of the beige main-content color. */
+  background: var(--color-surface);
 }
 
 img,
@@ -32,7 +35,7 @@ body {
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
   color: var(--color-text);
-  background: var(--color-bg);
+  background: var(--color-surface);
 }
 
 h1,

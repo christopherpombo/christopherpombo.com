@@ -5,7 +5,10 @@ vanilla CSS, zero client-side JS unless a page truly needs it.
 
 ## Design system (extracted from the previous Wix site — see design-reference/
 screenshots, they are the visual source of truth)
-- Background: warm beige #E7E1D6. Header & footer: white #FFFFFF.
+- Background: warm beige #E7E1D6, scoped to `.site-main` only (the actual
+  content area between header and footer). Header & footer: white #FFFFFF —
+  and html/body are ALSO white, matching header/footer, so rubber-band
+  overscroll past the top or bottom reveals white instead of a beige void.
 - Cards: white, border-radius 0 or very small, soft drop shadow
   (e.g. 0 6px 18px rgba(0,0,0,0.08)), generous padding.
 - Accent: forest green #3F6B45 — used ONLY for: dates, active nav item,

@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import Card from "../components/Card.astro";
 import CardTitle from "../components/CardTitle.astro";
 
@@ -17,10 +18,7 @@ function formatYear(date: Date) {
   title="Projects — Christopher Pombo"
   description="Software projects built by Christopher Pombo, including Simply Spend, a native iOS expense tracker."
 >
-  <header class="page-header">
-    <h1>What I'm Building</h1>
-    <p class="page-header__lede">A page dedicated to my projects.</p>
-  </header>
+  <PageHeader title="What I'm Building" subtitle="A page dedicated to my projects." />
 
   <h2 class="visually-hidden">Projects</h2>
   <div class="card-grid">
@@ -43,16 +41,6 @@ function formatYear(date: Date) {
 </BaseLayout>
 
 <style>
-  .page-header {
-    text-align: center;
-    margin-bottom: var(--space-6);
-  }
-
-  .page-header__lede {
-    color: var(--color-text-muted);
-    margin-top: var(--space-3);
-  }
-
   .card-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));

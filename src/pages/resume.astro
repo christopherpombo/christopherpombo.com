@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Card from "../components/Card.astro";
 import ResumeEntry from "../components/ResumeEntry.astro";
@@ -90,10 +91,7 @@ const languages = ["English (native)", "Spanish (proficient)"];
   title="Resume — Christopher Pombo"
   description="Christopher Pombo's leadership, research, and education experience as a USAF Medical Service Corps officer."
 >
-  <header class="page-header">
-    <h1>Who I Am</h1>
-    <p class="page-header__lede">A page dedicated to my experiences & skills.</p>
-  </header>
+  <PageHeader title="Who I Am" subtitle="A page dedicated to my experiences & skills." />
 
   <section class="resume-section">
     <SectionHeading text="Leadership" />
@@ -159,16 +157,6 @@ const languages = ["English (native)", "Spanish (proficient)"];
 </BaseLayout>
 
 <style>
-  .page-header {
-    text-align: center;
-    margin-bottom: var(--space-6);
-  }
-
-  .page-header__lede {
-    color: var(--color-text-muted);
-    margin-top: var(--space-3);
-  }
-
   .resume-section {
     margin-bottom: var(--space-6);
     display: flex;
