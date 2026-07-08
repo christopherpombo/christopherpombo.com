@@ -3,6 +3,7 @@ import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import Card from "../../components/Card.astro";
 
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
@@ -23,59 +24,77 @@ const allProjectImages = import.meta.glob<{ default: ImageMetadata }>(
 );
 const screenshots = Object.entries(allProjectImages)
   .filter(([path]) => path.includes(`/${entry.id}/`) || path.includes(`/${entry.id}.`))
-  .map(([, mod]) => mod.default);
+  .sort(([a], [b]) => a.localeCompare(b))
+  .map(([path, mod]) => {
+    const filename = path.split("/").pop() ?? "";
+    const label = filename.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
+    return { image: mod.default, label };
+  });
 ---
 
 <BaseLayout title={`${entry.data.title} — Christopher Pombo`} description={entry.data.summary}>
   <article class="project-detail">
-    <a class="back-link" href="/projects">&larr; Back to Projects</a>
-    <h1>{entry.data.title}</h1>
-    <p class="project-detail__year">{year}</p>
+    <div class="project-detail__text">
+      <a class="back-link" href="/projects">&larr; Back to Projects</a>
+      <h1>{entry.data.title}</h1>
+      <p class="project-detail__year">{year}</p>
 
-    <ul class="stack-tags">
-      {entry.data.stack.map((tech) => <li>{tech}</li>)}
-    </ul>
+      <ul class="stack-tags">
+        {entry.data.stack.map((tech) => <li>{tech}</li>)}
+      </ul>
+    </div>
 
     {
       screenshots.length > 0 && (
         <div class="project-detail__screenshots">
-          {screenshots.map((screenshot, i) => (
-            <Image src={screenshot} alt={`${entry.data.title} screenshot ${i + 1}`} width={480} />
+          {screenshots.map(({ image, label }) => (
+            <Card>
+              <Image
+                src={image}
+                alt={`${entry.data.title} — ${label} screen`}
+                width={600}
+                densities={[1, 2]}
+                loading="lazy"
+                decoding="async"
+              />
+            </Card>
           ))}
         </div>
       )
     }
 
-    <div class="project-detail__body">
-      <Content />
-    </div>
+    <div class="project-detail__text">
+      <div class="project-detail__body">
+        <Content />
+      </div>
 
-    {
-      entry.data.links && (
-        <div class="project-detail__links">
-          {entry.data.links.github && (
-            <a class="btn" href={entry.data.links.github} target="_blank" rel="noopener noreferrer">
-              GitHub
-            </a>
-          )}
-          {entry.data.links.appStore && (
-            <a class="btn" href={entry.data.links.appStore} target="_blank" rel="noopener noreferrer">
-              App Store
-            </a>
-          )}
-          {entry.data.links.live && (
-            <a class="btn" href={entry.data.links.live} target="_blank" rel="noopener noreferrer">
-              Live
-            </a>
-          )}
-        </div>
-      )
-    }
+      {
+        entry.data.links && (
+          <div class="project-detail__links">
+            {entry.data.links.github && (
+              <a class="btn" href={entry.data.links.github} target="_blank" rel="noopener noreferrer">
+                GitHub
+              </a>
+            )}
+            {entry.data.links.appStore && (
+              <a class="btn" href={entry.data.links.appStore} target="_blank" rel="noopener noreferrer">
+                App Store
+              </a>
+            )}
+            {entry.data.links.live && (
+              <a class="btn" href={entry.data.links.live} target="_blank" rel="noopener noreferrer">
+                Live
+              </a>
+            )}
+          </div>
+        )
+      }
+    </div>
   </article>
 </BaseLayout>
 
 <style>
-  .project-detail {
+  .project-detail__text {
     max-width: 70ch;
   }
 
@@ -105,7 +124,6 @@ const screenshots = Object.entries(allProjectImages)
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-2);
-    margin-bottom: var(--space-4);
   }
 
   .stack-tags li {
@@ -120,15 +138,22 @@ const screenshots = Object.entries(allProjectImages)
   }
 
   .project-detail__screenshots {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-4);
+    max-width: 900px;
+    margin-block: var(--space-6);
+  }
+
+  .project-detail__screenshots :global(.card) {
+    padding: var(--space-2);
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-3);
-    margin-bottom: var(--space-4);
   }
 
   .project-detail__screenshots :global(img) {
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
+    width: 100%;
+    height: auto;
+    border-radius: 2px;
   }
 
   .project-detail__body {
@@ -139,5 +164,13 @@ const screenshots = Object.entries(allProjectImages)
     display: flex;
     gap: var(--space-3);
     margin-top: var(--space-5);
+  }
+
+  @media (max-width: 720px) {
+    .project-detail__screenshots {
+      grid-template-columns: 1fr;
+      max-width: 320px;
+      margin-inline: auto;
+    }
   }
 </style>
