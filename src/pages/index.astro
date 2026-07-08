@@ -1,22 +1,39 @@
 ---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SocialIcons from "../components/SocialIcons.astro";
+
+const headshotImages = import.meta.glob<{ default: ImageMetadata }>("/src/assets/headshot.*", {
+  eager: true,
+});
+const headshot = Object.values(headshotImages)[0]?.default;
 ---
 
 <BaseLayout
-  title="Christopher Pombo"
+  title="Home — Christopher Pombo"
   description="Christopher Pombo — 2d Lt, USAF Medical Service Corps officer and iOS developer."
 >
   <div class="home-hero">
     <div class="profile-card">
-      <div class="profile-card__photo" role="img" aria-label="Christopher Pombo headshot placeholder">
-        <svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true">
-          <path
-            d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z"
-          ></path>
-        </svg>
-      </div>
-      <h2 class="profile-card__name">Christopher Pombo</h2>
+      {
+        headshot ? (
+          <Image
+            class="profile-card__photo profile-card__photo--image"
+            src={headshot}
+            alt="Christopher Pombo"
+            width={160}
+            height={160}
+          />
+        ) : (
+          <div class="profile-card__photo" role="img" aria-label="Christopher Pombo headshot placeholder">
+            <svg viewBox="0 0 24 24" width="56" height="56" fill="currentColor" aria-hidden="true">
+              <path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm0 2c-3.33 0-10 1.67-10 5v3h20v-3c0-3.33-6.67-5-10-5z" />
+            </svg>
+          </div>
+        )
+      }
+      <p class="profile-card__name">Christopher Pombo</p>
       <hr class="profile-card__divider" />
       <p class="profile-card__subtitle">2D LT, U.S. AIR FORCE</p>
       <div class="profile-card__social">
@@ -87,7 +104,16 @@ import SocialIcons from "../components/SocialIcons.astro";
     justify-content: center;
   }
 
+  .profile-card__photo--image {
+    object-fit: cover;
+  }
+
   .profile-card__name {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: var(--font-size-h2);
+    line-height: var(--line-height-heading);
+    color: var(--color-text);
     margin-bottom: var(--space-3);
   }
 

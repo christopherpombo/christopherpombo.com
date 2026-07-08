@@ -5,7 +5,11 @@
   --color-accent: #3f6b45;
   --color-accent-hover: #345a39;
   --color-text: #1f1f1f;
-  --color-text-muted: #6b6b6b;
+  /* Darkened from the design spec's #6b6b6b: at 17px regular on the beige
+     background (#e7e1d6) that value is 4.1:1, just under WCAG AA's 4.5:1
+     for normal text. #5c5c5c clears 5:1+ on both beige and white while
+     still reading as a muted gray. */
+  --color-text-muted: #5c5c5c;
   --color-border: rgba(31, 31, 31, 0.08);
 
   /* Fonts */

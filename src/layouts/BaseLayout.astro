@@ -1,5 +1,4 @@
 ---
-import "@fontsource/poppins/600.css";
 import "@fontsource/poppins/700.css";
 import "@fontsource/mulish/400.css";
 import "@fontsource/mulish/500.css";
@@ -7,13 +6,17 @@ import "@fontsource/mulish/700.css";
 import "../styles/tokens.css";
 import "../styles/global.css";
 import SocialIcons from "../components/SocialIcons.astro";
+import poppins700Url from "@fontsource/poppins/files/poppins-latin-700-normal.woff2?url";
+import mulish400Url from "@fontsource/mulish/files/mulish-latin-400-normal.woff2?url";
 
 interface Props {
   title: string;
   description: string;
+  image?: string;
+  type?: "website" | "profile" | "article";
 }
 
-const { title, description } = Astro.props;
+const { title, description, image = "/og-image.png", type = "website" } = Astro.props;
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -26,6 +29,9 @@ const navLinks = [
 const currentPath = Astro.url.pathname;
 const isActive = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath.startsWith(href);
+
+const canonicalUrl = new URL(currentPath, Astro.site);
+const ogImageUrl = new URL(image, Astro.site);
 ---
 
 <!doctype html>
@@ -33,9 +39,29 @@ const isActive = (href: string) =>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="alternate icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preload" as="font" type="font/woff2" href={poppins700Url} crossorigin="anonymous" />
+    <link rel="preload" as="font" type="font/woff2" href={mulish400Url} crossorigin="anonymous" />
+
     <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalUrl} />
     <title>{title}</title>
+
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content="Christopher Pombo" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageUrl} />
   </head>
   <body>
     <header class="site-header">

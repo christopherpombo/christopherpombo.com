@@ -1,4 +1,6 @@
 ---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 
@@ -14,9 +16,17 @@ const { entry } = Astro.props;
 const { Content } = await render(entry);
 
 const year = entry.data.date.toLocaleDateString("en-US", { year: "numeric", timeZone: "UTC" });
+
+const allProjectImages = import.meta.glob<{ default: ImageMetadata }>(
+  "/src/assets/projects/**/*.{jpg,jpeg,png,webp}",
+  { eager: true }
+);
+const screenshots = Object.entries(allProjectImages)
+  .filter(([path]) => path.includes(`/${entry.id}/`) || path.includes(`/${entry.id}.`))
+  .map(([, mod]) => mod.default);
 ---
 
-<BaseLayout title={`${entry.data.title} | Christopher Pombo`} description={entry.data.summary}>
+<BaseLayout title={`${entry.data.title} — Christopher Pombo`} description={entry.data.summary}>
   <article class="project-detail">
     <a class="back-link" href="/projects">&larr; Back to Projects</a>
     <h1>{entry.data.title}</h1>
@@ -25,6 +35,16 @@ const year = entry.data.date.toLocaleDateString("en-US", { year: "numeric", time
     <ul class="stack-tags">
       {entry.data.stack.map((tech) => <li>{tech}</li>)}
     </ul>
+
+    {
+      screenshots.length > 0 && (
+        <div class="project-detail__screenshots">
+          {screenshots.map((screenshot, i) => (
+            <Image src={screenshot} alt={`${entry.data.title} screenshot ${i + 1}`} width={480} />
+          ))}
+        </div>
+      )
+    }
 
     <div class="project-detail__body">
       <Content />
@@ -97,6 +117,18 @@ const year = entry.data.date.toLocaleDateString("en-US", { year: "numeric", time
     background: var(--color-surface);
     padding: var(--space-1) var(--space-2);
     border-radius: 2px;
+  }
+
+  .project-detail__screenshots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-4);
+  }
+
+  .project-detail__screenshots :global(img) {
+    border-radius: var(--radius-card);
+    box-shadow: var(--shadow-card);
   }
 
   .project-detail__body {

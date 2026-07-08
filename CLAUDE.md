@@ -11,7 +11,9 @@ screenshots, they are the visual source of truth)
 - Accent: forest green #3F6B45 — used ONLY for: dates, active nav item,
   section-heading squares, card title bars, small hover states. Never large
   green areas.
-- Text: near-black #1F1F1F on beige/white. Muted gray #6B6B6B for meta text.
+- Text: near-black #1F1F1F on beige/white. Muted gray #5C5C5C for meta text
+  (darkened from the original #6B6B6B — that value was 4.1:1 on the beige
+  background, under WCAG AA's 4.5:1 for normal text; #5C5C5C clears 5:1+).
 - Signature motifs: (1) small green square (~14px) before section headings;
   (2) 6px green vertical bar on the left of card titles; (3) letter-spaced
   uppercase for role subtitles.
