@@ -1,9 +1,10 @@
 ---
 title: "Medical Service Corps"
 date: 2026-09-01
-category: "near"
+dateLabel: "Since September 2026"
+category: "stacked"
 order: 1
-summary: "I've headed to Travis AFB, CA to serve as an MSC Officer, starting my career in healthcare administration."
+summary: "I'm on active duty as a Medical Service Corps officer at Travis Air Force Base, CA, supporting healthcare administration for the Air Force's largest air mobility wing."
 ---
 
-I've headed to Travis AFB, CA to serve as an MSC Officer, starting my career in healthcare administration.
+I'm on active duty as a Medical Service Corps officer at Travis Air Force Base, CA, supporting healthcare administration for the Air Force's largest air mobility wing.

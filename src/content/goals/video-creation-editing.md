@@ -3,8 +3,8 @@ title: "Video Creation/Editing"
 date: 2026-03-01
 dateLabel: "Ongoing"
 category: "near"
-order: 2
+order: 3
 summary: "Taking on the challenge of video creation and editing with the purpose of documenting my travels and new experiences."
 ---
 
-Taking on the challenge of video creation and editing with the purpose of documenting my travels and new experiences.
+Taking on the challenge of video creation and editing with the purpose of documenting my travels and new experiences. Follow along on [YouTube](https://www.youtube.com/@christopherpomboo).
