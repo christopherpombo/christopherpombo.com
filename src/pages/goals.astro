@@ -12,121 +12,221 @@ function formatDate(entry: (typeof allGoals)[number]) {
   return entry.data.date.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
 }
 
-function byCategory(category: "near" | "far" | "stacked") {
+function byTheme(theme: "service" | "projects" | "body" | "mind") {
   return allGoals
-    .filter((entry) => entry.data.category === category)
+    .filter((entry) => entry.data.theme === theme)
     .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
 }
 
-const nearRocks = byCategory("near");
-const farRocks = byCategory("far");
-const stackedRocks = byCategory("stacked");
+const themeSections = [
+  { heading: "Service, career & education", entries: byTheme("service") },
+  { heading: "Personal projects", entries: byTheme("projects") },
+  { heading: "Body", entries: byTheme("body") },
+  { heading: "Mind", entries: byTheme("mind") },
+];
+
+const focusPoints = [
+  { label: "EMT → ED Tech", slug: "emt-to-ed-tech" },
+  { label: "Simply Spend launch", slug: "simply-spend-launch" },
+  { label: "2026 running goal", slug: "running-goal-2026" },
+];
 
 const otherInvolvements = [
-  {
-    title: "Physical Activities",
-    subtitle: "Strengthen Body",
-    items: ["Running, Biking, & Swimming", "Skiing & Snowboarding", "Rock Climbing & Hiking", "Combative Club (Jujitsu)", "Scuba Diving"],
-  },
-  {
-    title: "Community Focused",
-    subtitle: "Strengthen Mind",
-    items: ["Community Volunteering", "Academic Tutoring"],
-  },
+  "Biking",
+  "Swimming",
+  "Ski/snowboard",
+  "Climbing/hiking",
+  "Jujitsu",
+  "Scuba",
+  "Academic tutoring",
+  "Community volunteering",
 ];
 ---
 
 <BaseLayout
   title="Goals — Christopher Pombo"
-  description="Christopher Pombo's near, far, and stacked rocks — the goals shaping his career and life."
+  description="What I'm focused on right now and the goals — active and completed — shaping my service, projects, body, and mind."
 >
   <PageHeader title="What I'm Doing" subtitle="A page dedicated to my interests & ambitions." />
 
-  <section class="rocks-section">
-    <h2>Near Rocks</h2>
-    <p class="rocks-section__lede">Now through Next Year</p>
-    <div class="card-grid">
+  <div class="focus-strip">
+    <div class="focus-strip__head">
+      <h2 class="focus-strip__title">This chapter's primary focus points</h2>
+      <p class="focus-strip__date">Fall 2026</p>
+    </div>
+    <nav class="focus-strip__links" aria-label="Primary focus points">
       {
-        nearRocks.map((entry) => (
-          <a class="card-link" href={`/goals/${entry.id}`}>
-            <Card>
-              <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
-              <p>{entry.data.summary}</p>
-            </Card>
-          </a>
+        focusPoints.map((point) => (
+          <a href={`#${point.slug}`}>{point.label}</a>
         ))
       }
-    </div>
-  </section>
+    </nav>
+  </div>
 
-  <section class="rocks-section">
-    <h2>Far Rocks</h2>
-    <p class="rocks-section__lede">Next Year and Beyond</p>
-    <div class="card-grid">
-      {
-        farRocks.map((entry) => (
-          <a class="card-link" href={`/goals/${entry.id}`}>
-            <Card>
-              <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
-              <p>{entry.data.summary}</p>
-            </Card>
-          </a>
-        ))
-      }
-    </div>
-  </section>
+  {
+    themeSections.map((section) => {
+      const completedCount = section.entries.filter((entry) => entry.data.status === "completed").length;
+      return (
+        <section class="theme-section">
+          <h2>
+            {section.heading}
+            <span class="completed-count">{completedCount} completed</span>
+          </h2>
+          <div class="card-grid">
+            {section.entries.map((entry) => (
+              <a class="card-link" id={entry.id} href={`/goals/${entry.id}`}>
+                <Card>
+                  <div class="card-head">
+                    <span class={`status-pill status-pill--${entry.data.status}`}>
+                      {entry.data.status === "active" ? "Active" : "Completed"}
+                    </span>
+                  </div>
+                  <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
+                  <p>{entry.data.summary}</p>
+                </Card>
+              </a>
+            ))}
+          </div>
+        </section>
+      );
+    })
+  }
 
-  <section class="rocks-section">
-    <h2>Stacked Rocks</h2>
-    <p class="rocks-section__lede">What I've done so far</p>
-    <div class="card-grid">
-      {
-        stackedRocks.map((entry) => (
-          <a class="card-link" href={`/goals/${entry.id}`}>
-            <Card>
-              <CardTitle title={entry.data.title} subtitle={formatDate(entry)} />
-              <p>{entry.data.summary}</p>
-            </Card>
-          </a>
-        ))
-      }
-    </div>
-  </section>
-
-  <section class="rocks-section">
-    <h2>Other Involvements</h2>
-    <div class="card-grid">
-      {
-        otherInvolvements.map((block) => (
-          <Card>
-            <CardTitle title={block.title} subtitle={block.subtitle} />
-            <ul class="plain-list">
-              {block.items.map((item) => (
-                <li>{item}</li>
-              ))}
-            </ul>
-          </Card>
-        ))
-      }
-    </div>
+  <section class="theme-section">
+    <h2>Other involvements</h2>
+    <ul class="tag-row">
+      {otherInvolvements.map((item) => <li>{item}</li>)}
+    </ul>
   </section>
 </BaseLayout>
 
 <style>
-  .rocks-section {
+  .focus-strip {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-card);
+    padding: var(--space-4) var(--space-5);
+    margin-bottom: var(--space-7);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .focus-strip__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
+  }
+
+  .focus-strip__title {
+    font-size: var(--font-size-h3);
+    margin: 0;
+  }
+
+  .focus-strip__date {
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-small);
+    letter-spacing: var(--letter-spacing-uppercase);
+    text-transform: uppercase;
+    color: var(--color-accent);
+  }
+
+  .focus-strip__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .focus-strip__links a {
+    display: inline-block;
+    font-size: var(--font-size-small);
+    font-weight: 700;
+    color: var(--color-accent);
+    border: 1px solid var(--color-accent);
+    border-radius: 999px;
+    padding: var(--space-1) var(--space-3);
+    text-decoration: none;
+    transition: background var(--transition-fast), color var(--transition-fast);
+  }
+
+  .focus-strip__links a:hover {
+    background: var(--color-accent);
+    color: var(--color-surface);
+  }
+
+  .theme-section {
     margin-bottom: var(--space-7);
   }
 
-  .rocks-section__lede {
-    color: var(--color-text-muted);
-    margin-top: var(--space-3);
+  .theme-section h2 {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-3);
   }
 
-  .plain-list {
-    list-style: disc;
-    padding-left: var(--space-4);
+  .completed-count {
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+  }
+
+  .card-link {
+    scroll-margin-top: var(--space-5);
+    min-width: 0;
+  }
+
+  .card-head {
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
+    margin-bottom: var(--space-2);
+  }
+
+  .status-pill {
+    flex-shrink: 0;
+    font-family: var(--font-body);
+    font-weight: 700;
+    font-size: var(--font-size-meta);
+    letter-spacing: var(--letter-spacing-uppercase);
+    text-transform: uppercase;
+    padding: var(--space-1) var(--space-2);
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+
+  .status-pill--active {
+    background: var(--color-accent);
+    color: var(--color-surface);
+  }
+
+  .status-pill--completed {
+    background: transparent;
+    border: 1px solid var(--color-border);
+    color: var(--color-text-muted);
+  }
+
+  .tag-row {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--space-5);
+    display: flex;
+    flex-wrap: wrap;
     gap: var(--space-2);
+  }
+
+  .tag-row li {
+    font-size: var(--font-size-meta);
+    font-weight: 500;
+    letter-spacing: var(--letter-spacing-uppercase);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    background: var(--color-bg);
+    padding: var(--space-1) var(--space-2);
+    border-radius: 2px;
   }
 </style>

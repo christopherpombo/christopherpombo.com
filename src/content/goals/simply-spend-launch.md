@@ -1,9 +1,10 @@
 ---
 title: "Simply Spend App Store Launch"
 date: 2026-10-01
-dateLabel: "Coming Soon"
-category: "near"
-order: 2
+dateLabel: "App Store"
+theme: "projects"
+status: "active"
+order: 1
 summary: "Taking Simply Spend from family beta to a full public release on the App Store."
 ---
 

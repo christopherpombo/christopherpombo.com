@@ -1,9 +1,10 @@
 ---
 title: "2026 Running Goal"
 date: 2026-12-01
-dateLabel: "TBD"
-category: "near"
-order: 4
+dateLabel: "Race TBD"
+theme: "body"
+status: "active"
+order: 1
 summary: "Chasing a new personal-best time in 2026 — building on Honolulu with another race on the calendar. Specifics TBD."
 ---
 

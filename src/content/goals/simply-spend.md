@@ -1,7 +1,8 @@
 ---
 title: "Simply Spend"
 date: 2026-01-01
-category: "stacked"
+theme: "projects"
+status: "completed"
 order: 3
 summary: "Designed and built Simply Spend, a native iOS expense tracker, from scratch using Swift, SwiftUI, and SwiftData."
 ---

@@ -1,7 +1,8 @@
 ---
 title: "EMT to ED Tech"
 date: 2026-11-01
-category: "near"
+theme: "service"
+status: "active"
 order: 1
 summary: "Earning my EMT certification, then working per diem as an ED Tech at NorthBay VacaValley Hospital — a second income stream and clinical exposure."
 ---
