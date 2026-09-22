@@ -98,7 +98,10 @@ const email = "christopherpombo4@gmail.com";
 
     <SectionHeading text="Contact" />
     <p>
-      Questions about this policy or the app are welcome: <a href={`mailto:${email}`}>{email}</a>.
+      Questions about this policy or the app are welcome:{" "}
+      <!--email_off-->
+      <a href={`mailto:${email}`}>{email}</a>
+      <!--/email_off-->.
     </p>
 
     <p class="policy__meta">Developer: Christopher Pombo · Effective {effectiveDate}</p>
