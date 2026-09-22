@@ -1,0 +1,128 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHeader from "../../components/PageHeader.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+
+const effectiveDate = "September 22, 2026";
+const email = "christopherpombo4@gmail.com";
+---
+
+<BaseLayout
+  title="Simply Spend — Privacy Policy — Christopher Pombo"
+  description="Privacy policy for Simply Spend: Expense Tracker. The app stores everything on your device, collects nothing, and has no servers, accounts, analytics, ads, or tracking."
+>
+  <PageHeader
+    title="Simply Spend — Privacy Policy"
+    subtitle={`For Simply Spend: Expense Tracker. Effective ${effectiveDate}.`}
+  />
+
+  <article class="policy">
+    <p class="policy__lede">
+      Simply Spend keeps everything you enter on your own iPhone. I don't collect it, I can't see
+      it, and there are no servers involved — the app has no way to send your information anywhere.
+    </p>
+
+    <SectionHeading text="What the app stores" />
+    <p>
+      Everything you type into Simply Spend — transaction names, amounts, dates, notes, categories,
+      payment methods, and your app settings — is saved on your device, in the app's own storage. It
+      stays there until you delete it or delete the app.
+    </p>
+
+    <SectionHeading text="What I collect" />
+    <p>
+      Nothing. There are no accounts to create, no sign-ins, and no way to use the app over the
+      internet. Simply Spend contains no analytics, no crash reporting, no advertising, and no
+      tracking of any kind. It includes no third-party software development kits, so no other
+      company receives anything about you or your spending either.
+    </p>
+    <p>
+      I have no servers and no database. Even if I wanted your financial information, the app is not
+      built to send it to me.
+    </p>
+
+    <SectionHeading text="Permissions" />
+    <p>
+      Simply Spend asks for no permissions. It does not use your camera, photos, microphone,
+      location, contacts, or Face ID, and it does not send notifications.
+    </p>
+
+    <SectionHeading text="Exporting your own data" />
+    <p>
+      The app can export your transactions as a CSV file, from Settings. When you do that, iOS asks
+      where to send it — Files, Mail, AirDrop, or another app you choose. That file goes wherever you
+      send it, and I never receive a copy. Once it leaves Simply Spend, it's covered by the privacy
+      policy of whatever app or service you sent it to.
+    </p>
+
+    <SectionHeading text="Backups" />
+    <p>
+      If you back up your iPhone to iCloud or to a computer, that backup may include Simply Spend's
+      data, the same as any other app. Those backups are made and handled by Apple under{" "}
+      <a href="https://www.apple.com/legal/privacy/" target="_blank" rel="noopener noreferrer"
+        >Apple's privacy policy</a
+      >. I have no access to them.
+    </p>
+
+    <SectionHeading text="Deleting your data" />
+    <p>
+      Settings has an "Erase All Data" option that clears your transactions and categories from the
+      app. Deleting the app from your iPhone removes its data from the device entirely. Because
+      nothing is stored anywhere else, there's nothing for me to delete on your behalf and no request
+      you need to send me.
+    </p>
+
+    <SectionHeading text="Children" />
+    <p>
+      Simply Spend is not directed at children under 13, and I don't knowingly collect information
+      from anyone — including children — because the app collects nothing at all.
+    </p>
+
+    <SectionHeading text="Changes to this policy" />
+    <p>
+      If the app ever changes in a way that affects your privacy, I'll update this page and change
+      the effective date at the top before that version reaches the App Store. It's worth checking
+      back here after an update if you want to be sure.
+    </p>
+
+    <SectionHeading text="Contact" />
+    <p>
+      Questions about this policy or the app are welcome: <a href={`mailto:${email}`}>{email}</a>.
+    </p>
+
+    <p class="policy__meta">Developer: Christopher Pombo · Effective {effectiveDate}</p>
+  </article>
+</BaseLayout>
+
+<style>
+  .policy {
+    max-width: 70ch;
+    margin-inline: auto;
+  }
+
+  .policy__lede {
+    font-weight: 500;
+    margin-bottom: var(--space-6);
+  }
+
+  .policy :global(.section-heading) {
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-3);
+  }
+
+  .policy p + p {
+    margin-top: var(--space-3);
+  }
+
+  .policy a {
+    color: var(--color-accent);
+  }
+
+  .policy__meta {
+    margin-top: var(--space-6);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--font-size-small);
+    color: var(--color-text-muted);
+  }
+</style>
