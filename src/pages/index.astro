@@ -92,7 +92,7 @@ const featuredScreenshots = featuredProject
 
   {
     currentGoals.length > 0 && (
-      <section class="section">
+      <section class="section currently-section">
         <SectionHeading text="Currently">
           <a slot="trailing" class="section-link" href="/goals">
             All goals →
@@ -296,6 +296,10 @@ const featuredScreenshots = featuredProject
 
   .section-link:hover {
     text-decoration: underline;
+  }
+
+  .currently-section :global(.card) {
+    min-height: auto;
   }
 
   .currently-grid {
