@@ -115,6 +115,12 @@ button:focus-visible {
   color: var(--color-surface);
 }
 
+.btn--primary {
+  background: var(--color-text);
+  border-color: var(--color-text);
+  color: var(--color-surface);
+}
+
 .card-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);

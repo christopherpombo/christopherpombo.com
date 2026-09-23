@@ -12,6 +12,9 @@ const goals = defineCollection({
     category: z.enum(['active', 'done']),
     tag: z.string(),
     next: z.string().optional(),
+    /** Short present-tense label (e.g. "Shipping", "Training for") shown in the
+     * home page's "Currently" strip. Only active goals with this set appear there. */
+    current: z.string().optional(),
     summary: z.string(),
   }),
 });
