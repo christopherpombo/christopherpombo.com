@@ -1,9 +1,10 @@
 ---
-title: "Simply Spend"
+title: "Built Simply Spend"
 date: 2026-01-01
-theme: "projects"
-status: "completed"
-order: 3
+dateLabel: "2026"
+category: "done"
+tag: "Build"
+order: 2
 summary: "Designed and built Simply Spend, a native iOS expense tracker, from scratch using Swift, SwiftUI, and SwiftData."
 ---
 

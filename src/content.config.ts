@@ -9,8 +9,9 @@ const goals = defineCollection({
     date: z.coerce.date(),
     dateLabel: z.string().optional(),
     order: z.number().optional(),
-    theme: z.enum(['service', 'projects', 'body', 'mind']),
-    status: z.enum(['active', 'completed']),
+    category: z.enum(['active', 'done']),
+    tag: z.string(),
+    next: z.string().optional(),
     summary: z.string(),
   }),
 });

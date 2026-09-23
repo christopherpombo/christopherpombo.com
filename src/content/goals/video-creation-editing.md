@@ -1,11 +1,11 @@
 ---
-title: "Video Creation/Editing"
+title: "Video Creation"
 date: 2026-03-01
 dateLabel: "Ongoing"
-theme: "projects"
-status: "active"
-order: 2
-summary: "Taking on the challenge of video creation and editing with the purpose of documenting my travels and new experiences."
+category: "active"
+tag: "Create"
+order: 6
+summary: "Teaching myself to film and edit, documenting travel and new experiences on YouTube."
 ---
 
-Taking on the challenge of video creation and editing with the purpose of documenting my travels and new experiences. Follow along on [YouTube](https://www.youtube.com/@christopherpomboo).
+Teaching myself to film and edit, documenting travel and new experiences on YouTube. Follow along on [YouTube](https://www.youtube.com/@christopherpomboo).

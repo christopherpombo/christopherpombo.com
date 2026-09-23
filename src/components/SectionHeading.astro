@@ -9,12 +9,23 @@ const Tag = level;
 ---
 
 <div class="section-heading">
-  <span class="section-heading__square" aria-hidden="true"></span>
-  <Tag>{text}</Tag>
+  <div class="section-heading__label">
+    <span class="section-heading__square" aria-hidden="true"></span>
+    <Tag>{text}</Tag>
+  </div>
+  <slot name="trailing" />
 </div>
 
 <style>
   .section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .section-heading__label {
     display: flex;
     align-items: center;
     gap: var(--space-2);

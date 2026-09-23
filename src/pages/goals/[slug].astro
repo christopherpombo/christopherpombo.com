@@ -13,6 +13,11 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 
+// Accomplished entries always have a real historical date, so it's safe to fall
+// back to the formatted `date`. Active entries without a dateLabel haven't had a
+// real target set yet — showing the raw `date` there would invent a value that
+// was never confirmed, so the line is hidden instead (matches the goals index).
+const showDate = Boolean(entry.data.dateLabel) || entry.data.category === "done";
 const dateLabel =
   entry.data.dateLabel ??
   entry.data.date.toLocaleDateString("en-US", { month: "long", year: "numeric", timeZone: "UTC" });
@@ -22,7 +27,7 @@ const dateLabel =
   <article class="goal-detail">
     <a class="back-link" href="/goals">&larr; Back to Goals</a>
     <h1>{entry.data.title}</h1>
-    <p class="goal-detail__date">{dateLabel}</p>
+    {showDate && <p class="goal-detail__date">{dateLabel}</p>}
     <div class="goal-detail__body">
       <Content />
     </div>

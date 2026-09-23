@@ -1,7 +1,7 @@
 ---
 interface Props {
   title: string;
-  subtitle: string;
+  subtitle?: string;
 }
 
 const { title, subtitle } = Astro.props;
@@ -11,7 +11,7 @@ const { title, subtitle } = Astro.props;
   <span class="card-title__bar" aria-hidden="true"></span>
   <div class="card-title__text">
     <h3 class="card-title__title">{title}</h3>
-    <p class="card-title__subtitle">{subtitle}</p>
+    {subtitle && <p class="card-title__subtitle">{subtitle}</p>}
   </div>
 </div>
 

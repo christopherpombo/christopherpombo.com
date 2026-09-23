@@ -1,11 +1,11 @@
 ---
-title: "2026 Running Goal"
-date: 2026-12-01
-dateLabel: "Race TBD"
-theme: "body"
-status: "active"
-order: 1
-summary: "Chasing a new personal-best time in 2026 — building on Honolulu with another race on the calendar. Specifics TBD."
+title: "2026 Race Goal"
+date: 2026-12-31
+category: "active"
+tag: "Body"
+order: 4
+summary: "The next step after 3:19:25 in Honolulu."
+# TODO: pick the actual race and target time, then set a real target date and "next" step.
 ---
 
-TODO: pick the race and target time. After the Honolulu Marathon in 3:19:25, I want to chase a new personal best in 2026 — training updates and mileage on [Strava](https://www.strava.com/athletes/122442696).
+TODO: pick the race and target time. The next step after running the Honolulu Marathon in 3:19:25 — training updates and mileage on [Strava](https://www.strava.com/athletes/122442696).

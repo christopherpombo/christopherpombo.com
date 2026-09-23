@@ -29,7 +29,9 @@ screenshots, they are the visual source of truth)
 - Christopher is a 2d Lt / MSC officer, NOT a cadet. Never use "cadet" for
   his current status (past roles on the resume are fine).
 - Voice: first person, confident, plainspoken. No corporate filler.
-- Goals page keeps the "Near Rocks / Far Rocks / Stacked Rocks" structure.
+- Goals page is organized on one axis: "Working toward" (active) vs.
+  "Accomplished" (done) — not by theme. Each goal carries a free-text `tag`
+  (Build, Service, Body, Mind, Coaching, Create, Education, ...) instead.
 - Known typos from the old site — never reproduce: "Scount" → Scout,
   "Involvments" → Involvements, "Activites" → Activities.
 
