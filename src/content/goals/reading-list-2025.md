@@ -4,7 +4,7 @@ date: 2025-12-01
 category: "done"
 tag: "Mind"
 order: 5
-summary: 'Completed my reading list for 2025. Most impactful read: "Tuesdays with Morrie" by Mitch Albom.'
+summary: "Finished the full list. Most impactful read: Tuesdays with Morrie."
 ---
 
 Completed my reading list for 2025. Most impactful read: "Tuesdays with Morrie" by Mitch Albom.
