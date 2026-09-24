@@ -3,7 +3,6 @@ import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import Card from "../../components/Card.astro";
 import { projectScreenshotAlts } from "../../data/project-screenshot-alts";
 
 export async function getStaticPaths() {
@@ -49,16 +48,14 @@ const screenshots = Object.entries(allProjectImages)
       screenshots.length > 0 && (
         <div class="project-detail__screenshots">
           {screenshots.map(({ image, alt }) => (
-            <Card>
-              <Image
-                src={image}
-                alt={alt}
-                width={600}
-                densities={[1, 2]}
-                loading="lazy"
-                decoding="async"
-              />
-            </Card>
+            <Image
+              src={image}
+              alt={alt}
+              width={600}
+              densities={[1, 2]}
+              loading="lazy"
+              decoding="async"
+            />
           ))}
         </div>
       )
@@ -146,15 +143,12 @@ const screenshots = Object.entries(allProjectImages)
     margin-block: var(--space-6);
   }
 
-  .project-detail__screenshots :global(.card) {
-    padding: var(--space-2);
-    display: flex;
-  }
-
   .project-detail__screenshots :global(img) {
+    display: block;
     width: 100%;
     height: auto;
-    border-radius: 2px;
+    border-radius: 28px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
   }
 
   .project-detail__body {
