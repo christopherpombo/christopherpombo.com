@@ -4,6 +4,7 @@ import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import Card from "../../components/Card.astro";
+import { projectScreenshotAlts } from "../../data/project-screenshot-alts";
 
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
@@ -26,9 +27,9 @@ const screenshots = Object.entries(allProjectImages)
   .filter(([path]) => path.includes(`/${entry.id}/`) || path.includes(`/${entry.id}.`))
   .sort(([a], [b]) => a.localeCompare(b))
   .map(([path, mod]) => {
-    const filename = path.split("/").pop() ?? "";
-    const label = filename.replace(/\.[^.]+$/, "").replace(/[-_]/g, " ");
-    return { image: mod.default, label };
+    const key = path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
+    const alt = projectScreenshotAlts[key] ?? `${entry.data.title} — ${key.replace(/[-_]/g, " ")} screen`;
+    return { image: mod.default, alt };
   });
 ---
 
@@ -47,11 +48,11 @@ const screenshots = Object.entries(allProjectImages)
     {
       screenshots.length > 0 && (
         <div class="project-detail__screenshots">
-          {screenshots.map(({ image, label }) => (
+          {screenshots.map(({ image, alt }) => (
             <Card>
               <Image
                 src={image}
-                alt={`${entry.data.title} — ${label} screen`}
+                alt={alt}
                 width={600}
                 densities={[1, 2]}
                 loading="lazy"

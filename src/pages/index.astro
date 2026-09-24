@@ -8,6 +8,7 @@ import Card from "../components/Card.astro";
 import CardTitle from "../components/CardTitle.astro";
 import SocialIcons from "../components/SocialIcons.astro";
 import { goalStats } from "../data/goal-stats";
+import { projectScreenshotAlts } from "../data/project-screenshot-alts";
 
 const heroPhotoAlts: Record<string, string> = {
   "01-headshot": "Christopher Pombo",
@@ -43,7 +44,11 @@ const featuredScreenshots = featuredProject
   ? Object.entries(projectImages)
       .filter(([path]) => path.includes(`/${featuredProject.id}/`) || path.includes(`/${featuredProject.id}.`))
       .sort(([a], [b]) => a.localeCompare(b))
-      .map(([, mod]) => mod.default)
+      .map(([path, mod]) => {
+        const key = path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
+        const alt = projectScreenshotAlts[key] ?? `${featuredProject.data.title} app screenshot`;
+        return { image: mod.default, alt };
+      })
   : [];
 ---
 
@@ -170,11 +175,11 @@ const featuredScreenshots = featuredProject
 
             {featuredScreenshots.length > 0 && (
               <div class="featured-visual">
-                {featuredScreenshots.map((img, i) => (
+                {featuredScreenshots.map((shot, i) => (
                   <div class="phone-frame">
                     <Image
-                      src={img}
-                      alt={`${featuredProject.data.title} app screenshot`}
+                      src={shot.image}
+                      alt={shot.alt}
                       width={280}
                       densities={[1, 2]}
                       loading={i === 0 ? "eager" : "lazy"}
