@@ -1,32 +1,33 @@
 :root {
   /* Colors */
-  --color-bg: #e7e1d6;
+  --color-paper: #f7f9fc;
+  --color-grid: #dce5f2;
   --color-surface: #ffffff;
-  --color-accent: #3f6b45;
-  --color-accent-hover: #345a39;
-  --color-text: #1f1f1f;
-  /* Darkened from the design spec's #6b6b6b: at 17px regular on the beige
-     background (#e7e1d6) that value is 4.1:1, just under WCAG AA's 4.5:1
-     for normal text. #5c5c5c clears 5:1+ on both beige and white while
-     still reading as a muted gray. */
-  --color-text-muted: #5c5c5c;
-  --color-border: rgba(31, 31, 31, 0.08);
+  --color-ink: #1c2b4a;
+  --color-text: var(--color-ink);
+  --color-text-muted: #4a5878;
+  /* Darkened from the spec's #C8453B: that value is 4.56:1 on the paper but
+     3.78:1 where small text crosses a grid line. #B23A31 clears 4.5:1 on the
+     paper, the grid lines, and white. */
+  --color-accent: #b23a31;
 
   /* Fonts */
-  --font-heading: "Poppins", sans-serif;
-  --font-body: "Mulish", sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+  --font-hand: "Caveat", cursive;
 
   /* Type scale */
   --font-size-body: 17px;
   --font-size-small: 0.875rem;
   --font-size-meta: 0.8125rem;
-  --font-size-h1: clamp(2.25rem, 4vw + 1rem, 3.5rem);
+  --font-size-label: 0.75rem;
+  --font-size-h1: clamp(2.25rem, 3.5vw + 1rem, 3.5rem);
   --font-size-h2: clamp(1.5rem, 2vw + 1rem, 2rem);
-  --font-size-h3: 1.375rem;
-  --font-size-nav: 0.875rem;
+  --font-size-h3: 1.25rem;
+  --font-size-hand: 1.5rem;
   --line-height-body: 1.6;
   --line-height-heading: 1.15;
-  --letter-spacing-uppercase: 0.08em;
+  --letter-spacing-mono: 0.12em;
 
   /* Spacing scale */
   --space-1: 0.25rem;
@@ -36,18 +37,18 @@
   --space-5: 2rem;
   --space-6: 3rem;
   --space-7: 4rem;
+  --space-8: 6rem;
 
-  /* Shape */
-  --radius-card: 4px;
-  --shadow-card: 0 6px 18px rgba(0, 0, 0, 0.08);
+  /* Lines */
+  --border-width: 1.5px;
+  --border: var(--border-width) solid var(--color-ink);
+  --rule: 1px solid var(--color-grid);
+  --grid-size: 24px;
+  --shadow-hard: 6px 6px 0 var(--color-ink);
 
   /* Layout */
   --max-width: 1100px;
   --container-padding: var(--space-4);
-
-  /* Motifs */
-  --section-square-size: 14px;
-  --card-title-bar-width: 6px;
 
   /* Motion */
   --transition-fast: 150ms ease;

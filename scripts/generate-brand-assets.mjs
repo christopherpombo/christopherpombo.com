@@ -11,37 +11,38 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const publicDir = path.join(root, "public");
 
-const COLOR_BG = "#e7e1d6";
-const COLOR_ACCENT = "#3f6b45";
-const COLOR_TEXT = "#1f1f1f";
-const COLOR_TEXT_MUTED = "#5c5c5c";
+const COLOR_PAPER = "#f7f9fc";
+const COLOR_GRID = "#dce5f2";
+const COLOR_INK = "#1c2b4a";
+const COLOR_MUTED = "#4a5878";
+const COLOR_ACCENT = "#b23a31";
 
 function fontBase64(relPath) {
   return readFileSync(path.join(root, "node_modules", relPath)).toString("base64");
 }
 
-const poppinsBold = fontBase64("@fontsource/poppins/files/poppins-latin-700-normal.woff2");
-const mulishMedium = fontBase64("@fontsource/mulish/files/mulish-latin-500-normal.woff2");
+const plexSansBold = fontBase64("@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff2");
+const plexMono = fontBase64("@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff2");
 
 const fontFaces = `
   <style>
     @font-face {
-      font-family: 'Poppins';
+      font-family: 'IBM Plex Sans';
       font-weight: 700;
-      src: url(data:font/woff2;base64,${poppinsBold}) format('woff2');
+      src: url(data:font/woff2;base64,${plexSansBold}) format('woff2');
     }
     @font-face {
-      font-family: 'Mulish';
-      font-weight: 500;
-      src: url(data:font/woff2;base64,${mulishMedium}) format('woff2');
+      font-family: 'IBM Plex Mono';
+      font-weight: 600;
+      src: url(data:font/woff2;base64,${plexMono}) format('woff2');
     }
   </style>
 `;
 
-// --- Favicon: white rounded square backdrop + green square brand mark ---
+// --- Favicon: navy-bordered white square with a red check mark ---
 const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="6" fill="#ffffff" />
-  <rect x="9" y="9" width="14" height="14" fill="${COLOR_ACCENT}" />
+  <rect x="1.5" y="1.5" width="29" height="29" fill="#ffffff" stroke="${COLOR_INK}" stroke-width="3" />
+  <path d="M8.5 16.5l5 5 10-11" fill="none" stroke="${COLOR_ACCENT}" stroke-width="3.5" stroke-linecap="square" />
 </svg>`;
 
 writeFileSync(path.join(publicDir, "favicon.svg"), faviconSvg);
@@ -87,13 +88,19 @@ const ico = buildIco([
 ]);
 writeFileSync(path.join(publicDir, "favicon.ico"), ico);
 
-// --- OG image: 1200x630, beige bg, green square + name + subtitle ---
+// --- OG image: 1200x630 graph paper, red label, name, subtitle ---
 const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   ${fontFaces}
-  <rect width="1200" height="630" fill="${COLOR_BG}" />
-  <rect x="120" y="216" width="40" height="40" fill="${COLOR_ACCENT}" />
-  <text x="176" y="252" font-family="Poppins" font-weight="700" font-size="64" fill="${COLOR_TEXT}">Christopher Pombo</text>
-  <text x="122" y="320" font-family="Mulish" font-weight="500" font-size="28" letter-spacing="3" fill="${COLOR_TEXT_MUTED}">2D LT, U.S. AIR FORCE  /  iOS DEVELOPER</text>
+  <defs>
+    <pattern id="grid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M24 0H0V24" fill="none" stroke="${COLOR_GRID}" stroke-width="2" />
+    </pattern>
+  </defs>
+  <rect width="1200" height="630" fill="${COLOR_PAPER}" />
+  <rect width="1200" height="630" fill="url(#grid)" />
+  <text x="120" y="250" font-family="IBM Plex Mono" font-weight="600" font-size="24" letter-spacing="4" fill="${COLOR_ACCENT}">CHRISTOPHERPOMBO.COM</text>
+  <text x="116" y="340" font-family="IBM Plex Sans" font-weight="700" font-size="84" fill="${COLOR_INK}">Christopher Pombo</text>
+  <text x="120" y="404" font-family="IBM Plex Mono" font-weight="600" font-size="26" letter-spacing="3" fill="${COLOR_MUTED}">2D LT, USAF  /  iOS DEVELOPER  /  RUNNER</text>
 </svg>`;
 
 const ogImage = await sharp(Buffer.from(ogSvg)).png().toBuffer();

@@ -3,27 +3,33 @@
 Personal site for Christopher Pombo (2d Lt, USAF / iOS developer). Astro,
 vanilla CSS, zero client-side JS unless a page truly needs it.
 
-## Design system (extracted from the previous Wix site — see design-reference/
-screenshots, they are the visual source of truth)
-- Background: warm beige #E7E1D6, scoped to `.site-main` only (the actual
-  content area between header and footer). Header & footer: white #FFFFFF —
-  and html/body are ALSO white, matching header/footer, so rubber-band
-  overscroll past the top or bottom reveals white instead of a beige void.
-- Cards: white, border-radius 0 or very small, soft drop shadow
-  (e.g. 0 6px 18px rgba(0,0,0,0.08)), generous padding.
-- Accent: forest green #3F6B45 — used ONLY for: dates, active nav item,
-  section-heading squares, card title bars, small hover states. Never large
-  green areas.
-- Text: near-black #1F1F1F on beige/white. Muted gray #5C5C5C for meta text
-  (darkened from the original #6B6B6B — that value was 4.1:1 on the beige
-  background, under WCAG AA's 4.5:1 for normal text; #5C5C5C clears 5:1+).
-- Signature motifs: (1) small green square (~14px) before section headings;
-  (2) 6px green vertical bar on the left of card titles; (3) letter-spaced
-  uppercase for role subtitles.
-- Type: Poppins 600/700 for headings (self-host via @fontsource), Mulish
-  400/500 for body. Body ~17px, line-height 1.6.
-- Layout: max-width ~1100px, centered. Resume cards are two-column: green
-  date + role on the left, description on the right; stack on mobile.
+## Design system: "Field Notes" (tokens in src/styles/tokens.css)
+- Background: graph paper on the whole page — #F7F9FC base with a 24px grid
+  of 1px #DCE5F2 lines (two linear-gradient layers on body). html is the
+  plain base color so overscroll matches. Header/footer sit on the base color
+  with a 1.5px navy rule.
+- Ink: navy #1C2B4A for text, borders, filled buttons, and device bezels.
+  Muted text #4A5878.
+- Accent: red #B23A31 — used ONLY for small labels/eyebrows, section numbers,
+  checkmarks, active/hover states, and handwritten notes. Never large red
+  areas. (Darkened from #C8453B, which was 3.78:1 where text crosses a grid
+  line; #B23A31 clears 4.5:1 on the paper, the grid lines, and white.)
+- Type (self-hosted via @fontsource): IBM Plex Sans 400/600/700 for headings
+  and body; IBM Plex Mono 400/600 for nav, section labels, dates, metadata,
+  and buttons; Caveat 600 for handwritten margin notes ONLY (`.hand`). Body
+  17px, line-height 1.6.
+- Cards: white, 1.5px solid navy border, square corners, no soft shadows.
+  The only shadow on the site is the hard offset shadow (6px 6px 0 navy) on
+  the tilted (1.5deg) hero photo card.
+- Section labels: mono, uppercase, letter-spaced, numbered on Home
+  ("01 — WHAT I'M DOING") with the number in red and a navy rule after the
+  label (`SectionHeading` with `number`).
+- Buttons: primary = filled navy rectangle (hover: red fill); secondary =
+  1.5px navy outline (hover: red text/border). Mono uppercase labels.
+- Lists of facts are ledgers: label/value rows separated by thin grid-blue
+  (#DCE5F2) rules.
+- App screenshots sit in navy iPhone-style bezels (`.device`).
+- Layout: max-width ~1100px, centered. Everything must work at phone width.
 
 ## Content rules
 - Christopher is a 2d Lt / MSC officer, NOT a cadet. Never use "cadet" for

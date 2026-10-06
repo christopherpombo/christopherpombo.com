@@ -1,18 +1,20 @@
 ---
 interface Props {
   text: string;
+  number?: string;
   level?: "h2" | "h3";
 }
 
-const { text, level = "h2" } = Astro.props;
+const { text, number, level = "h2" } = Astro.props;
 const Tag = level;
 ---
 
 <div class="section-heading">
-  <div class="section-heading__label">
-    <span class="section-heading__square" aria-hidden="true"></span>
-    <Tag>{text}</Tag>
-  </div>
+  <Tag class="section-heading__label">
+    {number && <span class="section-heading__number">{number} —</span>}
+    {text}
+  </Tag>
+  <span class="section-heading__rule" aria-hidden="true"></span>
   <slot name="trailing" />
 </div>
 
@@ -20,28 +22,28 @@ const Tag = level;
   .section-heading {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     flex-wrap: wrap;
-    gap: var(--space-3);
+    gap: var(--space-2) var(--space-3);
     margin-bottom: var(--space-4);
   }
 
   .section-heading__label {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-mono);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    line-height: 1.4;
   }
 
-  .section-heading__square {
-    display: inline-block;
-    width: var(--section-square-size);
-    height: var(--section-square-size);
-    background: var(--color-accent);
-    flex-shrink: 0;
+  .section-heading__number {
+    color: var(--color-accent);
   }
 
-  .section-heading :global(h2),
-  .section-heading :global(h3) {
-    margin: 0;
+  .section-heading__rule {
+    flex: 1 1 40px;
+    height: 0;
+    border-top: var(--border);
   }
 </style>

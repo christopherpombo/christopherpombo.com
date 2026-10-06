@@ -133,12 +133,12 @@ const otherInvolvements = [
 
   .section-nav a {
     background: var(--color-surface);
-    box-shadow: var(--shadow-card);
-    border-radius: var(--radius-card);
+    border: var(--border);
+    border-radius: 0;
     padding: var(--space-2) var(--space-5);
     font-weight: 700;
     font-size: var(--font-size-small);
-    letter-spacing: var(--letter-spacing-uppercase);
+    letter-spacing: var(--letter-spacing-mono);
     text-transform: uppercase;
     color: var(--color-text);
     text-decoration: none;
@@ -155,10 +155,10 @@ const otherInvolvements = [
   }
 
   .section-count {
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     font-weight: 400;
     font-size: var(--font-size-small);
-    letter-spacing: var(--letter-spacing-uppercase);
+    letter-spacing: var(--letter-spacing-mono);
     text-transform: uppercase;
     color: var(--color-text-muted);
     white-space: nowrap;
@@ -184,10 +184,10 @@ const otherInvolvements = [
   }
 
   .goal-date {
-    font-family: var(--font-body);
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: var(--font-size-small);
-    letter-spacing: var(--letter-spacing-uppercase);
+    letter-spacing: var(--letter-spacing-mono);
     text-transform: uppercase;
     color: var(--color-accent);
     margin-bottom: var(--space-2);
@@ -206,7 +206,7 @@ const otherInvolvements = [
     gap: var(--space-3);
     margin-top: auto;
     padding-top: var(--space-4);
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-grid);
   }
 
   .goal-footer--tag-only {
@@ -221,7 +221,7 @@ const otherInvolvements = [
   .goal-tag {
     font-size: var(--font-size-meta);
     font-weight: 700;
-    letter-spacing: var(--letter-spacing-uppercase);
+    letter-spacing: var(--letter-spacing-mono);
     text-transform: uppercase;
     color: var(--color-text-muted);
     white-space: nowrap;
@@ -240,14 +240,14 @@ const otherInvolvements = [
     display: grid;
     grid-template-columns: repeat(var(--stat-count, 4), 1fr);
     background: var(--color-surface);
-    border-radius: var(--radius-card);
-    box-shadow: var(--shadow-card);
+    border-radius: 0;
+    border: var(--border);
     margin-bottom: var(--space-6);
   }
 
   .stat-cell {
     padding: var(--space-5) var(--space-4);
-    border-left: 1px solid var(--color-border);
+    border-left: 1px solid var(--color-grid);
   }
 
   .stat-cell:first-child {
@@ -263,7 +263,7 @@ const otherInvolvements = [
   }
 
   .stat-value {
-    font-family: var(--font-heading);
+    font-family: var(--font-sans);
     font-weight: 700;
     font-size: var(--font-size-h2);
     color: var(--color-text);
@@ -285,13 +285,13 @@ const otherInvolvements = [
     }
 
     .stat-cell:nth-child(n + 3) {
-      border-top: 1px solid var(--color-border);
+      border-top: 1px solid var(--color-grid);
     }
   }
 
   .mix-divider {
     border: none;
-    border-top: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-grid);
     margin-bottom: var(--space-6);
   }
 
@@ -316,11 +316,11 @@ const otherInvolvements = [
   .mix-tags li {
     font-size: var(--font-size-meta);
     font-weight: 500;
-    letter-spacing: var(--letter-spacing-uppercase);
+    letter-spacing: var(--letter-spacing-mono);
     text-transform: uppercase;
     color: var(--color-text-muted);
     background: var(--color-surface);
-    border: 1px solid var(--color-border);
+    border: 1px solid var(--color-grid);
     padding: var(--space-1) var(--space-2);
     border-radius: 2px;
   }
