@@ -6,5 +6,6 @@ export const projectScreenshotAlts: Record<string, string> = {
   "simply-spend/03-category-breakdown": "Simply Spend's spending-by-category breakdown for the month",
   "rubric/01-goals": "RuBric's goals screen, with each goal drawn as a brick wall of its tasks",
   "rubric/02-goal-detail": "RuBric's goal detail, with a timeline from start to target date",
-  "rubric/03-completed": "RuBric's completed goals",
+  "rubric/03-completed":
+    "RuBric's goal walls scrolled down to the Completed section, with a finished goal's full brick wall",
 };
