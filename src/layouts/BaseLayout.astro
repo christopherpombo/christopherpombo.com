@@ -81,7 +81,10 @@ const ogImageUrl = new URL(image, Astro.site);
   <body>
     <header class="site-header">
       <div class="site-header__inner container">
-        <a class="brand" href="/">Christopher Pombo</a>
+        <a class="brand" href="/">
+          <img class="brand__mark" src="/mark.svg" width="32" height="32" alt="Christopher Pombo" />
+          <span aria-hidden="true">Christopher Pombo</span>
+        </a>
         <nav class="site-nav" aria-label="Primary">
           <ul>
             {
@@ -154,6 +157,9 @@ const ogImageUrl = new URL(image, Astro.site);
   }
 
   .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
     font-family: var(--font-mono);
     font-weight: 600;
     font-size: 0.9375rem;
@@ -164,6 +170,10 @@ const ogImageUrl = new URL(image, Astro.site);
 
   .brand:hover {
     color: var(--color-accent);
+  }
+
+  .brand__mark {
+    flex-shrink: 0;
   }
 
   .site-nav ul {

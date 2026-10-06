@@ -29,6 +29,10 @@ vanilla CSS, zero client-side JS unless a page truly needs it.
 - Lists of facts are ledgers: label/value rows separated by thin grid-blue
   (#DCE5F2) rules.
 - App screenshots sit in navy iPhone-style bezels (`.device`).
+- Brand mark: red (#C8453B) Caveat 700 "cp" on a navy-bordered graph-paper
+  tile (public/mark.svg, used in the header). Favicon, touch icon, and OG
+  image all come from `npm run generate-assets` — edit the script, not the
+  files.
 - Layout: max-width ~1100px, centered. Everything must work at phone width.
 
 ## Content rules
