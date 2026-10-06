@@ -4,7 +4,6 @@ date: 2026-10-15
 dateLabel: "Target · Late Oct 2026"
 category: "active"
 tag: "Build"
-current: "Shipping"
 next: "App Store review"
 order: 1
 summary: "Finishing a sturdier UI overhaul, then shipping my expense tracker to the App Store. Budgets come in a later release."

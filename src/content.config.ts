@@ -12,9 +12,6 @@ const goals = defineCollection({
     category: z.enum(['active', 'done']),
     tag: z.string(),
     next: z.string().optional(),
-    /** Short present-tense label (e.g. "Shipping", "Training for") shown in the
-     * home page's "Currently" strip. Only active goals with this set appear there. */
-    current: z.string().optional(),
     /** Short outcome (e.g. "3:04:44", "2d Lt") shown with a check in the Stacked Rocks ledger. */
     result: z.string().optional(),
     summary: z.string(),

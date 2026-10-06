@@ -4,9 +4,9 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
+import { about } from "../data/about";
 import { bodyMind } from "../data/body-mind";
 import { contactLinks } from "../data/links";
-import { projectScreenshotAlts } from "../data/project-screenshot-alts";
 
 const heroPhotoAlts: Record<string, string> = {
   "01-headshot": "Christopher Pombo",
@@ -43,9 +43,12 @@ const wheelDelay = (i: number) => -((heroPhotos.length - i) % heroPhotos.length)
 
 const allGoals = await getCollection("goals");
 
-const currentGoals = allGoals
-  .filter((entry) => entry.data.category === "active" && entry.data.current)
-  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+const activeGoals = allGoals
+  .filter((entry) => entry.data.category === "active")
+  .sort(
+    (a, b) =>
+      a.data.date.valueOf() - b.data.date.valueOf() || (a.data.order ?? 99) - (b.data.order ?? 99)
+  );
 
 const stackedRocks = allGoals
   .filter((entry) => entry.data.category === "done")
@@ -57,27 +60,13 @@ const stackedRocks = allGoals
 const formatMonth = (date: Date) =>
   date.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
 
-const projects = await getCollection("projects");
-const featuredProject = projects.find((entry) => entry.id === "simply-spend");
-
-const projectImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/projects/**/*.{jpg,jpeg,png,webp}",
-  { eager: true }
-);
-const featuredScreenshots = featuredProject
-  ? Object.entries(projectImages)
-      .filter(([path]) => path.includes(`/${featuredProject.id}/`) || path.includes(`/${featuredProject.id}.`))
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([path, mod]) => {
-        const key = path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
-        const alt = projectScreenshotAlts[key] ?? `${featuredProject.data.title} app screenshot`;
-        return { image: mod.default, alt };
-      })
-  : [];
-
 const ledgers = bodyMind
   .map((card) => ({ ...card, rows: card.rows.filter((row) => row.value) }))
   .filter((card) => card.rows.length > 0);
+
+// Active goals without a dateLabel only carry a placeholder sort date, so no date is shown.
+const goalWhen = (entry: (typeof allGoals)[number]) =>
+  entry.data.dateLabel ?? (entry.data.category === "done" ? formatMonth(entry.data.date) : "");
 
 const external = (href: string) =>
   href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {};
@@ -127,65 +116,72 @@ const external = (href: string) =>
   </section>
 
   {
-    currentGoals.length > 0 && (
-      <section class="section" id="doing">
-        <SectionHeading number="01" text="What I'm doing">
-          <a slot="trailing" class="section-link" href="/goals">All goals →</a>
+    about.length > 0 && (
+      <section class="section" id="who">
+        <SectionHeading number="01" text="Who I am">
+          <a slot="trailing" class="section-link" href="/resume">Resume →</a>
         </SectionHeading>
-        <div class="panel doing-grid">
-          {currentGoals.map((entry) => (
-            <a class="doing-item" href={`/goals/${entry.id}`}>
-              <p class="label">{entry.data.current}</p>
-              <p class="doing-item__title">{entry.data.title}</p>
-              {entry.data.dateLabel && <p class="mono doing-item__meta">{entry.data.dateLabel}</p>}
-            </a>
-          ))}
+        <div class="panel about-grid">
+          {about.map((item) => {
+            const Tag = item.href ? "a" : "div";
+            return (
+              <Tag class:list={["about-item", { "about-item--link": item.href }]} href={item.href}>
+                <p class="label">{item.label}</p>
+                <p class="about-item__title">{item.title}</p>
+                {item.meta && <p class="mono about-item__meta">{item.meta}</p>}
+              </Tag>
+            );
+          })}
         </div>
       </section>
     )
   }
 
   {
-    featuredProject && (
-      <section class="section" id="built">
-        <SectionHeading number="02" text="What I've built">
-          <a slot="trailing" class="section-link" href="/projects">All projects →</a>
+    activeGoals.length > 0 && (
+      <section class="section" id="doing">
+        <SectionHeading number="02" text="What I'm doing">
+          <a slot="trailing" class="section-link" href="/goals">All goals →</a>
         </SectionHeading>
-        <div class="panel built">
-          <div class="built__text">
-            <p class="label">{featuredProject.data.stack.join(" · ")}</p>
-            <h3 class="built__title">{featuredProject.data.title}</h3>
-            <p>{featuredProject.data.summary}</p>
-            <div class="built__actions">
-              <a class="text-link" href={`/projects/${featuredProject.id}`}>
-                Read the case study →
+        <ol class="panel rocks rocks--doing">
+          {activeGoals.map((entry) => (
+            <li>
+              <a class="rock" href={`/goals/${entry.id}`}>
+                <span class="mono rock__date">{goalWhen(entry)}</span>
+                <span class="rock__title">{entry.data.title}</span>
+                {entry.data.next && <span class="label rock__result">→ {entry.data.next}</span>}
               </a>
-              {featuredProject.data.links?.appStore ? (
-                <a class="btn btn--primary" href={featuredProject.data.links.appStore} {...external(featuredProject.data.links.appStore)}>
-                  App Store
-                </a>
-              ) : (
-                <p class="mono built__soon">Coming to the App Store</p>
-              )}
-            </div>
-          </div>
+            </li>
+          ))}
+        </ol>
+      </section>
+    )
+  }
 
-          {featuredScreenshots.length > 0 && (
-            <div class="built__visual">
-              {featuredScreenshots.map((shot, i) => (
-                <div class="device">
-                  <Image
-                    src={shot.image}
-                    alt={shot.alt}
-                    width={280}
-                    densities={[1, 2]}
-                    loading={i === 0 ? "eager" : "lazy"}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+  {
+    stackedRocks.length > 0 && (
+      <section class="section" id="stacked-rocks">
+        <SectionHeading number="03" text="Stacked rocks" note="one at a time">
+          <a slot="trailing" class="section-link" href="/goals#done">All goals →</a>
+        </SectionHeading>
+        <ol class="panel rocks">
+          {stackedRocks.map((entry) => (
+            <li>
+              <a class="rock" href={`/goals/${entry.id}`}>
+                <span class="mono rock__date">{goalWhen(entry)}</span>
+                <span class="rock__title">{entry.data.title}</span>
+                {entry.data.result && (
+                  <span class="label rock__result">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true">
+                      <path d="M20 6 9 17l-5-5" />
+                    </svg>
+                    {entry.data.result}
+                  </span>
+                )}
+              </a>
+            </li>
+          ))}
+        </ol>
       </section>
     )
   }
@@ -193,7 +189,7 @@ const external = (href: string) =>
   {
     ledgers.length > 0 && (
       <section class="section" id="body-mind">
-        <SectionHeading number="03" text="Strengthen body, strengthen mind" />
+        <SectionHeading number="04" text="Strengthen body, strengthen mind" />
         <div class="body-mind">
           {ledgers.map((card) => (
             <div class="panel ledger-card">
@@ -209,34 +205,6 @@ const external = (href: string) =>
             </div>
           ))}
         </div>
-      </section>
-    )
-  }
-
-  {
-    stackedRocks.length > 0 && (
-      <section class="section" id="stacked-rocks">
-        <SectionHeading number="04" text="Stacked rocks" note="one at a time">
-          <a slot="trailing" class="section-link" href="/goals#done">All goals →</a>
-        </SectionHeading>
-        <ol class="panel rocks">
-          {stackedRocks.map((entry) => (
-            <li>
-              <a class="rock" href={`/goals/${entry.id}`}>
-                <span class="mono rock__date">{entry.data.dateLabel ?? formatMonth(entry.data.date)}</span>
-                <span class="rock__title">{entry.data.title}</span>
-                {entry.data.result && (
-                  <span class="label rock__result">
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="square" aria-hidden="true">
-                      <path d="M20 6 9 17l-5-5" />
-                    </svg>
-                    {entry.data.result}
-                  </span>
-                )}
-              </a>
-            </li>
-          ))}
-        </ol>
       </section>
     )
   }
@@ -354,20 +322,6 @@ const external = (href: string) =>
     padding: var(--space-5);
   }
 
-  .text-link {
-    font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: var(--font-size-meta);
-    letter-spacing: var(--letter-spacing-mono);
-    text-transform: uppercase;
-    color: var(--color-ink);
-    text-decoration: none;
-  }
-
-  .text-link:hover {
-    color: var(--color-accent);
-  }
-
   .section-link {
     font-family: var(--font-mono);
     font-weight: 600;
@@ -383,14 +337,14 @@ const external = (href: string) =>
     text-decoration: underline;
   }
 
-  /* ---------- 01 What I'm doing ---------- */
-  .doing-grid {
+  /* ---------- 01 Who I am ---------- */
+  .about-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--space-4);
   }
 
-  .doing-item {
+  .about-item {
     display: flex;
     flex-direction: column;
     gap: var(--space-1);
@@ -401,11 +355,11 @@ const external = (href: string) =>
     transition: border-color var(--transition-fast);
   }
 
-  .doing-item:hover {
+  .about-item--link:hover {
     border-left-color: var(--color-accent);
   }
 
-  .doing-item__title {
+  .about-item__title {
     font-weight: 700;
     font-size: 1.0625rem;
     line-height: 1.3;
@@ -413,69 +367,16 @@ const external = (href: string) =>
     transition: color var(--transition-fast);
   }
 
-  .doing-item:hover .doing-item__title {
+  .about-item--link:hover .about-item__title {
     color: var(--color-accent);
   }
 
-  .doing-item__meta {
+  .about-item__meta {
     font-size: var(--font-size-label);
     color: var(--color-text-muted);
   }
 
-  /* ---------- 02 What I've built ---------- */
-  .built {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    padding: 0;
-  }
-
-  .built__text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--space-3);
-    padding: var(--space-6) var(--space-5);
-  }
-
-  .built__title {
-    font-size: var(--font-size-h2);
-    font-weight: 700;
-  }
-
-  .built__actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-5);
-    margin-top: var(--space-2);
-  }
-
-  .built__soon {
-    font-size: var(--font-size-label);
-    color: var(--color-text-muted);
-  }
-
-  .built__visual {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    padding: var(--space-6) var(--space-5);
-    border-left: var(--border-width) dashed var(--color-ink);
-  }
-
-  .built__visual .device {
-    flex-shrink: 0;
-    width: 30%;
-  }
-
-  .built__visual .device:nth-child(2) {
-    width: 34%;
-    transform: translateY(-14px);
-    z-index: 1;
-  }
-
-  /* ---------- 03 Body & mind ---------- */
+  /* ---------- Body & mind ---------- */
   .body-mind {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -508,10 +409,14 @@ const external = (href: string) =>
     text-align: right;
   }
 
-  /* ---------- 04 Stacked rocks ---------- */
+  /* ---------- Ledgers (doing + stacked rocks) ---------- */
   .rocks {
     list-style: none;
     padding-block: var(--space-2);
+  }
+
+  .rocks--doing {
+    --date-column: 12.5rem;
   }
 
   .rocks li + li {
@@ -520,7 +425,7 @@ const external = (href: string) =>
 
   .rock {
     display: grid;
-    grid-template-columns: 8.5rem minmax(0, 1fr) auto;
+    grid-template-columns: var(--date-column, 8.5rem) minmax(0, 1fr) auto;
     align-items: baseline;
     gap: var(--space-4);
     padding-block: var(--space-3);
@@ -593,7 +498,7 @@ const external = (href: string) =>
 
   /* ---------- Responsive ---------- */
   @media (max-width: 900px) {
-    .doing-grid {
+    .about-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
@@ -610,20 +515,6 @@ const external = (href: string) =>
       margin-inline: auto;
     }
 
-    .built {
-      grid-template-columns: 1fr;
-    }
-
-    .built__text {
-      padding: var(--space-5) var(--space-4);
-    }
-
-    .built__visual {
-      border-left: 0;
-      border-top: var(--border-width) dashed var(--color-ink);
-      padding: var(--space-6) var(--space-4);
-    }
-
     .body-mind {
       grid-template-columns: 1fr;
     }
@@ -638,33 +529,8 @@ const external = (href: string) =>
       padding: var(--space-4);
     }
 
-    .doing-grid {
+    .about-grid {
       grid-template-columns: 1fr;
-    }
-
-    .built {
-      padding: 0;
-    }
-
-    /* Three phones across get too small to read here, so the middle one
-       takes over and the other two tuck in behind it. */
-    .built__visual .device {
-      width: 34%;
-    }
-
-    .built__visual .device:first-child {
-      margin-right: -15%;
-      z-index: 0;
-    }
-
-    .built__visual .device:nth-child(2) {
-      width: 58%;
-      transform: translateY(-10px);
-    }
-
-    .built__visual .device:last-child {
-      margin-left: -15%;
-      z-index: 0;
     }
 
     .rock {
@@ -685,6 +551,15 @@ const external = (href: string) =>
 
     .rock__result {
       grid-area: result;
+    }
+
+    /* Target dates and statuses run long, so they get their own lines. */
+    .rocks--doing .rock {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas:
+        "date"
+        "title"
+        "result";
     }
   }
 </style>
