@@ -109,11 +109,21 @@ const screenshots = projectScreenshots(project.id, title);
   }
 
   .project-card__visual {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: var(--space-3);
     padding: var(--space-6) var(--space-5);
+  }
+
+  /* The divider stops short of the card's border instead of running into it. */
+  .project-card__visual::before {
+    content: "";
+    position: absolute;
+    top: var(--space-5);
+    bottom: var(--space-5);
+    left: 0;
     border-left: var(--border-width) dashed var(--color-ink);
   }
 
@@ -138,9 +148,16 @@ const screenshots = projectScreenshots(project.id, title);
     }
 
     .project-card__visual {
+      padding: var(--space-6) var(--space-4);
+    }
+
+    .project-card__visual::before {
+      top: 0;
+      bottom: auto;
+      left: var(--space-5);
+      right: var(--space-5);
       border-left: 0;
       border-top: var(--border-width) dashed var(--color-ink);
-      padding: var(--space-6) var(--space-4);
     }
   }
 
