@@ -51,7 +51,7 @@ const activeGoals = allGoals
       a.data.date.valueOf() - b.data.date.valueOf() || (a.data.order ?? 99) - (b.data.order ?? 99)
   );
 
-const stackedRocks = allGoals
+const completedGoals = allGoals
   .filter((entry) => entry.data.category === "done")
   .sort(
     (a, b) =>
@@ -246,13 +246,13 @@ const external = (href: string) =>
   }
 
   {
-    stackedRocks.length > 0 && (
-      <section class="section" id="stacked-rocks">
-        <SectionHeading number="05" text="Stacked rocks" note="one at a time">
+    completedGoals.length > 0 && (
+      <section class="section" id="completed">
+        <SectionHeading number="05" text="Completed" note="one at a time">
           <a slot="trailing" class="section-link" href="/goals#done">All goals →</a>
         </SectionHeading>
         <ol class="panel rocks">
-          {stackedRocks.map((entry) => (
+          {completedGoals.map((entry) => (
             <li>
               <a class="rock" href={`/goals/${entry.id}`}>
                 <span class="mono rock__date">{goalWhen(entry)}</span>
@@ -627,7 +627,7 @@ const external = (href: string) =>
     text-align: right;
   }
 
-  /* ---------- Stacked rocks ---------- */
+  /* ---------- Completed ---------- */
   .rocks {
     list-style: none;
     padding-block: var(--space-2);

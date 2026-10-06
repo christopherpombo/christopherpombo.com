@@ -12,7 +12,7 @@ const goals = defineCollection({
     category: z.enum(['active', 'done']),
     tag: z.string(),
     next: z.string().optional(),
-    /** Short outcome (e.g. "3:04:44", "2d Lt") shown with a check in the Stacked Rocks ledger. */
+    /** Short outcome (e.g. "3:04:44", "2d Lt") shown with a check in the Completed ledger. */
     result: z.string().optional(),
     summary: z.string(),
   }),
