@@ -80,7 +80,7 @@ const external = (href: string) =>
         keep track of what I'm chasing and what I've finished.
       </p>
       <div class="hero-buttons">
-        <a class="btn btn--primary" href="#built">See what I'm building</a>
+        <a class="btn btn--primary" href="/projects">See what I'm building</a>
         <a class="btn" href="/contact">Get in touch</a>
       </div>
     </div>
@@ -111,7 +111,9 @@ const external = (href: string) =>
   {
     currentGoals.length > 0 && (
       <section class="section" id="doing">
-        <SectionHeading number="01" text="What I'm doing" />
+        <SectionHeading number="01" text="What I'm doing">
+          <a slot="trailing" class="section-link" href="/goals">All goals →</a>
+        </SectionHeading>
         <div class="panel doing-grid">
           {currentGoals.map((entry) => (
             <a class="doing-item" href={`/goals/${entry.id}`}>
@@ -128,7 +130,9 @@ const external = (href: string) =>
   {
     featuredProject && (
       <section class="section" id="built">
-        <SectionHeading number="02" text="What I've built" />
+        <SectionHeading number="02" text="What I've built">
+          <a slot="trailing" class="section-link" href="/projects">All projects →</a>
+        </SectionHeading>
         <div class="panel built">
           <div class="built__text">
             <p class="label">{featuredProject.data.stack.join(" · ")}</p>
@@ -194,7 +198,9 @@ const external = (href: string) =>
   {
     stackedRocks.length > 0 && (
       <section class="section" id="stacked-rocks">
-        <SectionHeading number="04" text="Stacked rocks" note="one at a time" />
+        <SectionHeading number="04" text="Stacked rocks" note="one at a time">
+          <a slot="trailing" class="section-link" href="/goals#done">All goals →</a>
+        </SectionHeading>
         <ol class="panel rocks">
           {stackedRocks.map((entry) => (
             <li>
@@ -356,6 +362,21 @@ const external = (href: string) =>
 
   .text-link:hover {
     color: var(--color-accent);
+  }
+
+  .section-link {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--font-size-label);
+    letter-spacing: var(--letter-spacing-mono);
+    text-transform: uppercase;
+    color: var(--color-accent);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .section-link:hover {
+    text-decoration: underline;
   }
 
   /* ---------- 01 What I'm doing ---------- */
