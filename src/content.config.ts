@@ -24,6 +24,8 @@ const projects = defineCollection({
     title: z.string(),
     date: z.coerce.date(),
     stack: z.array(z.string()),
+    /** Position on the Projects page (lowest first); ties fall back to newest first. */
+    order: z.number().optional(),
     summary: z.string(),
     links: z
       .object({

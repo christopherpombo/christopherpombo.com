@@ -2,47 +2,29 @@
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
-import Card from "../components/Card.astro";
-import CardTitle from "../components/CardTitle.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 
 const projects = (await getCollection("projects")).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf()
+  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99) || b.data.date.valueOf() - a.data.date.valueOf()
 );
-
-function formatYear(date: Date) {
-  return date.toLocaleDateString("en-US", { year: "numeric", timeZone: "UTC" });
-}
 ---
 
 <BaseLayout
   title="Projects — Christopher Pombo"
-  description="Software projects built by Christopher Pombo, including Simply Spend, a native iOS expense tracker."
+  description="Software projects built by Christopher Pombo: Simply Spend, a native iOS expense tracker, and RuBric, a personal iOS app that turns Notion goals into brick walls."
 >
   <PageHeader title="What I'm Building" subtitle="A page dedicated to my projects." />
 
   <h2 class="visually-hidden">Projects</h2>
-  <div class="card-grid">
-    {
-      projects.map((entry) => (
-        <a class="card-link" href={`/projects/${entry.id}`}>
-          <Card>
-            <CardTitle title={entry.data.title} subtitle={formatYear(entry.data.date)} />
-            <p>{entry.data.summary}</p>
-            <ul class="chips project-stack">
-              {entry.data.stack.map((tech) => (
-                <li>{tech}</li>
-              ))}
-            </ul>
-          </Card>
-        </a>
-      ))
-    }
+  <div class="project-list">
+    {projects.map((entry, i) => <ProjectCard project={entry} linkLabel="Read more →" eager={i === 0} />)}
   </div>
 </BaseLayout>
 
 <style>
-  .project-stack {
-    margin-top: auto;
-    padding-top: var(--space-4);
+  .project-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
   }
 </style>

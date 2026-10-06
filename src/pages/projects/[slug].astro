@@ -1,9 +1,8 @@
 ---
-import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import { getCollection, render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
-import { projectScreenshotAlts } from "../../data/project-screenshot-alts";
+import { projectScreenshots } from "../../data/project-screenshots";
 
 export async function getStaticPaths() {
   const entries = await getCollection("projects");
@@ -18,18 +17,7 @@ const { Content } = await render(entry);
 
 const year = entry.data.date.toLocaleDateString("en-US", { year: "numeric", timeZone: "UTC" });
 
-const allProjectImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/projects/**/*.{jpg,jpeg,png,webp}",
-  { eager: true }
-);
-const screenshots = Object.entries(allProjectImages)
-  .filter(([path]) => path.includes(`/${entry.id}/`) || path.includes(`/${entry.id}.`))
-  .sort(([a], [b]) => a.localeCompare(b))
-  .map(([path, mod]) => {
-    const key = path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
-    const alt = projectScreenshotAlts[key] ?? `${entry.data.title} — ${key.replace(/[-_]/g, " ")} screen`;
-    return { image: mod.default, alt };
-  });
+const screenshots = projectScreenshots(entry.id, entry.data.title);
 ---
 
 <BaseLayout title={`${entry.data.title} — Christopher Pombo`} description={entry.data.summary}>
@@ -97,6 +85,10 @@ const screenshots = Object.entries(allProjectImages)
     max-width: 70ch;
   }
 
+  .project-detail__text + .project-detail__text {
+    margin-top: var(--space-5);
+  }
+
   .back-link {
     display: inline-block;
     font-family: var(--font-mono);
@@ -129,6 +121,10 @@ const screenshots = Object.entries(allProjectImages)
     background: var(--color-surface);
     border: var(--border);
     padding: var(--space-5);
+  }
+
+  .project-detail__body :global(p + p) {
+    margin-top: var(--space-3);
   }
 
   .project-detail__body :global(a) {

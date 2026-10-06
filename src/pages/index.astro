@@ -4,10 +4,10 @@ import { Image } from "astro:assets";
 import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import SectionHeading from "../components/SectionHeading.astro";
+import ProjectCard from "../components/ProjectCard.astro";
 import { about } from "../data/about";
 import { bodyMind } from "../data/body-mind";
 import { contactLinks } from "../data/links";
-import { projectScreenshotAlts } from "../data/project-screenshot-alts";
 
 const heroPhotoAlts: Record<string, string> = {
   "01-headshot": "Christopher Pombo",
@@ -63,21 +63,6 @@ const formatMonth = (date: Date) =>
 
 const projects = await getCollection("projects");
 const featuredProject = projects.find((entry) => entry.id === "simply-spend");
-
-const projectImages = import.meta.glob<{ default: ImageMetadata }>(
-  "/src/assets/projects/**/*.{jpg,jpeg,png,webp}",
-  { eager: true }
-);
-const featuredScreenshots = featuredProject
-  ? Object.entries(projectImages)
-      .filter(([path]) => path.includes(`/${featuredProject.id}/`) || path.includes(`/${featuredProject.id}.`))
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([path, mod]) => {
-        const key = path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
-        const alt = projectScreenshotAlts[key] ?? `${featuredProject.data.title} app screenshot`;
-        return { image: mod.default, alt };
-      })
-  : [];
 
 const ledgers = bodyMind
   .map((card) => ({ ...card, rows: card.rows.filter((row) => row.value) }))
@@ -183,41 +168,7 @@ const external = (href: string) =>
         <SectionHeading number="03" text="What I've built">
           <a slot="trailing" class="section-link" href="/projects">All projects →</a>
         </SectionHeading>
-        <div class="panel built">
-          <div class="built__text">
-            <p class="label">{featuredProject.data.stack.join(" · ")}</p>
-            <h3 class="built__title">{featuredProject.data.title}</h3>
-            <p>{featuredProject.data.summary}</p>
-            <div class="built__actions">
-              <a class="text-link" href={`/projects/${featuredProject.id}`}>
-                Read the case study →
-              </a>
-              {featuredProject.data.links?.appStore ? (
-                <a class="btn btn--primary" href={featuredProject.data.links.appStore} {...external(featuredProject.data.links.appStore)}>
-                  App Store
-                </a>
-              ) : (
-                <p class="mono built__soon">Coming to the App Store</p>
-              )}
-            </div>
-          </div>
-
-          {featuredScreenshots.length > 0 && (
-            <div class="built__visual">
-              {featuredScreenshots.map((shot, i) => (
-                <div class="device">
-                  <Image
-                    src={shot.image}
-                    alt={shot.alt}
-                    width={280}
-                    densities={[1, 2]}
-                    loading={i === 0 ? "eager" : "lazy"}
-                  />
-                </div>
-              ))}
-            </div>
-          )}
-        </div>
+        <ProjectCard project={featuredProject} linkLabel="Read the case study →" showStoreStatus eager />
       </section>
     )
   }
@@ -386,20 +337,6 @@ const external = (href: string) =>
     padding: var(--space-5);
   }
 
-  .text-link {
-    font-family: var(--font-mono);
-    font-weight: 600;
-    font-size: var(--font-size-meta);
-    letter-spacing: var(--letter-spacing-mono);
-    text-transform: uppercase;
-    color: var(--color-ink);
-    text-decoration: none;
-  }
-
-  .text-link:hover {
-    color: var(--color-accent);
-  }
-
   .section-link {
     font-family: var(--font-mono);
     font-weight: 600;
@@ -539,59 +476,6 @@ const external = (href: string) =>
       transform: none;
       transition: none;
     }
-  }
-
-  /* ---------- What I've built ---------- */
-  .built {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    padding: 0;
-  }
-
-  .built__text {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: var(--space-3);
-    padding: var(--space-6) var(--space-5);
-  }
-
-  .built__title {
-    font-size: var(--font-size-h2);
-    font-weight: 700;
-  }
-
-  .built__actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-5);
-    margin-top: var(--space-2);
-  }
-
-  .built__soon {
-    font-size: var(--font-size-label);
-    color: var(--color-text-muted);
-  }
-
-  .built__visual {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-3);
-    padding: var(--space-6) var(--space-5);
-    border-left: var(--border-width) dashed var(--color-ink);
-  }
-
-  .built__visual .device {
-    flex-shrink: 0;
-    width: 30%;
-  }
-
-  .built__visual .device:nth-child(2) {
-    width: 34%;
-    transform: translateY(-14px);
-    z-index: 1;
   }
 
   /* ---------- Body & mind ---------- */
@@ -742,20 +626,6 @@ const external = (href: string) =>
       margin-inline: auto;
     }
 
-    .built {
-      grid-template-columns: 1fr;
-    }
-
-    .built__text {
-      padding: var(--space-5) var(--space-4);
-    }
-
-    .built__visual {
-      border-left: 0;
-      border-top: var(--border-width) dashed var(--color-ink);
-      padding: var(--space-6) var(--space-4);
-    }
-
     .body-mind {
       grid-template-columns: 1fr;
     }
@@ -789,31 +659,6 @@ const external = (href: string) =>
 
     .index-card:nth-child(even) {
       --tilt: 0.6deg;
-    }
-
-    .built {
-      padding: 0;
-    }
-
-    /* Three phones across get too small to read here, so the middle one
-       takes over and the other two tuck in behind it. */
-    .built__visual .device {
-      width: 34%;
-    }
-
-    .built__visual .device:first-child {
-      margin-right: -15%;
-      z-index: 0;
-    }
-
-    .built__visual .device:nth-child(2) {
-      width: 58%;
-      transform: translateY(-10px);
-    }
-
-    .built__visual .device:last-child {
-      margin-left: -15%;
-      z-index: 0;
     }
 
     .rock {

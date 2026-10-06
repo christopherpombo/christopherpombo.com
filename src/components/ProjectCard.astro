@@ -1,0 +1,169 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { Image } from "astro:assets";
+import { projectScreenshots } from "../data/project-screenshots";
+
+interface Props {
+  project: CollectionEntry<"projects">;
+  linkLabel: string;
+  /** Show the App Store button, or "Coming to the App Store" when there's no link yet. */
+  showStoreStatus?: boolean;
+  /** Load the first screenshot eagerly (set for a card above the fold). */
+  eager?: boolean;
+}
+
+const { project, linkLabel, showStoreStatus = false, eager = false } = Astro.props;
+const { title, stack, summary, links } = project.data;
+const screenshots = projectScreenshots(project.id, title);
+---
+
+<article class:list={["project-card", { "project-card--text-only": screenshots.length === 0 }]}>
+  <div class="project-card__text">
+    <p class="label">{stack.join(" · ")}</p>
+    <h3 class="project-card__title">{title}</h3>
+    <p>{summary}</p>
+    <div class="project-card__actions">
+      <a class="project-card__link" href={`/projects/${project.id}`}>{linkLabel}</a>
+      {
+        showStoreStatus &&
+          (links?.appStore ? (
+            <a class="btn btn--primary" href={links.appStore} target="_blank" rel="noopener noreferrer">
+              App Store
+            </a>
+          ) : (
+            <p class="mono project-card__soon">Coming to the App Store</p>
+          ))
+      }
+    </div>
+  </div>
+
+  {
+    screenshots.length > 0 && (
+      <div class="project-card__visual">
+        {screenshots.map((shot, i) => (
+          <div class="device">
+            <Image
+              src={shot.image}
+              alt={shot.alt}
+              width={280}
+              densities={[1, 2]}
+              loading={eager && i === 0 ? "eager" : "lazy"}
+            />
+          </div>
+        ))}
+      </div>
+    )
+  }
+</article>
+
+<style>
+  .project-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    background: var(--color-surface);
+    border: var(--border);
+  }
+
+  .project-card--text-only {
+    grid-template-columns: 1fr;
+  }
+
+  .project-card__text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-6) var(--space-5);
+  }
+
+  .project-card__title {
+    font-size: var(--font-size-h2);
+    font-weight: 700;
+  }
+
+  .project-card__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: var(--space-3) var(--space-5);
+    margin-top: var(--space-2);
+  }
+
+  .project-card__link {
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: var(--font-size-meta);
+    letter-spacing: var(--letter-spacing-mono);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    text-decoration: none;
+  }
+
+  .project-card__link:hover {
+    color: var(--color-accent);
+  }
+
+  .project-card__soon {
+    font-size: var(--font-size-label);
+    color: var(--color-text-muted);
+  }
+
+  .project-card__visual {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-6) var(--space-5);
+    border-left: var(--border-width) dashed var(--color-ink);
+  }
+
+  .project-card__visual .device {
+    flex-shrink: 0;
+    width: 30%;
+  }
+
+  .project-card__visual .device:nth-child(2) {
+    width: 34%;
+    transform: translateY(-14px);
+    z-index: 1;
+  }
+
+  @media (max-width: 820px) {
+    .project-card {
+      grid-template-columns: 1fr;
+    }
+
+    .project-card__text {
+      padding: var(--space-5) var(--space-4);
+    }
+
+    .project-card__visual {
+      border-left: 0;
+      border-top: var(--border-width) dashed var(--color-ink);
+      padding: var(--space-6) var(--space-4);
+    }
+  }
+
+  @media (max-width: 640px) {
+    /* Three phones across get too small to read here, so the middle one
+       takes over and the other two tuck in behind it. */
+    .project-card__visual .device {
+      width: 34%;
+    }
+
+    .project-card__visual .device:first-child {
+      margin-right: -15%;
+      z-index: 0;
+    }
+
+    .project-card__visual .device:nth-child(2) {
+      width: 58%;
+      transform: translateY(-10px);
+    }
+
+    .project-card__visual .device:last-child {
+      margin-left: -15%;
+      z-index: 0;
+    }
+  }
+</style>
