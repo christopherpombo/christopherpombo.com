@@ -36,7 +36,7 @@ vanilla CSS, zero client-side JS unless a page truly needs it.
   his current status (past roles on the resume are fine).
 - Voice: first person, confident, plainspoken. No corporate filler.
 - Goals page is organized on one axis: "Working toward" (active) vs.
-  "Accomplished" (done) — not by theme. Each goal carries a free-text `tag`
+  "Stacked Rocks" (done) — not by theme. Each goal carries a free-text `tag`
   (Build, Service, Body, Mind, Coaching, Create, Education, ...) instead.
 - Known typos from the old site — never reproduce: "Scount" → Scout,
   "Involvments" → Involvements, "Activites" → Activities.

@@ -37,9 +37,9 @@ const screenshots = Object.entries(allProjectImages)
     <div class="project-detail__text">
       <a class="back-link" href="/projects">&larr; Back to Projects</a>
       <h1>{entry.data.title}</h1>
-      <p class="project-detail__year">{year}</p>
+      <p class="label project-detail__year">{year}</p>
 
-      <ul class="stack-tags">
+      <ul class="chips">
         {entry.data.stack.map((tech) => <li>{tech}</li>)}
       </ul>
     </div>
@@ -48,14 +48,13 @@ const screenshots = Object.entries(allProjectImages)
       screenshots.length > 0 && (
         <div class="project-detail__screenshots">
           {screenshots.map(({ image, alt }) => (
-            <div class="screenshot-frame">
+            <div class="device">
               <Image
                 src={image}
                 alt={alt}
                 width={600}
                 densities={[1, 2]}
-                loading="lazy"
-                decoding="async"
+                loading="eager"
               />
             </div>
           ))}
@@ -100,7 +99,10 @@ const screenshots = Object.entries(allProjectImages)
 
   .back-link {
     display: inline-block;
-    font-size: var(--font-size-small);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    letter-spacing: var(--letter-spacing-mono);
+    text-transform: uppercase;
     color: var(--color-text-muted);
     text-decoration: none;
     margin-bottom: var(--space-4);
@@ -111,60 +113,31 @@ const screenshots = Object.entries(allProjectImages)
   }
 
   .project-detail__year {
-    font-family: var(--font-sans);
-    font-weight: 700;
-    color: var(--color-accent);
-    margin-top: var(--space-2);
+    margin-top: var(--space-3);
     margin-bottom: var(--space-4);
-  }
-
-  .stack-tags {
-    list-style: none;
-    padding: 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
-  }
-
-  .stack-tags li {
-    font-size: var(--font-size-meta);
-    font-weight: 500;
-    letter-spacing: var(--letter-spacing-mono);
-    text-transform: uppercase;
-    color: var(--color-text-muted);
-    background: var(--color-surface);
-    padding: var(--space-1) var(--space-2);
-    border-radius: 2px;
   }
 
   .project-detail__screenshots {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: var(--space-4);
+    gap: var(--space-5);
     max-width: 900px;
     margin-block: var(--space-6);
   }
 
-  .screenshot-frame {
-    background: var(--color-text);
-    border-radius: 36px;
-    padding: 4px;
-    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.12);
-  }
-
-  .screenshot-frame :global(img) {
-    display: block;
-    width: 100%;
-    height: auto;
-    border-radius: 32px;
-  }
-
   .project-detail__body {
-    color: var(--color-text);
+    background: var(--color-surface);
+    border: var(--border);
+    padding: var(--space-5);
+  }
+
+  .project-detail__body :global(a) {
+    color: var(--color-accent);
   }
 
   .project-detail__links {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--space-3);
     margin-top: var(--space-5);
   }
@@ -172,17 +145,8 @@ const screenshots = Object.entries(allProjectImages)
   @media (max-width: 720px) {
     .project-detail__screenshots {
       grid-template-columns: 1fr;
-      max-width: 320px;
+      max-width: 300px;
       margin-inline: auto;
-    }
-
-    .screenshot-frame {
-      padding: 3px;
-      border-radius: 23px;
-    }
-
-    .screenshot-frame :global(img) {
-      border-radius: 20px;
     }
   }
 </style>

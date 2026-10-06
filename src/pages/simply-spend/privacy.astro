@@ -110,12 +110,20 @@ const email = "christopherpombo4@gmail.com";
 
 <style>
   .policy {
-    max-width: 70ch;
-    margin-inline: auto;
+    max-width: 75ch;
+    background: var(--color-surface);
+    border: var(--border);
+    padding: var(--space-6) var(--space-5);
+  }
+
+  @media (max-width: 520px) {
+    .policy {
+      padding: var(--space-5) var(--space-4);
+    }
   }
 
   .policy__lede {
-    font-weight: 500;
+    font-weight: 600;
     margin-bottom: var(--space-6);
   }
 
@@ -135,8 +143,11 @@ const email = "christopherpombo4@gmail.com";
   .policy__meta {
     margin-top: var(--space-6);
     padding-top: var(--space-3);
-    border-top: 1px solid var(--color-grid);
-    font-size: var(--font-size-small);
+    border-top: var(--rule);
+    font-family: var(--font-mono);
+    font-size: var(--font-size-label);
+    letter-spacing: var(--letter-spacing-mono);
+    text-transform: uppercase;
     color: var(--color-text-muted);
   }
 </style>
