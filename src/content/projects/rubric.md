@@ -2,7 +2,7 @@
 title: "RuBric"
 # A bare `2026` would parse as a timestamp in 1970; the page only shows the year.
 date: 2026-01-01
-stack: ["Swift", "SwiftUI", "SwiftData", "WidgetKit", "Notion API", "Google Calendar API"]
+stack: ["Swift", "SwiftUI", "Notion API"]
 order: 2
 summary: "A rubric for my life, built brick by brick. A personal iOS app that turns my Notion goals into brick walls that grow as I finish tasks."
 ---
