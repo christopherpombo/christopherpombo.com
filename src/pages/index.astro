@@ -12,6 +12,10 @@ const heroPhotoAlts: Record<string, string> = {
   "01-headshot": "Christopher Pombo",
   "02-sword-and-shield": "Christopher Pombo in his Air Force Academy jacket",
   "03-brazil-jerseys": "Christopher Pombo with a friend",
+  "04-desert-ride": "Christopher Pombo mountain biking in the desert",
+  "05-black-and-white": "Christopher Pombo with a friend at an event",
+  "06-academy-flight-suits": "Christopher Pombo with friends in flight suits at the Air Force Academy",
+  "07-ocp-beret": "Christopher Pombo in uniform",
 };
 const heroPhotoImages = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/hero-photos/*.{jpg,jpeg,png}",
@@ -23,6 +27,19 @@ const heroPhotos = Object.entries(heroPhotoImages)
     const key = path.split("/").pop()?.replace(/\.[^.]+$/, "") ?? "";
     return { image: mod.default, alt: heroPhotoAlts[key] ?? "Christopher Pombo" };
   });
+
+// Keyframe percentages depend on how many photos there are, so they're generated:
+// each photo holds for PHOTO_SECONDS and crossfades into the next over FADE_SECONDS.
+const PHOTO_SECONDS = 4;
+const FADE_SECONDS = 1;
+const wheelCycle = heroPhotos.length * PHOTO_SECONDS;
+const pct = (seconds: number) => `${((seconds / wheelCycle) * 100).toFixed(3)}%`;
+const wheelKeyframes =
+  heroPhotos.length > 1
+    ? `@keyframes photo-cycle{0%,${pct(PHOTO_SECONDS - FADE_SECONDS)}{opacity:1}` +
+      `${pct(PHOTO_SECONDS)},${pct(wheelCycle - FADE_SECONDS)}{opacity:0}100%{opacity:1}}`
+    : "";
+const wheelDelay = (i: number) => -((heroPhotos.length - i) % heroPhotos.length) * PHOTO_SECONDS;
 
 const allGoals = await getCollection("goals");
 
@@ -89,18 +106,19 @@ const external = (href: string) =>
       heroPhotos.length > 0 && (
         <figure class="hero-photo">
           <div class="photo-card">
-            <div class="photo-wheel">
+            <div class="photo-wheel" style={`--wheel-cycle: ${wheelCycle}s`}>
               {heroPhotos.map((photo, i) => (
                 <Image
-                  style={`--wheel-delay: ${-(i * 4)}s`}
+                  style={`--wheel-delay: ${wheelDelay(i)}s`}
                   src={photo.image}
                   alt={photo.alt}
                   width={480}
                   densities={[1, 2]}
-                  loading="eager"
+                  loading={i === 0 ? "eager" : "lazy"}
                 />
               ))}
             </div>
+            {wheelKeyframes && <style is:inline set:html={wheelKeyframes} />}
           </div>
           <figcaption class="hand hero-photo__note">← bite off more than you can chew</figcaption>
         </figure>
@@ -300,26 +318,12 @@ const external = (href: string) =>
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    animation: photo-cycle 12s infinite;
+    animation: photo-cycle var(--wheel-cycle) infinite;
     animation-delay: var(--wheel-delay, 0s);
   }
 
   .photo-wheel :global(img:first-child) {
     opacity: 1;
-  }
-
-  @keyframes photo-cycle {
-    0%,
-    22% {
-      opacity: 1;
-    }
-    33%,
-    92% {
-      opacity: 0;
-    }
-    100% {
-      opacity: 1;
-    }
   }
 
   @media (prefers-reduced-motion: reduce) {
