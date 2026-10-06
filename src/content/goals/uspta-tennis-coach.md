@@ -9,5 +9,3 @@ summary: "Getting my Level 1 certification to turn a lifelong sport into lessons
 ---
 
 I'm working toward my USPTA Level 1 certification, turning a lifelong sport into lessons I can teach others.
-
-TODO: pin down a target date once the certification course is scheduled.

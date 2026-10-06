@@ -2,6 +2,7 @@
 title: "Georgia Military College"
 date: 2022-05-01
 category: "done"
+result: "A.S."
 tag: "Education"
 order: 7
 summary: "Earned my A.S. in General Studies as a Falcon Foundation Scholar."

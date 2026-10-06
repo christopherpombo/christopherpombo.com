@@ -15,6 +15,8 @@ const goals = defineCollection({
     /** Short present-tense label (e.g. "Shipping", "Training for") shown in the
      * home page's "Currently" strip. Only active goals with this set appear there. */
     current: z.string().optional(),
+    /** Short outcome (e.g. "3:19:25", "2d Lt") shown with a check in the Stacked Rocks ledger. */
+    result: z.string().optional(),
     summary: z.string(),
   }),
 });

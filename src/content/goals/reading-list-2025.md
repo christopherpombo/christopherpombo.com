@@ -2,6 +2,7 @@
 title: "2025 Reading List"
 date: 2025-12-01
 category: "done"
+result: "Finished"
 tag: "Mind"
 order: 5
 summary: "Finished the full list. Most impactful read: Tuesdays with Morrie."

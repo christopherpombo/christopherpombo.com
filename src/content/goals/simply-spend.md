@@ -3,6 +3,7 @@ title: "Built Simply Spend"
 date: 2026-01-01
 dateLabel: "2026"
 category: "done"
+result: "In beta"
 tag: "Build"
 order: 2
 summary: "A native iOS expense tracker, designed and built from scratch in Swift, SwiftUI, and SwiftData."
