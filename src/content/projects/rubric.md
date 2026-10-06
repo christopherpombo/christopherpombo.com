@@ -18,3 +18,5 @@ I track every goal and task in Notion, but a database doesn't show progress. RuB
 **How it's built.** Swift 6 and SwiftUI, with SwiftData as an offline cache that the widgets share through an App Group. The access token lives in the Keychain, and the app is read-only, so Notion and Google stay the source of truth. I built it with Claude Code.
 
 **The look.** A warm brick-red "Fired" theme with paper cards, Bricolage Grotesque type, and a custom brick-wall progress component.
+
+*Screenshots use the app's demo data.*
