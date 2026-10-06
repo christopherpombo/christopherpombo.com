@@ -13,7 +13,7 @@ export const bodyMind: LedgerCard[] = [
   {
     title: "Body",
     rows: [
-      { label: "Marathon PR", value: "3:19:25" },
+      { label: "Marathon PR", value: "3:04:44" },
       { label: "Training", value: "Push / Pull / Legs" },
       { label: "Sunday", value: "Long run" },
       { label: "Also", value: "Tennis, hiking, climbing" },

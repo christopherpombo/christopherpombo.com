@@ -15,7 +15,10 @@ const toward = allGoals
 
 const done = allGoals
   .filter((entry) => entry.data.category === "done")
-  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99));
+  .sort(
+    (a, b) =>
+      b.data.date.valueOf() - a.data.date.valueOf() || (a.data.order ?? 99) - (b.data.order ?? 99)
+  );
 
 const visibleStats = goalStats.filter((stat) => stat.value !== null);
 

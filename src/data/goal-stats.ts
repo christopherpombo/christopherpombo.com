@@ -5,7 +5,7 @@ export interface GoalStat {
 }
 
 export const goalStats: GoalStat[] = [
-  { value: "3:19:25", label: "Honolulu Marathon" },
+  { value: "3:04:44", label: "Marathon PR, May 2026" },
   { value: "2d Lt", label: "Commissioned, May 2026" },
   { value: "1", label: "iOS app built from scratch" },
   // TODO: fill in once I've actually counted how many books I finished in 2025.
