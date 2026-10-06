@@ -3,8 +3,6 @@ export interface AboutItem {
   title: string;
   /** Hidden when empty. */
   meta?: string;
-  /** Makes the whole item a link. */
-  href?: string;
 }
 
 export const about: AboutItem[] = [
@@ -14,6 +12,6 @@ export const about: AboutItem[] = [
     meta: "Group Practice Manager, David Grant Medical Center",
   },
   { label: "Studied", title: "B.S. Operations Research", meta: "U.S. Air Force Academy, 2026" },
-  { label: "Building", title: "iOS apps", meta: "Simply Spend", href: "/projects/simply-spend" },
+  { label: "Building", title: "iOS apps", meta: "Simply Spend" },
   { label: "Running", title: "Marathons", meta: "PR 3:04:44" },
 ];
