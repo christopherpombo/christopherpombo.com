@@ -2,6 +2,8 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhoneTrio from "../components/PhoneTrio.astro";
 import SectionHeading from "../components/SectionHeading.astro";
+import Highlight from "../components/Highlight.astro";
+import { splitOnWord } from "../data/highlight";
 import { projectScreenshots } from "../data/project-screenshots";
 import { publishedProjects } from "../data/projects";
 
@@ -9,6 +11,8 @@ const projects = await publishedProjects();
 const featured = projects.find((entry) => entry.data.featured) ?? projects[0];
 const shots = featured ? projectScreenshots(featured.id, featured.data.title) : [];
 const appStore = featured?.data.links?.appStore;
+const tagline =
+  featured?.data.taglineHighlight && splitOnWord(featured.data.tagline, featured.data.taglineHighlight);
 ---
 
 <BaseLayout
@@ -23,7 +27,9 @@ const appStore = featured?.data.links?.appStore;
         <div class="hero__text">
           <p class="label">Featured app</p>
           <h1 class="hero__title">{featured.data.title}</h1>
-          <p class="hero__tagline">{featured.data.tagline}</p>
+          <p class="hero__tagline">
+            {tagline ? <>{tagline[0]}<Highlight color="yellow">{tagline[1]}</Highlight>{tagline[2]}</> : featured.data.tagline}
+          </p>
           <div class="hero__actions">
             {appStore ? (
               <a class="btn btn--primary" href={appStore} target="_blank" rel="noopener noreferrer">
@@ -49,7 +55,7 @@ const appStore = featured?.data.links?.appStore;
   {
     projects.length > 0 && (
       <section class="section" id="projects">
-        <SectionHeading text="Projects">
+        <SectionHeading text="Projects" highlight={{ word: "Projects", color: "green" }}>
           <a slot="trailing" class="section-link" href="/projects">
             All projects →
           </a>

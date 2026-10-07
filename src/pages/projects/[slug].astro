@@ -113,6 +113,15 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
     border-top: var(--rule);
   }
 
+  .project-detail__body :global(h3) {
+    margin-top: var(--space-5);
+    margin-bottom: var(--space-2);
+  }
+
+  .project-detail__body :global(h2 + h3) {
+    margin-top: var(--space-3);
+  }
+
   .project-detail__body :global(ul) {
     padding-left: var(--space-4);
     display: flex;

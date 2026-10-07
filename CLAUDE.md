@@ -14,6 +14,11 @@ truly needs it.
 - Accent: red #B23A31 — used ONLY for small labels/eyebrows, list arrows,
   and active/hover states. Never large red areas. (Darkened from #C8453B, which was 3.78:1 where text crosses a grid
   line; #B23A31 clears 4.5:1 on the paper, the grid lines, and white.)
+- Highlighter: a hand-swiped marker band behind one key word (`Highlight`,
+  or `<span class="highlight highlight--<color>">` in markdown headings).
+  Yellow, green, blue, pink, orange, purple at 70%, matching the App Store
+  screenshots. One word per heading, max; never in body text, nav, buttons,
+  or the footer. Highlighted words are always navy (muted text fails 4.5:1).
 - Type (self-hosted via @fontsource): IBM Plex Sans 400/600/700 for headings
   and body; IBM Plex Mono 400/600 for nav, section labels, dates, metadata,
   and buttons. Body 17px, line-height 1.6. Caveat appears only inside the

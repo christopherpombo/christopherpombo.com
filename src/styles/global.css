@@ -175,6 +175,37 @@ button:focus-visible {
   padding: 0.125rem var(--space-2);
 }
 
+/* Highlighter marker behind a key word (Highlight.astro, or a raw span in
+   markdown headings). The band is a pseudo-element, so screen readers get the
+   plain word. inline-block keeps the word and its band on one line together;
+   isolation keeps the band above card backgrounds but behind the text. */
+.highlight {
+  position: relative;
+  display: inline-block;
+  isolation: isolate;
+  color: var(--color-ink);
+}
+
+.highlight::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  left: -4px;
+  right: -4px;
+  bottom: 0.06em;
+  height: 55%;
+  border-radius: 0.3em;
+  background: var(--highlight-band, var(--highlight-yellow));
+  transform: rotate(-1deg);
+}
+
+.highlight--yellow { --highlight-band: var(--highlight-yellow); }
+.highlight--green { --highlight-band: var(--highlight-green); }
+.highlight--blue { --highlight-band: var(--highlight-blue); }
+.highlight--pink { --highlight-band: var(--highlight-pink); }
+.highlight--orange { --highlight-band: var(--highlight-orange); }
+.highlight--purple { --highlight-band: var(--highlight-purple); }
+
 /* Navy iPhone-style frame for app screenshots. */
 .device {
   background: var(--color-ink);

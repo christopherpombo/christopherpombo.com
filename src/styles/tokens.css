@@ -11,6 +11,16 @@
      paper, the grid lines, and white. */
   --color-accent: #b23a31;
 
+  /* Highlighter marker (Highlight.astro), at 70% so the grid shows through.
+     Navy text clears 6.6:1 on all of them; muted text does not, so
+     highlighted words are always navy. */
+  --highlight-yellow: rgb(245 213 71 / 0.7);
+  --highlight-green: rgb(111 207 151 / 0.7);
+  --highlight-blue: rgb(111 183 240 / 0.7);
+  --highlight-pink: rgb(242 139 168 / 0.7);
+  --highlight-orange: rgb(245 165 90 / 0.7);
+  --highlight-purple: rgb(179 140 240 / 0.7);
+
   /* Fonts */
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;

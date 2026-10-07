@@ -1,15 +1,21 @@
 ---
+import Highlight from "./Highlight.astro";
+import { splitOnWord, type HighlightOptions } from "../data/highlight";
+
 interface Props {
   title: string;
   subtitle: string;
+  /** One word of `title` to mark with the highlighter. */
+  highlight?: HighlightOptions;
 }
 
-const { title, subtitle } = Astro.props;
+const { title, subtitle, highlight } = Astro.props;
+const parts = highlight ? splitOnWord(title, highlight.word) : undefined;
 ---
 
 <header class="page-header">
   <p class="label page-header__eyebrow">{subtitle}</p>
-  <h1>{title}</h1>
+  <h1>{parts ? <>{parts[0]}<Highlight color={highlight!.color}>{parts[1]}</Highlight>{parts[2]}</> : title}</h1>
 </header>
 
 <style>

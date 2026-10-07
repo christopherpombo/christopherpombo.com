@@ -1,0 +1,16 @@
+---
+/**
+ * Hand-swiped highlighter behind a key word. Styles live in global.css
+ * (.highlight) so markdown headings can use the same span. One per heading,
+ * max; never in body text, nav, buttons, or the footer.
+ */
+import type { HighlightColor } from "../data/highlight";
+
+interface Props {
+  color?: HighlightColor;
+}
+
+const { color = "yellow" } = Astro.props;
+---
+
+<span class={`highlight highlight--${color}`}><slot /></span>
