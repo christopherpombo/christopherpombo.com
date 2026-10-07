@@ -166,7 +166,7 @@ const nameSize = Math.min(76, (76 * TEXT_WIDTH) / plexSansBold.getAdvanceWidth("
 const taglineSize = 34;
 const taglineLines = wrap(
   plexSans,
-  "I take on challenges that scare me, then build my way through them.",
+  "Bite off more than you can chew.",
   taglineSize,
   TEXT_WIDTH
 );
