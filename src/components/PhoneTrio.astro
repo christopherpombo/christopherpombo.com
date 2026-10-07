@@ -1,0 +1,67 @@
+---
+import type { ImageMetadata } from "astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  shots: { image: ImageMetadata; alt: string }[];
+  /** Load every screenshot up front (for a trio above the fold). */
+  eager?: boolean;
+  /** Rendered width of one screenshot at 1x. */
+  width?: number;
+}
+
+const { shots, eager = false, width = 280 } = Astro.props;
+---
+
+<div class="phone-trio">
+  {
+    shots.map((shot) => (
+      <div class="device">
+        <Image src={shot.image} alt={shot.alt} width={width} densities={[1, 2]} loading={eager ? "eager" : "lazy"} />
+      </div>
+    ))
+  }
+</div>
+
+<style>
+  .phone-trio {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+  }
+
+  .phone-trio .device {
+    flex-shrink: 0;
+    width: 30%;
+  }
+
+  .phone-trio .device:nth-child(2) {
+    width: 34%;
+    transform: translateY(-14px);
+    z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    /* Three phones across get too small to read here, so the middle one
+       takes over and the other two tuck in behind it. */
+    .phone-trio .device {
+      width: 34%;
+    }
+
+    .phone-trio .device:first-child {
+      margin-right: -15%;
+      z-index: 0;
+    }
+
+    .phone-trio .device:nth-child(2) {
+      width: 58%;
+      transform: translateY(-10px);
+    }
+
+    .phone-trio .device:last-child {
+      margin-left: -15%;
+      z-index: 0;
+    }
+  }
+</style>

@@ -1,6 +1,8 @@
 import type { ImageMetadata } from "astro";
 import { projectScreenshotAlts } from "./project-screenshot-alts";
 
+// Only src/assets/projects is globbed, and every image imported here is published with the
+// site — so a draft project keeps its screenshots in src/assets/drafts/<id>/ until it relaunches.
 const images = import.meta.glob<{ default: ImageMetadata }>(
   "/src/assets/projects/**/*.{jpg,jpeg,png,webp}",
   { eager: true }

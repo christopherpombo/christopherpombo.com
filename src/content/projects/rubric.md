@@ -4,6 +4,11 @@ title: "RuBric"
 date: 2026-01-01
 stack: ["Swift", "SwiftUI", "Notion API"]
 order: 2
+# Hidden until it's relaunched with neutral demo data: the current screenshots and copy are personal.
+# Its screenshots live in src/assets/drafts/rubric/ so they aren't published; move them back to
+# src/assets/projects/rubric/ when this goes live.
+draft: true
+tagline: "Turns Notion goals into brick walls that grow as tasks get done."
 summary: "A rubric for my life, built brick by brick. A personal iOS app that turns my Notion goals into brick walls that grow as I finish tasks."
 ---
 

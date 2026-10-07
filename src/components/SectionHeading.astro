@@ -1,21 +1,15 @@
 ---
 interface Props {
   text: string;
-  number?: string;
-  /** Handwritten margin note shown beside the label. */
-  note?: string;
   level?: "h2" | "h3";
 }
 
-const { text, number, note, level = "h2" } = Astro.props;
+const { text, level = "h2" } = Astro.props;
 const Tag = level;
 ---
 
 <div class="section-heading">
-  <Tag class="section-heading__label">
-    {number && <span class="section-heading__number">{`${number} — `}</span>}{text}
-  </Tag>
-  {note && <span class="hand section-heading__note">{note}</span>}
+  <Tag class="section-heading__label">{text}</Tag>
   <span class="section-heading__rule" aria-hidden="true"></span>
   <slot name="trailing" />
 </div>
@@ -37,15 +31,6 @@ const Tag = level;
     text-transform: uppercase;
     color: var(--color-ink);
     line-height: 1.4;
-  }
-
-  .section-heading__number {
-    color: var(--color-accent);
-  }
-
-  .section-heading__note {
-    transform: rotate(-3deg);
-    margin-block: -0.25rem;
   }
 
   .section-heading__rule {

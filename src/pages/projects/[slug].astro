@@ -1,11 +1,12 @@
 ---
 import { Image } from "astro:assets";
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { projectScreenshots } from "../../data/project-screenshots";
+import { publishedProjects } from "../../data/projects";
 
 export async function getStaticPaths() {
-  const entries = await getCollection("projects");
+  const entries = await publishedProjects();
   return entries.map((entry) => ({
     params: { slug: entry.id },
     props: { entry },
@@ -25,6 +26,7 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
     <div class="project-detail__text">
       <a class="back-link" href="/projects">&larr; Back to Projects</a>
       <h1>{entry.data.title}</h1>
+      <p class="project-detail__tagline">{entry.data.tagline}</p>
       <p class="label project-detail__year">{year}</p>
 
       <ul class="chips">
@@ -87,6 +89,39 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
 
   .project-detail__text + .project-detail__text {
     margin-top: var(--space-5);
+  }
+
+  .project-detail__tagline {
+    font-size: 1.25rem;
+    color: var(--color-text-muted);
+    margin-top: var(--space-3);
+  }
+
+  .project-detail__body :global(h2) {
+    font-family: var(--font-mono);
+    font-size: var(--font-size-small);
+    font-weight: 600;
+    letter-spacing: var(--letter-spacing-mono);
+    text-transform: uppercase;
+    color: var(--color-ink);
+    margin-bottom: var(--space-2);
+  }
+
+  .project-detail__body :global(* + h2) {
+    margin-top: var(--space-5);
+    padding-top: var(--space-4);
+    border-top: var(--rule);
+  }
+
+  .project-detail__body :global(ul) {
+    padding-left: var(--space-4);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .project-detail__body :global(li::marker) {
+    color: var(--color-accent);
   }
 
   .back-link {

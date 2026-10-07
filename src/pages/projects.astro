@@ -1,23 +1,22 @@
 ---
-import { getCollection } from "astro:content";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PageHeader from "../components/PageHeader.astro";
 import ProjectCard from "../components/ProjectCard.astro";
+import { publishedProjects } from "../data/projects";
 
-const projects = (await getCollection("projects")).sort(
-  (a, b) => (a.data.order ?? 99) - (b.data.order ?? 99) || b.data.date.valueOf() - a.data.date.valueOf()
-);
+const projects = await publishedProjects();
+const titles = projects.map((entry) => entry.data.title);
 ---
 
 <BaseLayout
   title="Projects — Christopher Pombo"
-  description="Software projects built by Christopher Pombo: Simply Spend, a native iOS expense tracker, and RuBric, a personal iOS app that turns Notion goals into brick walls."
+  description={`Apps by Christopher Pombo: ${titles.join(", ")}.`}
 >
-  <PageHeader title="What I'm Building" subtitle="A page dedicated to my projects." />
+  <PageHeader title="Projects" subtitle="Apps by Christopher Pombo." />
 
-  <h2 class="visually-hidden">Projects</h2>
+  <h2 class="visually-hidden">All projects</h2>
   <div class="project-list">
-    {projects.map((entry, i) => <ProjectCard project={entry} linkLabel="Read more →" eager={i === 0} />)}
+    {projects.map((entry, i) => <ProjectCard project={entry} linkLabel="Read the case study →" eager={i === 0} />)}
   </div>
 </BaseLayout>
 

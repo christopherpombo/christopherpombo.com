@@ -21,6 +21,7 @@ const COLOR_GRID = "#dce5f2";
 const COLOR_INK = "#1c2b4a";
 const COLOR_MUTED = "#4a5878";
 const COLOR_MARK = "#c8453b";
+const COLOR_ACCENT = "#b23a31";
 
 function loadFont(relPath) {
   const buf = readFileSync(path.join(root, "node_modules", relPath));
@@ -29,7 +30,8 @@ function loadFont(relPath) {
 
 const caveatBold = loadFont("@fontsource/caveat/files/caveat-latin-700-normal.woff");
 const plexSansBold = loadFont("@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff");
-const plexSans = loadFont("@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff");
+const plexSansSemibold = loadFont("@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff");
+const plexMonoSemibold = loadFont("@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff");
 
 // opentype.js's own toPathData() emits "NaN" for some curves (its path
 // optimizer), which makes renderers stop drawing partway through a glyph.
@@ -61,25 +63,9 @@ function fittedText(font, text, cx, cy, w, h) {
   return pathData(font.getPath(text, x, y, 100 * scale));
 }
 
-/** Path data for `text` with its baseline starting at (x, y). */
-function textAt(font, text, x, y, size) {
-  return pathData(font.getPath(text, x, y, size));
-}
-
-/** Greedy word wrap using the font's real advance widths. */
-function wrap(font, text, size, maxWidth) {
-  const lines = [];
-  let line = "";
-  for (const word of text.split(" ")) {
-    const next = line ? `${line} ${word}` : word;
-    if (line && font.getAdvanceWidth(next, size) > maxWidth) {
-      lines.push(line);
-      line = word;
-    } else {
-      line = next;
-    }
-  }
-  return [...lines, line];
+/** Path data for `text` with its baseline starting at (x, y); `letterSpacing` is in em. */
+function textAt(font, text, x, y, size, letterSpacing = 0) {
+  return pathData(font.getPath(text, x, y, size, { letterSpacing }));
 }
 
 // --- The mark: red "cp" on a graph-paper tile with a navy border (64-unit grid) ---
@@ -155,25 +141,21 @@ writeFileSync(
 const appleTouchIcon = await sharp(Buffer.from(markSvg), { density: 576 }).resize(180, 180).png().toBuffer();
 writeFileSync(path.join(publicDir, "apple-touch-icon.png"), appleTouchIcon);
 
-// --- OG image: 1200x630 graph paper, mark on the left, name + tagline ---
+// --- OG image: 1200x630 graph paper, mark on the left, name + the featured app ---
 const MARK_X = 120;
 const MARK_SIZE = 220;
 const MARK_Y = (630 - MARK_SIZE) / 2;
 const TEXT_X = MARK_X + MARK_SIZE + 64;
 const TEXT_WIDTH = 1200 - TEXT_X - 96;
 
+const FEATURED_APP = "Simply Spend";
 const nameSize = Math.min(76, (76 * TEXT_WIDTH) / plexSansBold.getAdvanceWidth("Christopher Pombo", 76));
-const taglineSize = 34;
-const taglineLines = wrap(
-  plexSans,
-  "Bite off more than you can chew.",
-  taglineSize,
-  TEXT_WIDTH
-);
-const lineHeight = taglineSize * 1.35;
-const blockHeight = nameSize * 0.72 + 36 + taglineLines.length * lineHeight;
-const nameBaseline = 315 - blockHeight / 2 + nameSize * 0.72;
-const taglineTop = nameBaseline + 36;
+const labelSize = 22;
+const appSize = 44;
+// Name, then a red mono "FEATURED APP" label, then the app's name, centered on the mark.
+const nameBaseline = MARK_Y + 70;
+const labelBaseline = nameBaseline + 76;
+const appBaseline = labelBaseline + 58;
 
 const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
@@ -188,12 +170,8 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
     ${markContents({ grid: true })}
   </svg>
   <path d="${textAt(plexSansBold, "Christopher Pombo", TEXT_X, nameBaseline, nameSize)}" fill="${COLOR_INK}" />
-  ${taglineLines
-    .map(
-      (line, i) =>
-        `<path d="${textAt(plexSans, line, TEXT_X, taglineTop + (i + 1) * lineHeight - (lineHeight - taglineSize) / 2, taglineSize)}" fill="${COLOR_MUTED}" />`
-    )
-    .join("\n  ")}
+  <path d="${textAt(plexMonoSemibold, "FEATURED APP", TEXT_X + 2, labelBaseline, labelSize, 0.12)}" fill="${COLOR_ACCENT}" />
+  <path d="${textAt(plexSansSemibold, FEATURED_APP, TEXT_X, appBaseline, appSize)}" fill="${COLOR_MUTED}" />
 </svg>`;
 
 writeFileSync(path.join(publicDir, "og-image.png"), await sharp(Buffer.from(ogSvg)).png().toBuffer());

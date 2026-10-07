@@ -4,7 +4,6 @@ import "@fontsource/ibm-plex-sans/600.css";
 import "@fontsource/ibm-plex-sans/700.css";
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/600.css";
-import "@fontsource/caveat/600.css";
 import "../styles/tokens.css";
 import "../styles/global.css";
 import plexSans400Url from "@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url";
@@ -17,11 +16,9 @@ import { contactLinks } from "../data/links";
 
 interface Props {
   title: string;
-  description: string;
+  description?: string;
   image?: string;
-  type?: "website" | "profile" | "article";
-  /** Hide the footer's contact links on pages that already end with them. */
-  compactFooter?: boolean;
+  type?: "website" | "article";
 }
 
 // Browsers cache favicons (and other sites cache OG images) by URL for a very
@@ -34,19 +31,15 @@ const versioned = (publicPath: string) => {
 
 const {
   title,
-  description,
+  description = "Apps by Christopher Pombo.",
   image = versioned("/og-image.png"),
   type = "website",
-  compactFooter = false,
 } = Astro.props;
 
 const currentPath = Astro.url.pathname;
 
 const navLinks = [
-  { href: "/", label: "Home" },
-  { href: "/resume", label: "Who I am" },
-  { href: "/goals", label: "What I'm Doing", section: true },
-  { href: "/projects", label: "What I'm Building", section: true },
+  { href: "/projects", label: "Projects", section: true },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -125,22 +118,18 @@ const ogImageUrl = new URL(image, Astro.site);
     <footer class="site-footer">
       <div class="site-footer__inner container">
         <p>&copy; 2026 Christopher Pombo</p>
-        {
-          !compactFooter && (
-            <ul class="footer-links">
-              {contactLinks.map((link) => (
-                <li>
-                  <a
-                    href={link.href}
-                    {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  >
-                    {link.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          )
-        }
+        <ul class="footer-links">
+          {contactLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                {...(link.href.startsWith("http") ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
     </footer>
   </body>

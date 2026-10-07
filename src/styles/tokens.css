@@ -14,7 +14,6 @@
   /* Fonts */
   --font-sans: "IBM Plex Sans", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --font-hand: "Caveat", cursive;
 
   /* Type scale */
   --font-size-body: 17px;
@@ -24,7 +23,6 @@
   --font-size-h1: clamp(2.25rem, 3.5vw + 1rem, 3.5rem);
   --font-size-h2: clamp(1.5rem, 2vw + 1rem, 2rem);
   --font-size-h3: 1.25rem;
-  --font-size-hand: 1.5rem;
   --line-height-body: 1.6;
   --line-height-heading: 1.15;
   --letter-spacing-mono: 0.12em;
@@ -44,7 +42,6 @@
   --border: var(--border-width) solid var(--color-ink);
   --rule: 1px solid var(--color-grid);
   --grid-size: 24px;
-  --shadow-hard: 6px 6px 0 var(--color-ink);
 
   /* Layout */
   --max-width: 1100px;

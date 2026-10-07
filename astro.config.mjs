@@ -7,7 +7,8 @@ export default defineConfig({
   site: 'https://www.christopherpombo.com',
   integrations: [
     sitemap({
-      filter: (page) => !page.includes('/404'),
+      // The privacy policy stays live for the App Store listing but isn't part of the portfolio.
+      filter: (page) => !page.includes('/404') && !page.includes('/simply-spend/privacy'),
     }),
   ],
 });
