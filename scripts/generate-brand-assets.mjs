@@ -1,4 +1,4 @@
-// Regenerate the brand assets in public/: mark.svg (header), favicon.svg,
+// Regenerate the brand assets in public/: mark.svg (header, via BrandMark), favicon.svg,
 // favicon.ico, apple-touch-icon.png, and og-image.png. Run with
 // `npm run generate-assets` whenever the mark or OG copy changes — outputs are
 // committed static assets, not generated at build time.
@@ -11,15 +11,15 @@ import { fileURLToPath } from "node:url";
 import path from "node:path";
 import opentype from "opentype.js";
 import sharp from "sharp";
+// Geometry and colors for every version of the mark. The header's BrandMark
+// component reads the same file, so the assets and the header can't drift.
+import brand from "../src/data/brand.json" with { type: "json" };
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
 const publicDir = path.join(root, "public");
 
-const COLOR_PAPER = "#f7f9fc";
-const COLOR_GRID = "#dce5f2";
-const COLOR_INK = "#1c2b4a";
-const COLOR_MARK = "#c8453b";
+const { paper: COLOR_PAPER, grid: COLOR_GRID, ink: COLOR_INK, mark: COLOR_MARK } = brand.colors;
 
 function loadFont(relPath) {
   const buf = readFileSync(path.join(root, "node_modules", relPath));
@@ -64,31 +64,49 @@ function textAt(font, text, x, y, size, letterSpacing = 0) {
   return pathData(font.getPath(text, x, y, size, { letterSpacing }));
 }
 
-// --- The mark: red "cp" on a graph-paper tile with a navy border (64-unit grid) ---
-function markContents({ grid }) {
+// --- The mark: red "cp" on a graph-paper tile with a navy border and a hard
+// navy shadow down and to the right. The canvas is tile + shadow, so nothing
+// clips. ---
+/**
+ * The mark's SVG body on a (tile + shadow)-unit canvas. `grid` draws the
+ * graph-paper lines; the favicon drops them, since at 16–32px they turn to mush.
+ */
+function markBody({ tile, border, shadow, glyphBox, grid = false, gridStep = 8, gridStroke = 0.75 }) {
   const gridLines = grid
-    ? Array.from({ length: 7 }, (_, i) => (i + 1) * 8)
-        .map((p) => `<path d="M${p} 0V64M0 ${p}H64" stroke="${COLOR_GRID}" stroke-width="0.75" />`)
+    ? Array.from({ length: Math.floor(tile / gridStep) - 1 }, (_, i) => (i + 1) * gridStep)
+        .map((p) => `<path d="M${p} 0V${tile}M0 ${p}H${tile}" stroke="${COLOR_GRID}" stroke-width="${gridStroke}" />`)
         .join("")
     : "";
-  return `<rect width="64" height="64" fill="${COLOR_PAPER}" />${gridLines}
-  <rect x="1.5" y="1.5" width="61" height="61" fill="none" stroke="${COLOR_INK}" stroke-width="3" />
-  <path d="${fittedText(caveatBold, "cp", 32, 32, 40, 40)}" fill="${COLOR_MARK}" />`;
+  const inset = border / 2;
+  return `<rect x="${shadow}" y="${shadow}" width="${tile}" height="${tile}" fill="${COLOR_INK}" />
+  <rect width="${tile}" height="${tile}" fill="${COLOR_PAPER}" />${gridLines}
+  <rect x="${inset}" y="${inset}" width="${tile - border}" height="${tile - border}" fill="none" stroke="${COLOR_INK}" stroke-width="${border}" />
+  <path d="${fittedText(caveatBold, "cp", tile / 2, tile / 2, ...glyphBox)}" fill="${COLOR_MARK}" />`;
 }
 
-const markSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  ${markContents({ grid: true })}
+const MARK = { ...brand.mark, grid: true };
+const MARK_CANVAS = MARK.tile + MARK.shadow;
+const markSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${MARK_CANVAS} ${MARK_CANVAS}">
+  ${markBody(MARK)}
 </svg>
 `;
 writeFileSync(path.join(publicDir, "mark.svg"), markSvg);
 
-// --- Favicon: at 16–32px the grid turns to mush, so drop it, thicken the
-// border (4 units = whole pixels at both 16 and 32px), and let "cp" fill
-// most of the tile. ---
-const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" fill="${COLOR_PAPER}" />
-  <rect x="2" y="2" width="28" height="28" fill="none" stroke="${COLOR_INK}" stroke-width="4" />
-  <path d="${fittedText(caveatBold, "cp", 16, 16, 22, 21)}" fill="${COLOR_MARK}" />
+// --- Favicon: same mark, no grid, thicker border. The shadow keeps the
+// mark's ratio but rounds to whole pixels at 16px (2 units on the 32-unit
+// canvas = 1px at 16px, 2px at 32px), so it stays crisp. ---
+const FAVICON_CANVAS = brand.favicon.canvas;
+const UNITS_PER_16PX = FAVICON_CANVAS / 16;
+const shadowRatio = brand.mark.shadow / brand.mark.tile;
+const faviconShadow =
+  UNITS_PER_16PX * Math.max(1, Math.round((FAVICON_CANVAS * shadowRatio) / (1 + shadowRatio) / UNITS_PER_16PX));
+const faviconSvg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${FAVICON_CANVAS} ${FAVICON_CANVAS}">
+  ${markBody({
+    tile: FAVICON_CANVAS - faviconShadow,
+    border: brand.favicon.border,
+    shadow: faviconShadow,
+    glyphBox: brand.favicon.glyphBox,
+  })}
 </svg>
 `;
 writeFileSync(path.join(publicDir, "favicon.svg"), faviconSvg);
@@ -133,14 +151,26 @@ writeFileSync(
   ])
 );
 
-// --- Apple touch icon: the full mark, grid included ---
-const appleTouchIcon = await sharp(Buffer.from(markSvg), { density: 576 }).resize(180, 180).png().toBuffer();
+// --- Apple touch icon: the full mark, grid and shadow included, centered on
+// paper. iOS fills transparency with black and rounds the corners, so the
+// icon is opaque with margin around the mark. ---
+const TOUCH_SIZE = 180;
+const TOUCH_MARK = 136;
+const touchOffset = (TOUCH_SIZE - TOUCH_MARK) / 2;
+const appleTouchSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="${TOUCH_SIZE}" height="${TOUCH_SIZE}" viewBox="0 0 ${TOUCH_SIZE} ${TOUCH_SIZE}">
+  <rect width="${TOUCH_SIZE}" height="${TOUCH_SIZE}" fill="${COLOR_PAPER}" />
+  <svg x="${touchOffset}" y="${touchOffset}" width="${TOUCH_MARK}" height="${TOUCH_MARK}" viewBox="0 0 ${MARK_CANVAS} ${MARK_CANVAS}">
+    ${markBody(MARK)}
+  </svg>
+</svg>`;
+const appleTouchIcon = await sharp(Buffer.from(appleTouchSvg), { density: 288 }).png().toBuffer();
 writeFileSync(path.join(publicDir, "apple-touch-icon.png"), appleTouchIcon);
 
 // --- OG image: 1200x630 graph paper, mark on the left, name beside it ---
 const MARK_X = 120;
-const MARK_SIZE = 220;
+const MARK_SIZE = 220; // the tile; the shadow adds MARK_SIZE * shadowRatio
 const MARK_Y = (630 - MARK_SIZE) / 2;
+const OG_MARK_CANVAS = (MARK_SIZE * MARK_CANVAS) / MARK.tile;
 const TEXT_X = MARK_X + MARK_SIZE + 64;
 const TEXT_WIDTH = 1200 - TEXT_X - 96;
 
@@ -157,9 +187,8 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
   </defs>
   <rect width="1200" height="630" fill="${COLOR_PAPER}" />
   <rect width="1200" height="630" fill="url(#grid)" />
-  <rect x="${MARK_X + 10}" y="${MARK_Y + 10}" width="${MARK_SIZE}" height="${MARK_SIZE}" fill="${COLOR_INK}" />
-  <svg x="${MARK_X}" y="${MARK_Y}" width="${MARK_SIZE}" height="${MARK_SIZE}" viewBox="0 0 64 64">
-    ${markContents({ grid: true })}
+  <svg x="${MARK_X}" y="${MARK_Y}" width="${OG_MARK_CANVAS}" height="${OG_MARK_CANVAS}" viewBox="0 0 ${MARK_CANVAS} ${MARK_CANVAS}">
+    ${markBody(MARK)}
   </svg>
   <path d="${textAt(plexSansBold, "Christopher Pombo", TEXT_X, nameBaseline, nameSize)}" fill="${COLOR_INK}" />
 </svg>`;

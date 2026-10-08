@@ -1,0 +1,24 @@
+{
+  "colors": {
+    "paper": "#f7f9fc",
+    "grid": "#dce5f2",
+    "ink": "#1c2b4a",
+    "mark": "#c8453b"
+  },
+  "mark": {
+    "tile": 64,
+    "border": 3,
+    "shadow": 4,
+    "gridStep": 8,
+    "gridStroke": 0.75,
+    "glyphBox": [40, 40]
+  },
+  "favicon": {
+    "canvas": 32,
+    "border": 4,
+    "glyphBox": [20, 19]
+  },
+  "header": {
+    "tilePx": 32
+  }
+}

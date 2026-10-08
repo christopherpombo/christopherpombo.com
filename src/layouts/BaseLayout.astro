@@ -9,11 +9,10 @@ import "../styles/global.css";
 import plexSans400Url from "@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-400-normal.woff2?url";
 import plexSans700Url from "@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff2?url";
 import plexMono400Url from "@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-400-normal.woff2?url";
-import { createHash } from "node:crypto";
-import { readFileSync } from "node:fs";
-import path from "node:path";
+import BrandMark from "../components/BrandMark.astro";
 import { contactLinks } from "../data/links";
 import { publishedProjects } from "../data/projects";
+import { versioned } from "../data/versioned";
 
 interface Props {
   title: string;
@@ -21,14 +20,6 @@ interface Props {
   image?: string;
   type?: "website" | "article";
 }
-
-// Browsers cache favicons (and other sites cache OG images) by URL for a very
-// long time, so brand files in public/ get a content hash in their URL — a
-// regenerated asset gets a new URL automatically.
-const versioned = (publicPath: string) => {
-  const file = readFileSync(path.join(process.cwd(), "public", publicPath));
-  return `${publicPath}?v=${createHash("sha256").update(file).digest("hex").slice(0, 8)}`;
-};
 
 const {
   title,
@@ -98,8 +89,8 @@ const ogImageUrl = new URL(image, Astro.site);
     <header class="site-header">
       <div class="site-header__inner container">
         <a class="brand" href="/">
-          <img class="brand__mark" src={versioned("/mark.svg")} width="32" height="32" alt="Christopher Pombo" />
-          <span aria-hidden="true">Christopher Pombo</span>
+          <BrandMark class="brand__mark" />
+          <span>Christopher Pombo</span>
         </a>
         <nav class="site-nav" aria-label="Primary">
           <ul>
@@ -195,7 +186,8 @@ const ogImageUrl = new URL(image, Astro.site);
     color: var(--color-accent);
   }
 
-  .brand__mark {
+  /* Rendered by BrandMark, so the scoped selector needs :global. */
+  .brand :global(.brand__mark) {
     flex-shrink: 0;
   }
 

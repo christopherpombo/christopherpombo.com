@@ -35,9 +35,12 @@ truly needs it.
 - App screenshots sit in navy iPhone-style bezels (`.device`), three at a
   time with the middle one raised (`PhoneTrio`).
 - Brand mark: red (#C8453B) Caveat 700 "cp" on a navy-bordered graph-paper
-  tile (public/mark.svg, used in the header). Favicon, touch icon, and OG
-  image all come from `npm run generate-assets` — edit the script, not the
-  files.
+  tile with a hard navy offset shadow (6.25% of the tile, down-right). Its
+  geometry and colors live in src/data/brand.json, read by both
+  `npm run generate-assets` (mark.svg, favicon.svg/.ico, apple-touch-icon,
+  og-image) and the header's `BrandMark` component. The favicon drops the
+  grid and rounds the shadow to whole pixels. Edit brand.json or the script,
+  never the generated files.
 - Layout: max-width ~1100px, centered. Everything must work at phone width.
 
 ## Content rules
