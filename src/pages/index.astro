@@ -58,8 +58,7 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
 
 <BaseLayout title="Christopher Pombo" description="Christopher Pombo — work and projects.">
   <section class="hero">
-    <h1 class="hero__title">Hi, I’m Christopher.</h1>
-    <p class="hero__intro">A bit about me and what I’m working on.</p>
+    <h1 class="hero__title">Here’s a bit about me and what I’m working on.</h1>
   </section>
 
   <section class="section" id="about">
@@ -79,7 +78,9 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
           ))}
         </div>
       </figure>
-      <p class="about__text">I like using math and analytical thinking to solve problems.</p>
+      <p class="about__text">
+        I like using math and analytical thinking to solve problems, and building things in my free time.
+      </p>
     </div>
   </section>
 
@@ -163,20 +164,15 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
 </BaseLayout>
 
 <style>
-  /* ---------- Hero: a quiet hello ---------- */
+  /* ---------- Hero: one line of intro ---------- */
   .hero {
     padding-bottom: var(--space-7);
   }
 
   .hero__title {
-    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-size: clamp(2.25rem, 4.5vw, 3.25rem);
     font-weight: 600;
-  }
-
-  .hero__intro {
-    margin-top: var(--space-2);
-    font-size: 1.125rem;
-    color: var(--color-text-muted);
+    text-wrap: balance;
   }
 
   /* ---------- Shared section bits ---------- */
@@ -294,7 +290,7 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
   }
 
   .about__text {
-    font-size: clamp(1.25rem, 1vw + 1rem, 1.375rem);
+    font-size: clamp(1.375rem, 1vw + 1rem, 1.5rem);
     line-height: 1.45;
     max-width: 32ch;
   }

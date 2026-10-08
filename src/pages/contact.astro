@@ -1,0 +1,28 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PageHeader from "../components/PageHeader.astro";
+import { contactLinks } from "../data/links";
+
+const [mail, linkedIn] = contactLinks;
+---
+
+<BaseLayout title="Contact — Christopher Pombo" description="Email Christopher Pombo or connect on LinkedIn.">
+  <PageHeader
+    title="Contact"
+    subtitle="Questions about an app, or anything else."
+    highlight={{ word: "Contact", color: "pink" }}
+  />
+
+  <div class="contact-actions">
+    <a class="btn btn--primary" href={mail.href}>Email</a>
+    <a class="btn" href={linkedIn.href} target="_blank" rel="noopener noreferrer">LinkedIn</a>
+  </div>
+</BaseLayout>
+
+<style>
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+</style>

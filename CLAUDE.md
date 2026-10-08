@@ -17,8 +17,8 @@ truly needs it.
 - Highlighter: a hand-swiped marker band behind one key word (`Highlight`,
   or `<span class="highlight highlight--<color>">` in markdown headings).
   Yellow, green, blue, pink, orange, purple at 70%, matching the App Store
-  screenshots. One word per heading, max; never in body text, nav, buttons,
-  or the footer. Highlighted words are always navy (muted text fails 4.5:1).
+  screenshots. One word per heading, max, and at most one on a case study
+  page; never in body text, nav, buttons, or the footer. Highlighted words are always navy (muted text fails 4.5:1).
 - Type (self-hosted via @fontsource): IBM Plex Sans 400/600/700 for headings
   and body; IBM Plex Mono 400/600 for nav, section labels, dates, metadata,
   and buttons. Body 17px, line-height 1.6. Caveat appears only inside the
@@ -51,11 +51,13 @@ truly needs it.
 - Never describe Christopher with a title or role ("iOS developer",
   "engineer", "officer", ...). His name appears; what he is doesn't.
 - Contact is a mailto link and LinkedIn only. No other personal socials.
-- Pages: / (name hero, then 01 About, 02 Work, 03 Contact sections; the nav
-  links to their anchors), /projects, /projects/[slug], and
-  /simply-spend/privacy (kept live for the App Store listing, left out of the
-  sitemap). /resume and /goals 301 to /, and /contact 301s to /#contact, via
-  public/_redirects.
+- Pages: / (intro hero, then 01 About, 02 Work, 03 Contact sections),
+  /projects, /projects/[slug], /contact, and /simply-spend/privacy (kept live
+  for the App Store listing, left out of the sitemap, linked from the Simply
+  Spend case study). /resume and /goals 301 to / via public/_redirects.
+- Nav links go to real pages, never anchors: About → /, Work → /projects
+  (active on /projects/*), Contact → /contact. The footer repeats them plus
+  each published project, so every page is one click from every other.
 - Voice: product-first and plainspoken. First person only where natural
   ("I built Simply Spend to…"). No corporate filler.
 - Projects with `draft: true` are hidden everywhere (pages, lists, sitemap).
