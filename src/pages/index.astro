@@ -11,7 +11,7 @@ import { projectScreenshots } from "../data/project-screenshots";
 import { publishedProjects } from "../data/projects";
 import desertRide from "../assets/about/desert-ride.jpg";
 import ocpBeret from "../assets/about/ocp-beret.jpg";
-import blackAndWhite from "../assets/about/black-and-white.jpg";
+import lake from "../assets/about/lake.jpg";
 
 const projects = await publishedProjects();
 const featured = projects.find((entry) => entry.data.featured) ?? projects[0];
@@ -44,9 +44,9 @@ const aboutPhotos = [
     position: "55% 30%",
   },
   {
-    image: blackAndWhite,
-    alt: "Black-and-white selfie of Christopher Pombo and a friend at an event",
-    position: "15% 50%",
+    image: lake,
+    alt: "Christopher Pombo smiling by a turquoise mountain lake, leaning on a railing",
+    position: "50% 50%",
   },
 ];
 // Card photo size at 1x; landscape photos get wider renders so they still fill the height.

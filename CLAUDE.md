@@ -42,10 +42,10 @@ truly needs it.
 
 ## Content rules
 - About is a CSS-only crossfade of three photos (src/assets/about/,
-  metadata stripped: desert ride, the beret photo, black-and-white) and one
-  short line. Christopher chose those photos knowing the beret one shows his
-  uniform tapes and the black-and-white one shows a friend; don't add more
-  photos like them without asking. Nothing else biographical in text: no
+  metadata stripped: desert ride, the beret photo, the lake) and one short
+  line. Christopher chose the beret photo knowing it shows his uniform
+  tapes; don't add more photos like it, or photos of other people, without
+  asking. Nothing else biographical in text: no
   military content (rank, branch, unit, base, the Academy), school, degree,
   research, races or times, certifications, or philosophy lines.
 - Never describe Christopher with a title or role ("iOS developer",
