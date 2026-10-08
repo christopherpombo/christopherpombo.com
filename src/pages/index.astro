@@ -23,8 +23,8 @@ const [mail, linkedIn] = contactLinks;
 
 <BaseLayout title="Christopher Pombo" description="Christopher Pombo — work and projects.">
   <section class="hero">
-    <h1 class="hero__name">Christopher Pombo</h1>
-    <span class="hero__rule" aria-hidden="true"></span>
+    <h1 class="hero__title">Hi, I’m Christopher.</h1>
+    <p class="hero__intro">Here’s what I’m working on.</p>
   </section>
 
   <section class="section" id="about">
@@ -119,22 +119,20 @@ const [mail, linkedIn] = contactLinks;
 </BaseLayout>
 
 <style>
-  /* ---------- Hero: the name, nothing else ---------- */
+  /* ---------- Hero: a quiet hello ---------- */
   .hero {
-    padding-block: var(--space-6) var(--space-8);
+    padding-bottom: var(--space-7);
   }
 
-  .hero__name {
-    font-size: clamp(3.5rem, 8vw + 1rem, 7rem);
-    line-height: 0.95;
-    letter-spacing: -0.04em;
+  .hero__title {
+    font-size: clamp(2rem, 4vw, 2.75rem);
+    font-weight: 600;
   }
 
-  .hero__rule {
-    display: block;
-    width: 72px;
-    margin-top: var(--space-5);
-    border-top: 3px solid var(--color-accent);
+  .hero__intro {
+    margin-top: var(--space-2);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
   }
 
   /* ---------- Shared section bits ---------- */
@@ -360,7 +358,7 @@ const [mail, linkedIn] = contactLinks;
 
   @media (max-width: 640px) {
     .hero {
-      padding-block: var(--space-4) var(--space-7);
+      padding-bottom: var(--space-6);
     }
 
     .about {
