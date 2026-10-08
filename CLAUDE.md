@@ -1,7 +1,7 @@
 # christopherpombo.com — project conventions
 
-A minimal, product-focused portfolio of apps by Christopher Pombo. It's about
-the work, not the person. Astro, vanilla CSS, zero client-side JS unless a page
+A minimal personal portfolio for Christopher Pombo: his name, a short About,
+the work, and how to get in touch. Astro, vanilla CSS, zero client-side JS unless a page
 truly needs it.
 
 ## Design system: "Field Notes" (tokens in src/styles/tokens.css)
@@ -23,7 +23,9 @@ truly needs it.
   and body; IBM Plex Mono 400/600 for nav, section labels, dates, metadata,
   and buttons. Body 17px, line-height 1.6. Caveat appears only inside the
   generated "cp" mark (as outlines); the pages don't load it.
-- Cards: white, 1.5px solid navy border, square corners, no shadows.
+- Cards: white, 1.5px solid navy border, square corners, no shadows. The one
+  exception is the About photo card: tilted 1.5deg with a hard navy offset
+  shadow (`--shadow-hard`).
 - Section labels: mono, uppercase, letter-spaced, with a navy rule after the
   label (`SectionHeading`).
 - Buttons: primary = filled navy rectangle (hover: red fill); secondary =
@@ -39,15 +41,19 @@ truly needs it.
 - Layout: max-width ~1100px, centered. Everything must work at phone width.
 
 ## Content rules
-- Product portfolio only. No biographical or military content anywhere: no
-  rank, branch, unit, base, school, degree, research, races or times,
-  certifications, or personal photos. No philosophy headlines.
+- About is one photo (src/assets/about/, metadata stripped) and one short
+  paragraph. Nothing else biographical: no military content (rank, branch,
+  unit, base, the Academy), school, degree, research, races or times,
+  certifications, or philosophy lines. Photos must not show uniforms,
+  military items, or other people.
 - Never describe Christopher with a title or role ("iOS developer",
   "engineer", "officer", ...). His name appears; what he is doesn't.
 - Contact is a mailto link and LinkedIn only. No other personal socials.
-- Pages: / (featured app + project list), /projects, /projects/[slug],
-  /contact, and /simply-spend/privacy (kept live for the App Store listing,
-  left out of the sitemap). /resume and /goals 301 to / via public/_redirects.
+- Pages: / (name hero, then 01 About, 02 Work, 03 Contact sections; the nav
+  links to their anchors), /projects, /projects/[slug], and
+  /simply-spend/privacy (kept live for the App Store listing, left out of the
+  sitemap). /resume and /goals 301 to /, and /contact 301s to /#contact, via
+  public/_redirects.
 - Voice: product-first and plainspoken. First person only where natural
   ("I built Simply Spend to…"). No corporate filler.
 - Projects with `draft: true` are hidden everywhere (pages, lists, sitemap).

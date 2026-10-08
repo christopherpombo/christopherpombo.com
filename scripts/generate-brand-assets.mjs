@@ -19,9 +19,7 @@ const publicDir = path.join(root, "public");
 const COLOR_PAPER = "#f7f9fc";
 const COLOR_GRID = "#dce5f2";
 const COLOR_INK = "#1c2b4a";
-const COLOR_MUTED = "#4a5878";
 const COLOR_MARK = "#c8453b";
-const COLOR_ACCENT = "#b23a31";
 
 function loadFont(relPath) {
   const buf = readFileSync(path.join(root, "node_modules", relPath));
@@ -30,8 +28,6 @@ function loadFont(relPath) {
 
 const caveatBold = loadFont("@fontsource/caveat/files/caveat-latin-700-normal.woff");
 const plexSansBold = loadFont("@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-700-normal.woff");
-const plexSansSemibold = loadFont("@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-600-normal.woff");
-const plexMonoSemibold = loadFont("@fontsource/ibm-plex-mono/files/ibm-plex-mono-latin-600-normal.woff");
 
 // opentype.js's own toPathData() emits "NaN" for some curves (its path
 // optimizer), which makes renderers stop drawing partway through a glyph.
@@ -141,21 +137,17 @@ writeFileSync(
 const appleTouchIcon = await sharp(Buffer.from(markSvg), { density: 576 }).resize(180, 180).png().toBuffer();
 writeFileSync(path.join(publicDir, "apple-touch-icon.png"), appleTouchIcon);
 
-// --- OG image: 1200x630 graph paper, mark on the left, name + the featured app ---
+// --- OG image: 1200x630 graph paper, mark on the left, name beside it ---
 const MARK_X = 120;
 const MARK_SIZE = 220;
 const MARK_Y = (630 - MARK_SIZE) / 2;
 const TEXT_X = MARK_X + MARK_SIZE + 64;
 const TEXT_WIDTH = 1200 - TEXT_X - 96;
 
-const FEATURED_APP = "Simply Spend";
-const nameSize = Math.min(76, (76 * TEXT_WIDTH) / plexSansBold.getAdvanceWidth("Christopher Pombo", 76));
-const labelSize = 22;
-const appSize = 44;
-// Name, then a red mono "FEATURED APP" label, then the app's name, centered on the mark.
-const nameBaseline = MARK_Y + 70;
-const labelBaseline = nameBaseline + 76;
-const appBaseline = labelBaseline + 58;
+const nameSize = Math.min(88, (88 * TEXT_WIDTH) / plexSansBold.getAdvanceWidth("Christopher Pombo", 88));
+// Center the name's cap height on the mark.
+const capHeight = (plexSansBold.tables.os2.sCapHeight / plexSansBold.unitsPerEm) * nameSize;
+const nameBaseline = MARK_Y + MARK_SIZE / 2 + capHeight / 2;
 
 const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
   <defs>
@@ -170,8 +162,6 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
     ${markContents({ grid: true })}
   </svg>
   <path d="${textAt(plexSansBold, "Christopher Pombo", TEXT_X, nameBaseline, nameSize)}" fill="${COLOR_INK}" />
-  <path d="${textAt(plexMonoSemibold, "FEATURED APP", TEXT_X + 2, labelBaseline, labelSize, 0.12)}" fill="${COLOR_ACCENT}" />
-  <path d="${textAt(plexSansSemibold, FEATURED_APP, TEXT_X, appBaseline, appSize)}" fill="${COLOR_MUTED}" />
 </svg>`;
 
 writeFileSync(path.join(publicDir, "og-image.png"), await sharp(Buffer.from(ogSvg)).png().toBuffer());

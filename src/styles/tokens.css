@@ -52,6 +52,8 @@
   --border: var(--border-width) solid var(--color-ink);
   --rule: 1px solid var(--color-grid);
   --grid-size: 24px;
+  /* Offset navy shadow for the tilted photo card. */
+  --shadow-hard: 6px 6px 0 var(--color-ink);
 
   /* Layout */
   --max-width: 1100px;
