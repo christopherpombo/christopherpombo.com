@@ -11,7 +11,9 @@ const projects = defineCollection({
     /** One line on the problem the app solves — the Home hero and project lists lead with it. */
     tagline: z.string(),
     summary: z.string(),
-    /** A word in the tagline the Home hero marks with the highlighter. */
+    /** Optional second line under the tagline, shown where there's room (Home featured block, case study header). */
+    subtagline: z.string().optional(),
+    /** A word in the tagline the Home featured block marks with the highlighter. */
     taglineHighlight: z.string().optional(),
     /** Position in project lists (lowest first); ties fall back to newest first. */
     order: z.number().optional(),

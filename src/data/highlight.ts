@@ -8,15 +8,23 @@ export interface HighlightOptions {
 }
 
 /**
- * Splits `text` around the first whole-word match of `word` (case-insensitive)
+ * Splits `text` around the first whole-word match of `word` (case-insensitive;
+ * straight and curly apostrophes match each other)
  * so the match can be wrapped in <Highlight>. Throws when the word isn't there,
  * so a typo in a page or in frontmatter fails the build instead of quietly
  * dropping the highlight.
  */
 export function splitOnWord(text: string, word: string): [string, string, string] {
-  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  const parts = findWord(text, word);
+  if (!parts) throw new Error(`Highlight word "${word}" not found in "${text}"`);
+  return parts;
+}
+
+/** Like splitOnWord, but returns undefined when the word isn't in `text`. */
+export function findWord(text: string, word: string): [string, string, string] | undefined {
+  const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replace(/['’]/g, "['’]");
   const match = new RegExp(`\\b${escaped}\\b`, "i").exec(text);
-  if (!match) throw new Error(`Highlight word "${word}" not found in "${text}"`);
+  if (!match) return undefined;
   const end = match.index + match[0].length;
   return [text.slice(0, match.index), match[0], text.slice(end)];
 }

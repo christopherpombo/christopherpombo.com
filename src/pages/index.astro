@@ -5,7 +5,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PhoneTrio from "../components/PhoneTrio.astro";
 import SectionHeading from "../components/SectionHeading.astro";
 import Highlight from "../components/Highlight.astro";
-import { splitOnWord } from "../data/highlight";
+import { findWord, splitOnWord } from "../data/highlight";
 import { contactLinks } from "../data/links";
 import { projectScreenshots } from "../data/project-screenshots";
 import { publishedProjects } from "../data/projects";
@@ -18,8 +18,15 @@ const featured = projects.find((entry) => entry.data.featured) ?? projects[0];
 const others = projects.filter((entry) => entry !== featured);
 const shots = featured ? projectScreenshots(featured.id, featured.data.title) : [];
 const appStore = featured?.data.links?.appStore;
-const tagline =
-  featured?.data.taglineHighlight && splitOnWord(featured.data.tagline, featured.data.taglineHighlight);
+// The tagline is split into sentences, each kept whole, so a two-sentence
+// tagline breaks between them instead of stranding a word. The highlight goes
+// in whichever sentence has the word (splitOnWord fails the build if none does).
+const taglineHighlight = featured?.data.taglineHighlight;
+if (featured && taglineHighlight) splitOnWord(featured.data.tagline, taglineHighlight);
+const taglineSentences = (featured?.data.tagline ?? "").split(/(?<=[.!?])\s+/).map((sentence) => ({
+  sentence,
+  parts: taglineHighlight ? findWord(sentence, taglineHighlight) : undefined,
+}));
 
 const [mail, linkedIn] = contactLinks;
 
@@ -87,8 +94,16 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
           <div class="featured__text">
             <h3 class="featured__title">{featured.data.title}</h3>
             <p class="featured__tagline">
-              {tagline ? <>{tagline[0]}<Highlight color="yellow">{tagline[1]}</Highlight>{tagline[2]}</> : featured.data.tagline}
+              {taglineSentences.map(({ sentence, parts }, i) => (
+                <>
+                  {i > 0 && " "}
+                  <span class="featured__sentence">
+                    {parts ? <>{parts[0]}<Highlight color="yellow">{parts[1]}</Highlight>{parts[2]}</> : sentence}
+                  </span>
+                </>
+              ))}
             </p>
+            {featured.data.subtagline && <p class="featured__subtagline">{featured.data.subtagline}</p>}
             <div class="featured__actions">
               {appStore ? (
                 <a class="btn btn--primary" href={appStore} target="_blank" rel="noopener noreferrer">
@@ -305,7 +320,20 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
     font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem);
     line-height: 1.35;
     color: var(--color-text-muted);
-    max-width: 24ch;
+    margin-bottom: var(--space-5);
+  }
+
+  .featured__sentence {
+    display: inline-block;
+  }
+
+  .featured__tagline:has(+ .featured__subtagline) {
+    margin-bottom: var(--space-2);
+  }
+
+  .featured__subtagline {
+    font-size: 1.0625rem;
+    color: var(--color-text-muted);
     margin-bottom: var(--space-5);
   }
 

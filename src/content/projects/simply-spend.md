@@ -4,8 +4,9 @@ date: 2026-01-01
 stack: ["Swift", "SwiftUI", "SwiftData"]
 order: 1
 featured: true
-tagline: "See where your money went this month, in one glance."
-taglineHighlight: "money"
+tagline: "Budgets are complicated. This isn’t."
+subtagline: "Track what you earn, what you spend, and what’s left."
+taglineHighlight: "isn't"
 summary: "An iOS expense tracker built around one question: where did my money go this month? Log spending in seconds, read the month on a calendar, and keep every number on your own phone."
 ---
 

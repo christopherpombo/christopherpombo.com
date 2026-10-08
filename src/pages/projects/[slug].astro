@@ -27,6 +27,7 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
       <a class="back-link" href="/projects">&larr; Back to Projects</a>
       <h1>{entry.data.title}</h1>
       <p class="project-detail__tagline">{entry.data.tagline}</p>
+      {entry.data.subtagline && <p class="project-detail__subtagline">{entry.data.subtagline}</p>}
       <p class="label project-detail__year">{year}</p>
 
       <ul class="chips">
@@ -95,6 +96,11 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
     font-size: 1.25rem;
     color: var(--color-text-muted);
     margin-top: var(--space-3);
+  }
+
+  .project-detail__subtagline {
+    color: var(--color-text-muted);
+    margin-top: var(--space-1);
   }
 
   .project-detail__body :global(h2) {
