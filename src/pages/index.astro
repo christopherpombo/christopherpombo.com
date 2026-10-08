@@ -58,7 +58,8 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
 
 <BaseLayout title="Christopher Pombo" description="Christopher Pombo — work and projects.">
   <section class="hero">
-    <h1 class="hero__title">Here’s a bit about me and what I’m working on.</h1>
+    <h1 class="hero__title"><Highlight color="green">Hi</Highlight>, I’m Christopher.</h1>
+    <p class="hero__intro">Here’s a bit about me and what I’m working on.</p>
   </section>
 
   <section class="section" id="about">
@@ -164,7 +165,7 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
 </BaseLayout>
 
 <style>
-  /* ---------- Hero: one line of intro ---------- */
+  /* ---------- Hero: a quiet hello ---------- */
   .hero {
     padding-bottom: var(--space-7);
   }
@@ -172,7 +173,12 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
   .hero__title {
     font-size: clamp(2.25rem, 4.5vw, 3.25rem);
     font-weight: 600;
-    text-wrap: balance;
+  }
+
+  .hero__intro {
+    margin-top: var(--space-2);
+    font-size: 1.125rem;
+    color: var(--color-text-muted);
   }
 
   /* ---------- Shared section bits ---------- */
