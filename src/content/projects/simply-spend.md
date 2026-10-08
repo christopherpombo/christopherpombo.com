@@ -12,11 +12,11 @@ summary: "An iOS expense tracker built around one question: where did my money g
 
 ## The problem
 
-Most money apps overcomplicate something simple. They want you to link your bank, auto-sort every transaction, and set up budgets before you've logged a single coffee. The few that keep things simple usually feel unfinished, built without much thought for the person using them. Simply Spend aims to be both: simple, and built with care.
+I wanted a simple way to track my spending. Most money apps make it more complicated than it needs to be, with bank logins, auto-categories, and budgets. The simple ones I tried felt half-finished. So I built my own.
 
 ## Who it's for
 
-People who want a simple way to manually track the money they spend and earn. No bank connections, no accounts, just your numbers.
+Anyone who wants to track what they spend and earn, without connecting external accounts.
 
 ## Key features
 
