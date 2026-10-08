@@ -313,7 +313,7 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
     font-weight: 700;
     line-height: 1;
     letter-spacing: -0.03em;
-    margin-bottom: var(--space-4);
+    margin-bottom: var(--space-5);
   }
 
   .featured__tagline {
@@ -337,11 +337,12 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
     margin-bottom: var(--space-5);
   }
 
+  /* App Store status, then the case study link on its own line below. */
   .featured__actions {
     display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: var(--space-3) var(--space-5);
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-3);
   }
 
   .featured__soon {
