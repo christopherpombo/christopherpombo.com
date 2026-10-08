@@ -41,11 +41,13 @@ truly needs it.
 - Layout: max-width ~1100px, centered. Everything must work at phone width.
 
 ## Content rules
-- About is one photo (src/assets/about/, metadata stripped) and one short
-  paragraph. Nothing else biographical: no military content (rank, branch,
-  unit, base, the Academy), school, degree, research, races or times,
-  certifications, or philosophy lines. Photos must not show uniforms,
-  military items, or other people.
+- About is a CSS-only crossfade of three photos (src/assets/about/,
+  metadata stripped: desert ride, the beret photo, black-and-white) and one
+  short line. Christopher chose those photos knowing the beret one shows his
+  uniform tapes and the black-and-white one shows a friend; don't add more
+  photos like them without asking. Nothing else biographical in text: no
+  military content (rank, branch, unit, base, the Academy), school, degree,
+  research, races or times, certifications, or philosophy lines.
 - Never describe Christopher with a title or role ("iOS developer",
   "engineer", "officer", ...). His name appears; what he is doesn't.
 - Contact is a mailto link and LinkedIn only. No other personal socials.

@@ -1,4 +1,5 @@
 ---
+import type { ImageMetadata } from "astro";
 import { Image } from "astro:assets";
 import BaseLayout from "../layouts/BaseLayout.astro";
 import PhoneTrio from "../components/PhoneTrio.astro";
@@ -8,7 +9,9 @@ import { splitOnWord } from "../data/highlight";
 import { contactLinks } from "../data/links";
 import { projectScreenshots } from "../data/project-screenshots";
 import { publishedProjects } from "../data/projects";
-import aboutPhoto from "../assets/about/desert-ride.jpg";
+import desertRide from "../assets/about/desert-ride.jpg";
+import ocpBeret from "../assets/about/ocp-beret.jpg";
+import blackAndWhite from "../assets/about/black-and-white.jpg";
 
 const projects = await publishedProjects();
 const featured = projects.find((entry) => entry.data.featured) ?? projects[0];
@@ -19,6 +22,31 @@ const tagline =
   featured?.data.taglineHighlight && splitOnWord(featured.data.tagline, featured.data.taglineHighlight);
 
 const [mail, linkedIn] = contactLinks;
+
+// The About card crossfades through these, in order (CSS only; see .photo-stack).
+// `position` is the object-position that keeps the face centered in the 4:5 card.
+const aboutPhotos = [
+  {
+    image: desertRide,
+    alt: "Christopher Pombo smiling on a ride in the desert, helmet pushed up",
+    position: "58% 30%",
+  },
+  {
+    image: ocpBeret,
+    alt: "Christopher Pombo in uniform and a blue beret, smiling and pointing up",
+    position: "55% 30%",
+  },
+  {
+    image: blackAndWhite,
+    alt: "Black-and-white selfie of Christopher Pombo and a friend at an event",
+    position: "15% 50%",
+  },
+];
+// Card photo size at 1x; landscape photos get wider renders so they still fill the height.
+const CARD_WIDTH = 260;
+const CARD_HEIGHT = (CARD_WIDTH * 5) / 4;
+const renderWidth = ({ width, height }: ImageMetadata) =>
+  Math.max(CARD_WIDTH, Math.ceil((CARD_HEIGHT * width) / height));
 ---
 
 <BaseLayout title="Christopher Pombo" description="Christopher Pombo — work and projects.">
@@ -31,19 +59,20 @@ const [mail, linkedIn] = contactLinks;
     <SectionHeading number="01" text="About" highlight={{ word: "About", color: "green" }} />
     <div class="about">
       <figure class="photo-card">
-        <Image
-          src={aboutPhoto}
-          alt="Christopher Pombo smiling on a ride in the desert, helmet pushed up"
-          width={260}
-          densities={[1, 2]}
-          loading="eager"
-        />
+        <div class="photo-stack">
+          {aboutPhotos.map((photo, i) => (
+            <Image
+              src={photo.image}
+              alt={photo.alt}
+              width={renderWidth(photo.image)}
+              densities={[1, 2]}
+              loading={i === 0 ? "eager" : "lazy"}
+              style={`object-position: ${photo.position}`}
+            />
+          ))}
+        </div>
       </figure>
-      {/* TODO(Christopher): placeholder About text — edit freely. */}
-      <p class="about__text">
-        I build small, useful things and like hard problems. Simply Spend started as something I wanted for
-        myself.
-      </p>
+      <p class="about__text">I like using math and analytical thinking to solve problems.</p>
     </div>
   </section>
 
@@ -190,16 +219,67 @@ const [mail, linkedIn] = contactLinks;
     transform: rotate(1.5deg);
   }
 
-  .photo-card :global(img) {
-    width: 100%;
-    height: auto;
+  /* Three photos stacked in the card, crossfading: each holds ~5s, then fades
+     into the next over 1s. One 15s cycle (3 photos x 5s); every photo runs the
+     same keyframes, offset by 5s. Reduced motion shows only the first. */
+  .photo-stack {
+    position: relative;
     aspect-ratio: 4 / 5;
+    overflow: hidden;
+  }
+
+  .photo-stack :global(img) {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
-    object-position: 58% 30%;
+    opacity: 0;
+  }
+
+  .photo-stack :global(img:first-child) {
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .photo-stack :global(img) {
+      animation: photo-cycle 15s infinite;
+    }
+
+    .photo-stack :global(img:nth-child(2)) {
+      animation-delay: -10s;
+    }
+
+    .photo-stack :global(img:nth-child(3)) {
+      animation-delay: -5s;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .photo-stack :global(img:not(:first-child)) {
+      display: none;
+    }
+  }
+
+  /* Visible 0–4s, fades out 4–5s, hidden until 14s, fades back in 14–15s. */
+  @keyframes photo-cycle {
+    0%,
+    26.667% {
+      opacity: 1;
+    }
+
+    33.333%,
+    93.333% {
+      opacity: 0;
+    }
+
+    100% {
+      opacity: 1;
+    }
   }
 
   .about__text {
-    font-size: clamp(1.25rem, 1vw + 1rem, 1.5rem);
+    font-size: clamp(1.25rem, 1vw + 1rem, 1.375rem);
     line-height: 1.45;
     max-width: 32ch;
   }
