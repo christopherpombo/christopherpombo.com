@@ -5,14 +5,10 @@ import ProjectCard from "../components/ProjectCard.astro";
 import { publishedProjects } from "../data/projects";
 
 const projects = await publishedProjects();
-const titles = projects.map((entry) => entry.data.title);
 ---
 
-<BaseLayout
-  title="Projects — Christopher Pombo"
-  description={`Apps by Christopher Pombo: ${titles.join(", ")}.`}
->
-  <PageHeader title="Projects" subtitle="Apps by Christopher Pombo." highlight={{ word: "Projects", color: "blue" }} />
+<BaseLayout title="Projects — Christopher Pombo" description="Some things Christopher Pombo is working on.">
+  <PageHeader title="Projects" subtitle="Some things I’m working on" highlight={{ word: "Projects", color: "blue" }} />
 
   <h2 class="visually-hidden">All projects</h2>
   <div class="project-list">
