@@ -39,10 +39,10 @@ const {
 
 const currentPath = Astro.url.pathname;
 
-// Real pages, no anchors. Work also lights up on every /projects/* page.
+// Real pages, no anchors. Projects also lights up on every /projects/* page.
 const navLinks = [
-  { href: "/", label: "About" },
-  { href: "/projects", label: "Work", section: true },
+  { href: "/", label: "Home" },
+  { href: "/projects", label: "Projects", section: true },
   { href: "/contact", label: "Contact" },
 ];
 
@@ -53,9 +53,10 @@ const isActive = (href: string, section?: boolean) =>
 // The footer repeats the nav and adds each project, so every page is one click away.
 const projects = await publishedProjects();
 const footerLinks = [
-  ...navLinks.slice(0, 2),
+  { href: "/", label: "About" },
+  { href: "/projects", label: "Work" },
   ...projects.map((entry) => ({ href: `/projects/${entry.id}`, label: entry.data.title })),
-  navLinks[2],
+  { href: "/contact", label: "Contact" },
 ];
 
 const canonicalUrl = new URL(currentPath, Astro.site);

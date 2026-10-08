@@ -55,9 +55,10 @@ truly needs it.
   /projects, /projects/[slug], /contact, and /simply-spend/privacy (kept live
   for the App Store listing, left out of the sitemap, linked from the Simply
   Spend case study). /resume and /goals 301 to / via public/_redirects.
-- Nav links go to real pages, never anchors: About → /, Work → /projects
-  (active on /projects/*), Contact → /contact. The footer repeats them plus
-  each published project, so every page is one click from every other.
+- Nav links go to real pages, never anchors: Home → /, Projects → /projects
+  (active on /projects/*), Contact → /contact. The footer links the same
+  pages (labeled About, Work, Contact) plus each published project, so every
+  page is one click from every other.
 - Voice: product-first and plainspoken. First person only where natural
   ("I built Simply Spend to…"). No corporate filler.
 - Projects with `draft: true` are hidden everywhere (pages, lists, sitemap).
