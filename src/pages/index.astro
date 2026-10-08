@@ -214,11 +214,17 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
   }
 
   /* ---------- 01 About ---------- */
+  /* Content under each section heading starts 48px below it (the heading's
+     24px margin + 24px here), matching the Work block's top padding. About
+     adds 4px because the 1.5deg tilt lifts the card's top corner about that
+     much. The padding is on the row, not the card, so the blurb stays
+     centered on the photo. */
   .about {
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
     gap: var(--space-6);
     align-items: center;
+    padding-top: calc(var(--space-4) + 4px);
   }
 
   .photo-card {
@@ -425,6 +431,7 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-3);
+    padding-top: var(--space-4);
   }
 
   /* ---------- Responsive ---------- */
