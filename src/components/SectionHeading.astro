@@ -18,7 +18,8 @@ const parts = highlight ? splitOnWord(text, highlight.word) : undefined;
 
 <div class="section-heading">
   <Tag class="section-heading__label">
-    {number && <span class="section-heading__number">{`${number} — `}</span>}
+    {/* Decorative: hidden from screen readers and from search snippets. */}
+    {number && <span class="section-heading__number" aria-hidden="true" data-nosnippet>{`${number} — `}</span>}
     {parts ? <>{parts[0]}<Highlight color={highlight!.color}>{parts[1]}</Highlight>{parts[2]}</> : text}
   </Tag>
   <span class="section-heading__rule" aria-hidden="true"></span>

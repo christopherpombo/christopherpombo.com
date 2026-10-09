@@ -1,4 +1,4 @@
-// Regenerate the brand assets in public/: mark.svg (header, via BrandMark), favicon.svg,
+// Regenerate the brand assets in public/: mark.svg (header, via BrandMark), favicon.svg, favicon-192.png,
 // favicon.ico, apple-touch-icon.png, and og-image.png. Run with
 // `npm run generate-assets` whenever the mark or OG copy changes — outputs are
 // committed static assets, not generated at build time.
@@ -151,6 +151,11 @@ writeFileSync(
   ])
 );
 
+// --- favicon-192.png: the full mark (grid and shadow) as the PNG icon Google
+// prefers for search results. The shadow's two corners stay transparent. ---
+const favicon192 = await sharp(Buffer.from(markSvg), { density: 288 }).resize(192, 192).png().toBuffer();
+writeFileSync(path.join(publicDir, "favicon-192.png"), favicon192);
+
 // --- Apple touch icon: the full mark, grid and shadow included, centered on
 // paper. iOS fills transparency with black and rounds the corners, so the
 // icon is opaque with margin around the mark. ---
@@ -195,4 +200,4 @@ const ogSvg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630"
 
 writeFileSync(path.join(publicDir, "og-image.png"), await sharp(Buffer.from(ogSvg)).png().toBuffer());
 
-console.log("Generated: mark.svg, favicon.svg, favicon.ico, apple-touch-icon.png, og-image.png");
+console.log("Generated: mark.svg, favicon.svg, favicon.ico, favicon-192.png, apple-touch-icon.png, og-image.png");
