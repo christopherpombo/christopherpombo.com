@@ -33,18 +33,18 @@ const taglineSentences = (featured?.data.tagline ?? "").split(/(?<=[.!?])\s+/).m
 const [mail, linkedIn] = contactLinks;
 
 // The About card crossfades through these, in order (CSS only; see .photo-stack).
-// `position` is the object-position that keeps the face centered in the 4:5 card
-// (the newer photos are cropped to 4:5 around the face already).
+// Every file is pre-cropped to the card's 4:5 with the face centered across and
+// in the upper middle, so `position` is only for nudging a future photo.
 const aboutPhotos = [
   {
     image: desertRide,
     alt: "Christopher Pombo smiling on a ride in the desert, helmet pushed up",
-    position: "58% 30%",
+    position: "50% 50%",
   },
   {
     image: ocpBeret,
     alt: "Christopher Pombo in uniform and a blue beret, smiling and pointing up",
-    position: "55% 30%",
+    position: "50% 50%",
   },
   {
     image: lake,
