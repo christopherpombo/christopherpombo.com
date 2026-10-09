@@ -79,10 +79,10 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
           ))}
         </div>
       </figure>
-      <p class="about__text">
-        I like using math and analytical thinking to solve problems. In my free time, I like to build things and
-        share what I learn with others.
-      </p>
+      <div class="about__text">
+        <p>I like using math and analytical thinking to solve problems.</p>
+        <p>In my free time, I build things and share what I learn with others.</p>
+      </div>
     </div>
   </section>
 
@@ -307,6 +307,10 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
     line-height: 1.45;
     max-width: 32ch;
     text-wrap: pretty;
+  }
+
+  .about__text p + p {
+    margin-top: 0.75em;
   }
 
   /* ---------- 02 Work ---------- */
