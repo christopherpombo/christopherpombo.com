@@ -22,37 +22,29 @@ Anyone who wants to stay aware of their spending by tracking it themselves, with
 
 ## Key features
 
-<!-- One highlight on this page, max (see .highlight in global.css). -->
-
-### See exactly what you <span class="highlight highlight--yellow">spend</span>
-
-The month opens on what you've spent so far, and a chart card tracks this week's running total against your usual week, so you know by Wednesday whether you're running ahead.
-
-### Know where your money goes
-
-One swipe over, a by-category breakdown sizes each category by its share of the month. An "Exclude fixed" switch takes rent and other fixed costs out of the picture.
-
-### Your whole year at a glance
-
-Flip the calendar between Spent, Earned, and Net to see every day — or every month of the year — from the angle you need.
-
-### In, out, and what's left
-
-A monthly statement puts money in, money out, and the net side by side, each broken down by category.
-
 ### Log it in seconds
 
-A built-in keypad, one-tap categories and payment methods, and an optional note, so "$18.50" still means something next month.
+Tap the plus, enter the amount, pick a category, and you’re done. Add a note if you want to remember what it was.
 
-### Looks great day or night
+### Spent, earned, and what’s left
 
-A full dark mode, charts included.
+Every month shows three numbers: what you spent, what you made, and the difference. No budgets to set up.
 
-### Also
+### Stay aware as you go
 
-- **Recurring transactions.** Set up rent, paychecks, and subscriptions once and they repeat on their own.
-- **CSV export.** Export every transaction as a CSV from Settings and send it wherever you like.
-- **Budgets** are coming in a later release.
+A weekly chart compares this week to a normal one, so you can tell early if you’re on track or spending more than usual.
+
+### See where it goes
+
+A category breakdown shows where your money went this month. Flip a switch to hide rent and other fixed costs and see your everyday spending.
+
+### Zoom out
+
+Switch the calendar between Spent, Earned, and Net to see any month of the year.
+
+### Yours alone
+
+No accounts and no bank links. Your data stays on your phone. Works in light and dark mode.
 
 ## Private by design
 
