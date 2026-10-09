@@ -12,6 +12,8 @@ import { publishedProjects } from "../data/projects";
 import desertRide from "../assets/about/desert-ride.jpg";
 import ocpBeret from "../assets/about/ocp-beret.jpg";
 import lake from "../assets/about/lake.jpg";
+import hike from "../assets/about/hike.jpg";
+import portrait from "../assets/about/portrait.jpg";
 
 const projects = await publishedProjects();
 const featured = projects.find((entry) => entry.data.featured) ?? projects[0];
@@ -31,7 +33,8 @@ const taglineSentences = (featured?.data.tagline ?? "").split(/(?<=[.!?])\s+/).m
 const [mail, linkedIn] = contactLinks;
 
 // The About card crossfades through these, in order (CSS only; see .photo-stack).
-// `position` is the object-position that keeps the face centered in the 4:5 card.
+// `position` is the object-position that keeps the face centered in the 4:5 card
+// (the newer photos are cropped to 4:5 around the face already).
 const aboutPhotos = [
   {
     image: desertRide,
@@ -48,7 +51,29 @@ const aboutPhotos = [
     alt: "Christopher Pombo smiling by a turquoise mountain lake, leaning on a railing",
     position: "50% 50%",
   },
+  {
+    image: hike,
+    alt: "Christopher Pombo in an orange sweater and a backpack, smiling by a lake",
+    position: "50% 50%",
+  },
+  {
+    image: portrait,
+    alt: "Christopher Pombo's formal portrait in a blue dress uniform, in front of an American flag",
+    position: "50% 50%",
+  },
 ];
+
+// Crossfade timing, generated for any number of photos: each holds for
+// PHOTO_SECONDS, fading into the next over the last FADE_SECONDS. Every photo
+// runs the same keyframes, offset so they take turns.
+const PHOTO_SECONDS = 5;
+const FADE_SECONDS = 1;
+const cycleSeconds = aboutPhotos.length * PHOTO_SECONDS;
+const pct = (seconds: number) => `${+((seconds / cycleSeconds) * 100).toFixed(3)}%`;
+const photoCycleKeyframes =
+  `@keyframes about-photo-cycle{0%,${pct(PHOTO_SECONDS - FADE_SECONDS)}{opacity:1}` +
+  `${pct(PHOTO_SECONDS)},${pct(cycleSeconds - FADE_SECONDS)}{opacity:0}100%{opacity:1}}`;
+const photoDelay = (i: number) => -((aboutPhotos.length - i) % aboutPhotos.length) * PHOTO_SECONDS;
 // Card photo size at 1x; landscape photos get wider renders so they still fill the height.
 const CARD_WIDTH = 260;
 const CARD_HEIGHT = (CARD_WIDTH * 5) / 4;
@@ -65,8 +90,9 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
   <section class="section" id="about">
     <SectionHeading number="01" text="About" highlight={{ word: "About", color: "green" }} />
     <div class="about">
+      <style is:inline set:html={photoCycleKeyframes}></style>
       <figure class="photo-card">
-        <div class="photo-stack">
+        <div class="photo-stack" style={`--cycle: ${cycleSeconds}s`}>
           {aboutPhotos.map((photo, i) => (
             <Image
               src={photo.image}
@@ -74,7 +100,7 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
               width={renderWidth(photo.image)}
               densities={[1, 2]}
               loading={i === 0 ? "eager" : "lazy"}
-              style={`object-position: ${photo.position}`}
+              style={`object-position: ${photo.position}; --delay: ${photoDelay(i)}s`}
             />
           ))}
         </div>
@@ -243,9 +269,9 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
     transform: rotate(1.5deg);
   }
 
-  /* Three photos stacked in the card, crossfading: each holds ~5s, then fades
-     into the next over 1s. One 15s cycle (3 photos x 5s); every photo runs the
-     same keyframes, offset by 5s. Reduced motion shows only the first. */
+  /* The photos stack in the card and crossfade; the keyframes, cycle length,
+     and per-photo delays are generated in the frontmatter from the photo
+     count. Reduced motion shows only the first photo. */
   .photo-stack {
     position: relative;
     aspect-ratio: 4 / 5;
@@ -267,38 +293,14 @@ const renderWidth = ({ width, height }: ImageMetadata) =>
 
   @media (prefers-reduced-motion: no-preference) {
     .photo-stack :global(img) {
-      animation: photo-cycle 15s infinite;
-    }
-
-    .photo-stack :global(img:nth-child(2)) {
-      animation-delay: -10s;
-    }
-
-    .photo-stack :global(img:nth-child(3)) {
-      animation-delay: -5s;
+      animation: about-photo-cycle var(--cycle) infinite;
+      animation-delay: var(--delay);
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .photo-stack :global(img:not(:first-child)) {
       display: none;
-    }
-  }
-
-  /* Visible 0–4s, fades out 4–5s, hidden until 14s, fades back in 14–15s. */
-  @keyframes photo-cycle {
-    0%,
-    26.667% {
-      opacity: 1;
-    }
-
-    33.333%,
-    93.333% {
-      opacity: 0;
-    }
-
-    100% {
-      opacity: 1;
     }
   }
 

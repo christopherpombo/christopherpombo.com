@@ -44,11 +44,14 @@ truly needs it.
 - Layout: max-width ~1100px, centered. Everything must work at phone width.
 
 ## Content rules
-- About is a CSS-only crossfade of three photos (src/assets/about/,
-  metadata stripped: desert ride, the beret photo, the lake) and one short
-  line. Christopher chose the beret photo knowing it shows his uniform
-  tapes; don't add more photos like it, or photos of other people, without
-  asking. Nothing else biographical in text: no
+- About is a CSS-only crossfade of five photos (src/assets/about/,
+  metadata stripped, cropped to 4:5: desert ride, the beret photo, the lake,
+  the hike, the formal portrait) and a short two-paragraph blurb. The timing
+  is generated from the photo count, so adding one is just adding it to
+  `aboutPhotos`. Christopher chose the beret photo and the formal portrait
+  knowing they show his uniform; the hike photo is cropped so his friend
+  isn't in it. Don't add more photos like them, or photos of other people,
+  without asking. Nothing else biographical in text: no
   military content (rank, branch, unit, base, the Academy), school, degree,
   research, races or times, certifications, or philosophy lines.
 - Never describe Christopher with a title or role ("iOS developer",
