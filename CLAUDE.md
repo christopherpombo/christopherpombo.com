@@ -37,8 +37,8 @@ truly needs it.
 - Brand mark: red (#C8453B) Caveat 700 "cp" on a navy-bordered graph-paper
   tile with a hard navy offset shadow (6.25% of the tile, down-right). Its
   geometry and colors live in src/data/brand.json, read by both
-  `npm run generate-assets` (mark.svg, favicon.svg/.ico, apple-touch-icon,
-  og-image) and the header's `BrandMark` component. The favicon drops the
+  `npm run generate-assets` (mark.svg, favicon.svg/.ico, favicon-192.png for
+  search results, apple-touch-icon, og-image) and the header's `BrandMark` component. The favicon drops the
   grid and rounds the shadow to whole pixels. Edit brand.json or the script,
   never the generated files.
 - Layout: max-width ~1100px, centered. Everything must work at phone width.
