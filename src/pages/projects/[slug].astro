@@ -53,7 +53,7 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
       )
     }
 
-    <div class="project-detail__text">
+    <div class="project-detail__text project-detail__main">
       <div class="project-detail__body">
         <Content />
       </div>
@@ -84,8 +84,18 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
 </BaseLayout>
 
 <style>
+  /* The screenshot row and the case-study box share one width, so the box's
+     right edge lines up with the third phone. */
+  .project-detail {
+    --detail-width: 900px;
+  }
+
   .project-detail__text {
     max-width: 70ch;
+  }
+
+  .project-detail__main {
+    max-width: var(--detail-width);
   }
 
   .project-detail__text + .project-detail__text {
@@ -135,19 +145,6 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
     gap: var(--space-2);
   }
 
-  /* Pull-quote (a markdown "> " line): set apart from the body by a navy
-     rule on the left and the paper background, a step larger than body text. */
-  .project-detail__body :global(blockquote) {
-    margin-top: var(--space-4);
-    padding: var(--space-3) var(--space-4);
-    border-left: 3px solid var(--color-ink);
-    background: var(--color-paper);
-    font-size: 1.125rem;
-    font-weight: 600;
-    line-height: 1.5;
-    color: var(--color-ink);
-  }
-
   .project-detail__body :global(li::marker) {
     color: var(--color-accent);
   }
@@ -176,7 +173,7 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: var(--space-5);
-    max-width: 900px;
+    max-width: var(--detail-width);
     margin-block: var(--space-6);
   }
 
@@ -184,6 +181,11 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
     background: var(--color-surface);
     border: var(--border);
     padding: var(--space-5);
+  }
+
+  /* Text fills the wider box instead of stopping at the site's 70ch default. */
+  .project-detail__body :global(p) {
+    max-width: none;
   }
 
   .project-detail__body :global(p + p) {
@@ -202,10 +204,6 @@ const screenshots = projectScreenshots(entry.id, entry.data.title);
   }
 
   @media (max-width: 720px) {
-    .project-detail__body :global(blockquote) {
-      padding: var(--space-3);
-    }
-
     .project-detail__screenshots {
       grid-template-columns: 1fr;
       max-width: 300px;

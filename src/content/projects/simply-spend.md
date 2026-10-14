@@ -16,8 +16,6 @@ Most money apps overcomplicate things. They push you into budgets with preset ca
 
 I wanted something simpler, and well made. A manual tracker that shows me three numbers: what I’ve spent this month, what I’ve made, and the difference. No budgets to set up, nothing to pre-allocate. Just logging everything, so I stay aware of where my money goes. The simple apps I tried were outdated or didn’t feel good to use, so I built Simply Spend to fill that gap.
 
-> Automation does the paying attention for you, and that’s exactly the problem. Simply Spend keeps you in the loop on purpose. The logging is the point, because awareness is what actually changes behavior.
-
 ## Who it's for
 
 Anyone who wants to stay aware of their spending by tracking it themselves, without budgets, bank links, or extra complexity.
@@ -52,17 +50,6 @@ No accounts and no bank links. Your data stays on your phone. Works in light and
 
 Everything stays on the device. There are no accounts, no servers, and no analytics or tracking. The full details are in the [privacy policy](/simply-spend/privacy).
 
-## What I learned
-
-- **Taking an idea from my head to a shipped product.** This was the first time I carried something all the way from concept to a real app in people’s hands, and the arc taught me more than any single step.
-- **The details users feel but never name.** I obsessed over haptics, the small tactile feedback nobody consciously notices but everyone feels when it’s missing. A lot of this came down to human systems engineering: designing as the user, not just for them.
-- **Building effectively with artificial intelligence.** I learned how to direct these tools well, where they speed you up, and where you still have to own the engineering yourself.
-- **I spend more than I would have claimed.** Building an app to track spending made me actually watch my own, and the numbers weren’t what I expected. I’m still working on that one.
-
 ## Built with
 
 Swift and SwiftUI, with SwiftData for on-device storage.
-
-## Status
-
-Simply Spend is currently in beta testing, with an App Store release coming soon.
